@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="repository.*" %>
+<%@ page import="service.EmployeeService"%>
 <%@ page import="vo.*" %>
 <%
 	// 값받기
@@ -27,11 +28,11 @@
 	employee.setEmployeePass(employeePass);
 	
 	// 메서드 실행을 위한 객체생성
-	EmployeeDao employeeDao = new EmployeeDao();
+	EmployeeService employeeService = new EmployeeService();
 	// 메서드 리턴받을 객체생성 후 setter
 	Employee loginEmployee = new Employee();
 	// 로그인메서드에서 리턴한 객체를 담기
-	loginEmployee = employeeDao.login(employee);
+	loginEmployee = employeeService.getEmployeeByIdAndPw(employee);
 	
 	
 	// 디버깅 및 재요청
