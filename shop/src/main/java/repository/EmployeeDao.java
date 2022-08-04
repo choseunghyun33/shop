@@ -5,6 +5,27 @@ import java.sql.*;
 import vo.Employee;
 
 public class EmployeeDao {	
+	///////////////////////////////////////////////////////////////////////// insertEmployee
+	// EmployeeService.addEmployee(Employee paramEmployee)가 호출
+	public int insertEmployee(Connection conn, Employee paramEmployee) throws Exception {
+		// 리턴할 변수 초기화
+		int row = 0;
+		String sql = "INSERT INTO employee (employee_id, employee_pass, employee_name, update_date, create_date) VALUES (?,PASSWORD(?),?,NOW(),NOW())";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		// stmt setter
+		stmt.setString(1, paramEmployee.getEmployeeId());
+		stmt.setString(2, paramEmployee.getEmployeePass());
+		stmt.setString(3, paramEmployee.getEmployeeName());
+		// 디버깅
+		System.out.println("EmployeeDao.java insertEmployee stmt : " + stmt);
+		
+		// 쿼리실행
+		row = stmt.executeUpdate();
+		
+		return row;
+	}
+	
 	///////////////////////////////////////////////////////////////////////// delectEmployee
 	// EmployeeService.removeEmployee(Employee paramEmployee)가 호출
 	public int delectEmployee(Connection conn, Employee paramEmployee) throws Exception {

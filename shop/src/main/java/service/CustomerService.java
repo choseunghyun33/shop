@@ -8,6 +8,45 @@ import repository.OutIdDao;
 import vo.Customer;
 
 public class CustomerService {
+	///////////////////////////////////////////////////////////////////////// addCustomer
+	public boolean addCustomer(Customer paramCustomer) {
+		// Connection 받을 변수 초기화
+		Connection conn = null;
+		
+		try {
+			// Connection 부를 객체생성
+			DBUtil dbUtil = new DBUtil();
+			// getConnection메서드 실행
+			conn = dbUtil.getConnection();
+			
+			// CustomerDao 객체 생성
+			CustomerDao customerDao = new CustomerDao();
+			// insertCustomer메서드 실행 값 변수에 받기
+			int row = customerDao.insertCustomer(conn, paramCustomer);
+			
+			// 디버깅
+			if(row == 1) {
+				System.out.println("insert 성공");
+			} else {
+				System.out.println("insert 실패");
+				throw new Exception();
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			// DB 자원해제
+			try {
+				conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return true;
+	}
+	
 	
 	///////////////////////////////////////////////////////////////////////// delectCustomer
 	// 컨트롤러와 레파지토리에서 하지 않아야 할 일을 가공하는 일을 한다. (예. 트랜젝션/비긴로우)

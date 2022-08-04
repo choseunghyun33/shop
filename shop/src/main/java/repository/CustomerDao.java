@@ -4,6 +4,30 @@ import java.sql.*;
 import vo.Customer;
 
 public class CustomerDao {
+	///////////////////////////////////////////////////////////////////////// insertCustomer
+	// CustomerService.addCustomer(Customer paramCustomer)가 호출
+	public int insertCustomer(Connection conn, Customer paramCustomer) throws Exception {
+		// 리턴할 변수 초기화
+		int row = 0;
+		String sql = "INSERT INTO customer (customer_id, customer_pass, customer_name, customer_address, customer_telephone, update_date, create_date) VALUES (?,PASSWORD(?),?,?,?,NOW(),NOW())";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		// stmt setter
+		stmt.setString(1, paramCustomer.getCustomerId());
+		stmt.setString(2, paramCustomer.getCustomerPass());
+		stmt.setString(3, paramCustomer.getCustomerName());
+		stmt.setString(4, paramCustomer.getCustomerAddress());
+		stmt.setString(5, paramCustomer.getCustomerTelephone());
+		// 디버깅
+		System.out.println("CustomerDao.java insertCustomer stmt : " + stmt);
+		
+		// 쿼리실행
+		row = stmt.executeUpdate();
+		
+		return row;
+	}
+	
+	
 	///////////////////////////////////////////////////////////////////////// delectCustomer
 	// CustomerService.removeCustomer(Customer paramCustomer)가 호출
 	public int delectCustomer(Connection conn, Customer paramCustomer) throws Exception {
@@ -18,7 +42,7 @@ public class CustomerDao {
 		stmt.setString(1, paramCustomer.getCustomerId());
 		stmt.setString(2, paramCustomer.getCustomerPass());
 		// 디버깅
-		System.out.println("CustomerDao.java stmt : " + stmt);
+		System.out.println("CustomerDao.java delectCustomer stmt : " + stmt);
 		// 쿼리실행
 		row = stmt.executeUpdate();
 		
@@ -43,7 +67,7 @@ public class CustomerDao {
 		stmt.setString(1, customer.getCustomerId());
 		stmt.setString(2, customer.getCustomerPass());
 		// 디버깅
-		System.out.println("loginCustomer method stmt : " + stmt);
+		System.out.println("CustomerDao.java selectCustomerByIdAndPw stmt : " + stmt);
 		rs = stmt.executeQuery();
 		
 		if(rs.next()) {
@@ -52,8 +76,8 @@ public class CustomerDao {
 			loginCustomer.setCustomerId(rs.getString("customerId"));
 			loginCustomer.setCustomerName(rs.getString("customerName"));
 			// 디버깅
-			System.out.println("loginCustomer method customerId : " + loginCustomer.getCustomerId());
-			System.out.println("loginCustomer method customerName : " + loginCustomer.getCustomerName());
+			System.out.println("CustomerDao.java selectCustomerByIdAndPw customerId : " + loginCustomer.getCustomerId());
+			System.out.println("CustomerDao.java selectCustomerByIdAndPw customerName : " + loginCustomer.getCustomerName());
 		}
 		
 		return loginCustomer;

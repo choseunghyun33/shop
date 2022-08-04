@@ -2,12 +2,51 @@ package service;
 
 import java.sql.Connection;
 
-import repository.DBUtil;
 import repository.EmployeeDao;
+import repository.DBUtil;
 import repository.OutIdDao;
 import vo.Employee;
 
 public class EmployeeService {
+	///////////////////////////////////////////////////////////////////////// addEmployee
+	public boolean addEmployee(Employee paramEmployee) {
+		// Connection 받을 변수 초기화
+		Connection conn = null;
+		
+		try {
+			// Connection 부를 객체생성
+			DBUtil dbUtil = new DBUtil();
+			// getConnection메서드 실행
+			conn = dbUtil.getConnection();
+			
+			// EmployeeDao 객체 생성
+			EmployeeDao employeeDao = new EmployeeDao();
+			// insertEmployee메서드 실행 값 변수에 받기
+			int row = employeeDao.insertEmployee(conn, paramEmployee);
+			
+			// 디버깅
+			if(row == 1) {
+				System.out.println("insert 성공");
+			} else {
+				System.out.println("insert 실패");
+				throw new Exception();
+			}
+		
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			// DB 자원해제
+			try {
+				conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return true;
+	}
+		
 	///////////////////////////////////////////////////////////////////////// delectEmployee
 	// 컨트롤러와 레파지토리에서 하지 않아야 할 일을 가공하는 일을 한다. (예. 트랜젝션/비긴로우)
 	// 트랜젝션 : 테이블이 변화되는것에서 필요 (select 제외)
