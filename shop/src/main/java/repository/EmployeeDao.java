@@ -12,7 +12,7 @@ public class EmployeeDao {
 	public int updateActiveById(Connection conn, String employeeId, String active) throws Exception {
 		// 리턴할 변수 초기화
 		int row = 0;
-		String sql = "UPDATE employee SET active = ? WHERE employee_id = ?";
+		String sql = "UPDATE employee SET active = ?, update_date = now() WHERE employee_id = ?";
 		
 		// 초기화
 		PreparedStatement stmt = null;
@@ -91,6 +91,9 @@ public class EmployeeDao {
 				employee.setCreateDate(rs.getString("createDate"));
 				employee.setUpdateDate(rs.getString("updateDate"));
 				employee.setActive(rs.getString("active"));
+				// 디버깅
+				System.out.println("EmployeeDao selectEmployeeList employee : " + employee.toString());
+				
 				// list에 담기
 				list.add(employee);
 			}

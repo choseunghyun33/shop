@@ -61,7 +61,7 @@ public class EmployeeService {
 		return true;
 	}
 	
-	///////////////////////////////////////////////////////////////////////// addEmployee
+	///////////////////////////////////////////////////////////////////////// lastPage
 	public int lastPage() {
 		int lastPage = 0;
 		
@@ -111,7 +111,7 @@ public class EmployeeService {
 		return lastPage;
 	}
 	
-	///////////////////////////////////////////////////////////////////////// addEmployee
+	///////////////////////////////////////////////////////////////////////// getEmployeeList
 	public List<Employee> getEmployeeList(final int rowPerPage, final int currentPage) {
 		List<Employee> list = new ArrayList<Employee>();
 
@@ -143,10 +143,6 @@ public class EmployeeService {
 			// 메서드실행
 			// 리턴값 받기
 			list = this.employeeDao.selectEmployeeList(conn, rowPerPage, beginRow);
-			if(list == null) {
-				// 리스트가 없다면
-				throw new Exception();
-			}
 			
 			// 완료되었다면 commit	
 			conn.commit();

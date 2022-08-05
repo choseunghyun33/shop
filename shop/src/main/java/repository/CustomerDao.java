@@ -1,9 +1,85 @@
 package repository;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import vo.Customer;
 
 public class CustomerDao {
+	
+	//////////////////////////////////////////////////////////////////////// lastPage
+	// CustomerService.lastPage()가 호출
+	public int lastPage(Connection conn) throws Exception {
+		int lastPage = 0;
+		String sql = "SELECT COUNT(*) count FROM customer";
+		
+		// 초기화
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			// 쿼리담기
+			stmt = conn.prepareStatement(sql);
+			// 디버깅
+			System.out.println("CustomerDao lastPage stmt : " + stmt);
+			// 쿼리실행
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				lastPage = rs.getInt("count");
+			}
+		} finally {
+			if(rs != null) { rs.close(); }
+			if(stmt != null) { stmt.close(); }
+		}
+		
+		return lastPage;
+	}
+	
+	
+	//////////////////////////////////////////////////////////////////////// selectCustomerList
+	// CustomerService.getCustomerList(int rowPerPage, int currentPage)가 호출
+	public List<Customer> selectCustomerList(Connection conn, final int rowPerPage, final int beginRow) throws Exception {
+		List<Customer> list = new ArrayList<Customer>();
+		String sql = "SELECT customer_id customerId, customer_name customerName, customer_address customerAddress, customer_telephone customerTelephone, create_date createDate, update_date updateDate FROM customer limit ?,?";
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			// 쿼리담기
+			stmt = conn.prepareStatement(sql);
+			// stmt setter
+			stmt.setInt(1, beginRow);
+			stmt.setInt(2, rowPerPage);
+			// 디버깅
+			System.out.println("CustomerDao selectCustomerList stmt : " + stmt);
+			
+			// 쿼리실행
+			rs = stmt.executeQuery();
+			while(rs.next()) {
+				Customer customer = new Customer();
+				customer.setCustomerId(rs.getString("customerId"));
+				customer.setCustomerName(rs.getString("customerName"));
+				customer.setCustomerAddress(rs.getString("customerAddress"));
+				customer.setCustomerTelephone(rs.getString("customerTelephone"));
+				customer.setCreateDate(rs.getString("createDate"));
+				customer.setUpdateDate(rs.getString("updateDate"));
+				// 디버깅
+				System.out.println("CustomerDao selectCustomerList customer : " + customer.toString());
+				
+				// list에 담기
+				list.add(customer);
+			}
+		} finally {
+			if(rs != null) { rs.close(); }
+			if(stmt != null) { stmt.close(); }
+		}
+		
+		return list;
+	}
+
+
 	///////////////////////////////////////////////////////////////////////// insertCustomer
 	// CustomerService.addCustomer(Customer paramCustomer)가 호출
 	public int insertCustomer(Connection conn, Customer paramCustomer) throws Exception {

@@ -37,6 +37,11 @@
                  				<a href="<%=request.getContextPath()%>/theme/employeeList.jsp" class="btn">사원관리</a>
                  			</td>
                  		</tr>
+                 		<tr>
+                 			<td>
+                 				<a href="<%=request.getContextPath()%>/theme/customerList.jsp" class="btn">고객관리</a>
+                 			</td>
+                 		</tr>
                  	</tbody>
                  </table>
             </div>
