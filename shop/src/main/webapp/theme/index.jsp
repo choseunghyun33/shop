@@ -6,23 +6,6 @@
        		return;
        	}
     %>
-    <!-- Modal -->
-    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="w-100 pt-1 mb-5 text-right">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="" method="get" class="modal-content modal-body border-0 p-0">
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
-                    <button type="submit" class="input-group-text bg-success text-light">
-                        <i class="fa fa-fw fa-search text-white"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
 
     <!-- Start Categories of The Month -->
     <section class="container py-5">
@@ -41,6 +24,13 @@
                  <p><%=session.getAttribute("name")%></p>
                    <hr>
                  <a href="<%=request.getContextPath()%>/theme/removeAccount.jsp" class="btn">회원탈퇴</a>
+                 <%
+			       	if("employee".equals((String)session.getAttribute("user"))){
+	       		 %>
+	       		 		<a href="<%=request.getContextPath()%>/theme/employeeIndex.jsp" class="btn">관리자관리페이지</a>
+	       		 <%
+			       	}
+			     %>
             </div>
         </div>
     </section>

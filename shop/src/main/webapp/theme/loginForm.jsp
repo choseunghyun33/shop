@@ -118,28 +118,23 @@
 	
 	// 고객 빈칸검사
 	$('#customerBtn').click(function(){
-		if($('#customerId').val() == ''){
-			alert('고객아이디를 입력하세요');
-		} else if($('#customerPass').val() == '') {
-			alert('고객패스워드를 입력하세요');
+		if($('#customerId').val().length < 4){
+			alert('고객아이디는 4자 이상 기입해주세요');
+		} else if($('#customerPass').val().length < 4) {
+			alert('고객비밀번호는 4자 이상 기입해주세요');
 		} else {
 			$('#customerForm').submit();
 		}
 	});
 	// 스텝 빈칸검사
 	$('#employeeBtn').click(function(){
-		if($('#employeeId').val() == ''){
-			alert('STAFF아이디를 입력하세요');
-		} else if($('#employeePass').val() == '') {
-			alert('STAFF패스워드를 입력하세요');
+		if($('#employeeId').val().length < 4){
+			alert('직원아이디는 4자 이상 기입해주세요');
+		} else if($('#employeePass').val().length < 4) {
+			alert('직원비밀번호는 4자 이상 기입해주세요');
 		} else {
 			$('#employeeForm').submit();
 		}
 	});
 </script>
 </html>
-
-
-
-
-

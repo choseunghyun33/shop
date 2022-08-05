@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="service.SignService"%>
 <%
+	// 막기
+	if(session.getAttribute("id") != null){
+		response.sendRedirect(request.getContextPath() + "/theme/index.jsp?errorMsg=wrong Path");
+		return;
+	}
+
 	// 받을 값
 	String user = request.getParameter("user");
 	String ckId = request.getParameter("ckId");
