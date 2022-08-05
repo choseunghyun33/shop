@@ -53,14 +53,32 @@
 										<span style="color:red"><%=request.getParameter("errorMsg")%></span>
 				           		<%		
 				                	}
-				                %>   
+				                %>
+				                <!-- 고객 아이디 중복검사 -->
+				                <form class="mt-5 mb-5 login-input" method="post" action="<%=request.getContextPath()%>/theme/idCheckAction.jsp" id="customerIdForm">
+				                	<fieldset>
+				                		<label>고객 아이디 중복검사</label>
+				                		<div class="form-group">
+				                		  <input type="hidden" name="user" value="customer">
+                                      	  <input type="text" class="form-control"  placeholder="Id" id="customerCkId" name="ckId" required>
+                                    	</div>   
+                                    	<button id="customerIdBtn" class="btn login-form__btn submit w-100">고객 아이디 중복검사</button>
+				                	</fieldset>
+                                </form>
+                                <!-- 고객 회원가입 -->
+                                <%
+                                	String customerCkId = "";
+                                	if(request.getParameter("customerCkId") != null){
+                                		customerCkId = request.getParameter("customerCkId");
+                                	}
+                                %>
                                 <form class="mt-5 mb-5 login-input" method="post" action="<%=request.getContextPath()%>/theme/sign-upAction.jsp" id="customerForm">
                                 	<input type="hidden" name="user" value="customer">
                                     <div class="form-group">
                                         <input type="text" class="form-control"  placeholder="Name" id="customerName" name="name" required>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control"  placeholder="Id" id="customerId" name="id" required>
+                                        <input type="text" class="form-control"  placeholder="Id" id="customerId" name="id" value="<%=customerCkId%>" readonly="readonly" required>
                                     </div>
                                     <div class="form-group">
                                         <input type="password" class="form-control" placeholder="Password" id="customerPass" name="pass" required>
@@ -91,14 +109,32 @@
 										<span style="color:red"><%=request.getParameter("errorMsg")%></span>
 				           		<%		
 				                	}
-				                %>   
+				                %>
+				                <!-- 직원 아이디 중복검사 -->
+				                <form class="mt-5 mb-5 login-input" method="post" action="<%=request.getContextPath()%>/theme/idCheckAction.jsp" id="employeeIdForm">
+				                	<fieldset>
+				                		<label>STAFF 아이디 중복검사</label>
+				                		<div class="form-group">
+				                		  <input type="hidden" name="user" value="employee">
+                                      	  <input type="text" class="form-control"  placeholder="Id" id="employeeCkId" name="ckId" required>
+                                    	</div>   
+                                    	<button id="employeeIdBtn" class="btn login-form__btn submit w-100">STAFF 아이디 중복검사</button>
+				                	</fieldset>
+                                </form>   
+                                <!-- 직원 회원가입 -->
+                                <%
+                                	String employeeCkId = "";
+                                	if(request.getParameter("employeeCkId") != null){
+                                		employeeCkId = request.getParameter("employeeCkId");
+                                	}
+                                %>
                                 <form class="mt-5 mb-5 login-input"  method="post" action="<%=request.getContextPath()%>/theme/sign-upAction.jsp" id="employeeForm">
                                     <input type="hidden" name="user" value="employee">
                                     <div class="form-group">
                                         <input type="text" class="form-control"  placeholder="Name" id="employeeName" name="name" required>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control"  placeholder="Id" id="employeeId" name="id" required>
+                                        <input type="text" class="form-control"  placeholder="Id" id="employeeId" name="id" value="<%=employeeCkId%>" readonly="readonly" required>
                                     </div>
                                     <div class="form-group">
                                         <input type="password" class="form-control" placeholder="Password" id="employeePass" name="pass" required>
@@ -133,12 +169,21 @@
     <script src="js/styleSwitcher.js"></script>
 </body>
 <script>
-	$('#customerBtn').click(function(){
-		if($('#customerName').val() < 2){
-			alert('고객이름은 2자 이상 기입해주세요');
-		} else if($('#customerId').val() < 4){
+	// 고객 아이디 중복검사 빈칸검사
+	$('#customerIdBtn').click(function(){
+		if($('#customerCkId').val().length < 4){
 			alert('고객아이디는 4자 이상 기입해주세요');
-		} else if($('#customerPass').val() < 4){
+		} else {
+			$('#customerIdForm').submit();
+		}
+	});
+
+	$('#customerBtn').click(function(){
+		if($('#customerName').val().length < 2){
+			alert('고객이름은 2자 이상 기입해주세요');
+		} else if($('#customerId').val().length < 4){
+			alert('고객아이디 중복검사를 해주세요');
+		} else if($('#customerPass').val().length < 4){
 			alert('고객비밀번호는 4자 이상 기입해주세요');
 		} else if($('#customerAddress').val() == ''){
 			alert('고객주소칸이 빈칸입니다')
@@ -149,12 +194,21 @@
 		}
 	});
 	
-	$('#employeeBtn').click(function(){
-		if($('#employeeName').val() < 2){
-			alert('직원이름은 2자 이상 기입해주세요');
-		} else if($('#employeeId').val() < 4){
+	// 직원 아이디 중복검사 빈칸검사
+	$('#employeeIdBtn').click(function(){
+		if($('#employeeCkId').val().length < 4){
 			alert('직원아이디는 4자 이상 기입해주세요');
-		} else if($('#employeePass').val() < 4){
+		} else {
+			$('#employeeIdForm').submit();
+		}
+	});
+
+	$('#employeeBtn').click(function(){
+		if($('#employeeName').val().length < 2){
+			alert('직원이름은 2자 이상 기입해주세요');
+		} else if($('#employeeId').val().length < 4){
+			alert('직원아이디 중복검사를 해주세요');
+		} else if($('#employeePass').val().length < 4){
 			alert('직원비밀번호는 4자 이상 기입해주세요');
 		} else {
 			$('#employeeForm').submit();

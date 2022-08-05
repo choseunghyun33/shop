@@ -26,6 +26,8 @@
 	Employee employee = new Employee();
 	employee.setEmployeeId(employeeId);
 	employee.setEmployeePass(employeePass);
+	// 디버깅
+	System.out.println("employeeLoginAction.jsp employee : " + employee.toString());
 	
 	// 메서드 실행을 위한 객체생성
 	EmployeeService employeeService = new EmployeeService();

@@ -18,6 +18,10 @@ public class CustomerService {
 			DBUtil dbUtil = new DBUtil();
 			// getConnection메서드 실행
 			conn = dbUtil.getConnection();
+			// 디버깅
+			System.out.println("CustomerService.java addCustomer conn : " + conn);
+			// 자동 commit 해제
+			conn.setAutoCommit(false);
 			
 			// CustomerDao 객체 생성
 			CustomerDao customerDao = new CustomerDao();
@@ -26,14 +30,22 @@ public class CustomerService {
 			
 			// 디버깅
 			if(row == 1) {
-				System.out.println("insert 성공");
+				System.out.println("CustomerService addCustomer : insert 성공");
 			} else {
-				System.out.println("insert 실패");
+				System.out.println("CustomerService addCustomer : insert 실패");
 				throw new Exception();
 			}
 			
+			// 되었다면 commit
+			conn.commit();
 		} catch(Exception e) {
+			// 안되었다면 rollback
 			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 			return false;
 		} finally {
 			// DB 자원해제
@@ -57,6 +69,8 @@ public class CustomerService {
 		
 		try {
 			conn = new DBUtil().getConnection();
+			// 디버깅
+			System.out.println("CustomerService.java removeCustomer conn : " + conn);
 			conn.setAutoCommit(false); // executeUpdate()실행시 자동 커밋을 막음
 			
 			CustomerDao customerDao = new CustomerDao();
@@ -64,10 +78,10 @@ public class CustomerService {
 			
 			// 디버깅
 			if(deleteLow != 1) {
-				System.out.println("delete 실패");
+				System.out.println("CustomerService removeCustomer : delete 실패");
 				throw new Exception();
 			} else {
-				System.out.println("delete 성공");
+				System.out.println("CustomerService removeCustomer : delete 성공");
 			}
 			
 			OutIdDao outIdDao = new OutIdDao();
@@ -75,10 +89,10 @@ public class CustomerService {
 			
 			// 디버깅
 			if(insertLow != 1) {
-				System.out.println("insert 실패");
+				System.out.println("CustomerService removeCustomer : insert 실패");
 				throw new Exception();
 			} else {
-				System.out.println("insert 성공");
+				System.out.println("CustomerService removeCustomer : insert 성공");
 			}
 						
 			conn.commit();
@@ -103,7 +117,7 @@ public class CustomerService {
 	
 	///////////////////////////////////////////////////////////////////////// customer로그인 - 성공시 id + name
 	// loginAction.jsp 호출
-	public Customer getCustomerByIdAndPw(Customer paramCustomer) throws Exception {
+	public Customer getCustomerByIdAndPw(Customer paramCustomer) {
 		// 객체 초기화
 		Connection conn = null;
 		Customer customer = null;
@@ -112,11 +126,24 @@ public class CustomerService {
 			// conn 메서드실행할 객체생성
 			DBUtil dbUtil = new DBUtil();
 			conn = dbUtil.getConnection();
+			// 디버깅
+			System.out.println("CustomerService.java getCustomerByIdAndPw conn : " + conn);
+			// autocommit 정지
+			conn.setAutoCommit(false);
 			
 			CustomerDao customerDao = new CustomerDao();
 			customer = customerDao.selectCustomerByIdAndPw(conn, paramCustomer);
+			
+			// 되었다면 commit
+			conn.commit();
 		} catch(Exception e) {
 			e.printStackTrace();
+			// 안되었다면 rollback
+			try {
+				conn.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		} finally {
 			try {
 				conn.close();

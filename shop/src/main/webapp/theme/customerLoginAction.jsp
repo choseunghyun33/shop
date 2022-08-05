@@ -26,6 +26,8 @@
 	Customer customer = new Customer();
 	customer.setCustomerId(customerId);
 	customer.setCustomerPass(customerPass);
+	// 디버깅
+	System.out.println("customerLoginAction.jsp customer : " + customer.toString());
 	
 	// 메서드 실행을 위한 객체생성
 	CustomerService customerService = new CustomerService();

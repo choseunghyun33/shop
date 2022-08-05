@@ -12,13 +12,22 @@ public class OutIdDao {
 		int row = 0;
 		String sql = "INSERT INTO outid (out_id, out_date) VALUES (?, NOW())";
 		
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		// stmt setter
-		stmt.setString(1, customerId);
-		// 디버깅
-		System.out.println("OutIdDao.java stmt : " + stmt);
-		// 쿼리실행
-		row = stmt.executeUpdate();
+		PreparedStatement stmt = null;
+		
+		try{
+			stmt = conn.prepareStatement(sql);
+			// stmt setter
+			stmt.setString(1, customerId);
+			// 디버깅
+			System.out.println("OutIdDao.java stmt : " + stmt);
+			// 쿼리실행
+			row = stmt.executeUpdate();
+		} finally {
+			if(stmt != null) {
+				stmt.close();
+			}
+		}
+		
 		
 		return row;
 	}
