@@ -2,6 +2,7 @@ package service;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Map;
 
 import repository.DBUtil;
 import repository.GoodsDao;
@@ -12,11 +13,11 @@ public class GoodsService {
 	private GoodsDao goodsDao;
 	private DBUtil dbUtil;
 	
-	///////////////////////////////////////////////////////////////////////////////////////////////////// lastPage
-	public int lastPage(){
-		int lastPage = 0;
+	///////////////////////////////////////////////////////////////////////////////////////////////////// getGoodsAndImgOne
+	public Map<String, Object> getGoodsAndImgOne(int goodsNo) {
+		Map<String, Object> map = null;
 		
-		// 메서드 사용할 객체 생성
+		// 메서드 사용할 객체생성
 		this.dbUtil = new DBUtil();
 		this.goodsDao = new GoodsDao();
 		Connection conn = null;
@@ -24,10 +25,48 @@ public class GoodsService {
 		try {
 			conn = this.dbUtil.getConnection();
 			// 디버깅
-			System.out.println("GoodsService.java lastPage conn : " + conn);
-			lastPage = this.goodsDao.lastPage(conn);
+			System.out.println("GoodsService.java getGoodsAndImgOne conn : " + conn);
+			
+			map = this.goodsDao.selectGoodsAndImgOne(conn, goodsNo);
 			// 디버깅
-			System.out.println("GoodsService.java lastPage lastPage : " + lastPage);
+			System.out.println("GoodsService.java getGoodsAndImgOne map : " + map.toString());
+		
+		} catch (Exception e) {
+			
+		} finally {
+			// DB 자원해제
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return map;
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////////// lastPage
+	public int lastPage(final int rowPerPage){
+		int lastPage = 0;
+		
+		// 메서드 사용할 객체 생성
+		this.dbUtil = new DBUtil();
+		this.goodsDao = new GoodsDao();
+		Connection conn = null;
+		
+		
+		try {
+			conn = this.dbUtil.getConnection();
+			// 디버깅
+			System.out.println("GoodsService.java lastPage conn : " + conn);
+			int allCount = this.goodsDao.allCount(conn);
+			// 디버깅
+			System.out.println("GoodsService.java lastPage allCount : " + allCount);
+			
+			// 마지막페이지 구하기
+			lastPage = (int) Math.ceil (allCount / (double)rowPerPage);
 			
 		} catch(Exception e) {
 			e.printStackTrace();

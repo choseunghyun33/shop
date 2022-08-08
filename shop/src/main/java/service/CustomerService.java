@@ -15,7 +15,7 @@ public class CustomerService {
 	private CustomerDao customerDao;
 	
 	///////////////////////////////////////////////////////////////////////// lastPage
-	public int lastPage() {
+	public int lastPage(final int rowPerPage) {
 		int lastPage = 0;
 		
 		// conn 초기화
@@ -33,7 +33,10 @@ public class CustomerService {
 			// CustomerDao 객체 생성
 			this.customerDao = new CustomerDao();
 			// selectCustomerList메서드 실행 값 변수에 받기
-			lastPage = customerDao.lastPage(conn);
+			int allCount = customerDao.allCount(conn);
+			
+			// 마지막페이지 구하기
+			lastPage = (int) Math.ceil (allCount / (double)rowPerPage);
 			
 			if(lastPage == 0) {
 				// lastPage가 없다면

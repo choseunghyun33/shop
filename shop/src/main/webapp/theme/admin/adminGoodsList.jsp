@@ -3,7 +3,7 @@
 <%@ page import="vo.Goods"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List"%>
-<%@ include file="header.jsp"%>
+<%@ include file="adminHeader.jsp"%>
 	<%
        	if(session.getAttribute("id") == null){
        		response.sendRedirect(request.getContextPath() + "/theme/loginForm.jsp?errorMsg=Not logged in");
@@ -16,7 +16,6 @@
 		// 페이징
 		int currentPage = 1; // 현재페이지
 		final int ROW_PER_PAGE = 10; // 묶음
-		int lastPage = 0; // 마지막페이지
 
 		if(request.getParameter("currentPage") != null){
 			// 받아오는 페이지가 있다면 현재페이지변수에 담기
@@ -27,13 +26,16 @@
 		GoodsService goodsService = new GoodsService();
 		
 		// 마지막페이지 구하는 메서드
-		lastPage = goodsService.lastPage();
+		int lastPage = goodsService.lastPage(ROW_PER_PAGE);
+		
+		// 숫자페이징
+		int startPage = ((currentPage - 1) / ROW_PER_PAGE) * ROW_PER_PAGE + 1; // 페이지 시작
+		int endPage = startPage + ROW_PER_PAGE - 1; // 페이지 끝
+		// endPage 와 lastPage 비교
+		endPage = Math.min(endPage, lastPage);
 		
 		// 리스트
-		List<Goods> list = new ArrayList<Goods>();
-		list = goodsService.getGoodsListByPage(ROW_PER_PAGE, currentPage);
-		
-		
+		List<Goods> list = goodsService.getGoodsListByPage(ROW_PER_PAGE, currentPage);
     %>
 
     <!-- Start Categories of The Month -->
@@ -67,11 +69,35 @@
 		            		%>
 				            		<tr>
 				            			<td><%=g.getGoodsNo()%></td>
-				            			<td><%=g.getGoodsName()%></td>
+				            			<td>
+				            				<a href="<%=request.getContextPath()%>/theme/admin/adminGoodsOne.jsp?goodsNo=<%=g.getGoodsNo()%>">
+				            					<%=g.getGoodsName()%>
+				            				</a>
+				            			</td>
 				            			<td><%=g.getGoodsPrice()%></td>
 				            			<td><%=g.getCreateDate()%></td>
 				            			<td><%=g.getUpdateDate()%></td>
-				            			<td><%=g.getSoldOut()%></td>
+				            			<td>
+				            				<form action="<%=request.getContextPath()%>/theme/admin/updateSoldOut.jsp" method="post">
+				            					<input type="hidden" name="employeeId" value="<%=g.getGoodsNo()%>">
+				            					<select name="soldOut">
+				            						<%
+				            							if("Y".equals(g.getSoldOut())) {
+				            						%>
+						            						<option value="Y">Y</option>
+						            						<option value="N">N</option>
+				            						<%
+				            							} else {
+				            						%>
+						            						<option value="N">N</option>
+					            							<option value="Y">Y</option>
+				            						<%
+				            							}
+				            						%>
+				            					</select>
+				            					<button type="submit" class="btn">품절변경</button> 
+				            				</form>
+				            			</td>
 				            		</tr>
 			            	<%
 		            			}
@@ -81,16 +107,24 @@
             	<div class="row">
                     <ul class="pagination pagination-lg justify-content-end">
                     <%
-	            		if(currentPage < 1){
+	            		if(currentPage > 1){
 	            	%>
 		            		 <li class="page-item disabled">
 	                            <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="<%=request.getContextPath()%>/theme/admin/adminGoodsList.jsp?currentPage=<%=currentPage-1%>>">pre</a>
 	                         </li>	
 	            	<%
 	            		}
+                    	
+                    	// 숫자페이징
+                    	for(int i = startPage; i <= endPage; i++){
 	            	%>
+	            			<li class="page-item disabled">
+	            				 <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="<%=request.getContextPath()%>/theme/admin/adminGoodsList.jsp?currentPage=<%=i%>>"><%=i%></a>
+	            			</li>
 	            	<%
-	            		if(currentPage > lastPage){
+                    	}
+                    	
+	            		if(currentPage < lastPage){
 	            	%>
 	                        <li class="page-item">
 	                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="<%=request.getContextPath()%>/theme/admin/adminGoodsList.jsp?currentPage=<%=currentPage+1%>>">next</a>
@@ -104,4 +138,4 @@
         </div>
     </section>
     <!-- End Categories of The Month -->
-<%@ include file="footer.jsp"%>
+<%@ include file="adminFooter.jsp"%>

@@ -3,7 +3,7 @@
 <%@ page import="vo.Customer"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List"%>
-<%@ include file="header.jsp"%>
+<%@ include file="adminHeader.jsp"%>
 	<%
        	if(session.getAttribute("id") == null){
        		response.sendRedirect(request.getContextPath() + "/theme/loginForm.jsp?errorMsg=Not logged in");
@@ -16,7 +16,6 @@
 		// 페이징
 		int currentPage = 1; // 현재페이지
 		final int ROW_PER_PAGE = 10; // 묶음
-		int lastPage = 0; // 마지막페이지
 
 		if(request.getParameter("currentPage") != null){
 			// 받아오는 페이지가 있다면 현재페이지변수에 담기
@@ -27,11 +26,10 @@
 		CustomerService customerService = new CustomerService();
 		
 		// 마지막페이지 구하는 메서드
-		lastPage = customerService.lastPage();
+		int lastPage = customerService.lastPage(ROW_PER_PAGE);
 		
 		// 리스트
-		List<Customer> list = new ArrayList<Customer>();
-		list = customerService.getCustomerList(ROW_PER_PAGE, currentPage);
+		List<Customer> list = customerService.getCustomerList(ROW_PER_PAGE, currentPage);
 		
 		
     %>
@@ -81,7 +79,7 @@
             	<div class="row">
                     <ul class="pagination pagination-lg justify-content-end">
                     <%
-	            		if(currentPage < 1){
+	            		if(currentPage > 1){
 	            	%>
 		            		 <li class="page-item disabled">
 	                            <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="<%=request.getContextPath()%>/theme/admin/adminCustomerList.jsp?currentPage=<%=currentPage-1%>>">pre</a>
@@ -90,7 +88,7 @@
 	            		}
 	            	%>
 	            	<%
-	            		if(currentPage > lastPage){
+	            		if(currentPage < lastPage){
 	            	%>
 	                        <li class="page-item">
 	                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="<%=request.getContextPath()%>/theme/admin/adminCustomerList.jsp?currentPage=<%=currentPage+1%>>">next</a>
@@ -104,4 +102,4 @@
         </div>
     </section>
     <!-- End Categories of The Month -->
-<%@ include file="footer.jsp"%>
+<%@ include file="adminFooter.jsp"%>

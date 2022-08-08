@@ -62,7 +62,7 @@ public class EmployeeService {
 	}
 	
 	///////////////////////////////////////////////////////////////////////// lastPage
-	public int lastPage() {
+	public int lastPage(final int rowPerPage) {
 		int lastPage = 0;
 		
 		// Connection 받을 변수 초기화
@@ -81,7 +81,11 @@ public class EmployeeService {
 			this.employeeDao = new EmployeeDao();
 			// 메서드실행
 			// 리턴값 받기
-			lastPage = this.employeeDao.lastPage(conn);
+			int allCount = this.employeeDao.allCount(conn);
+			
+			// 마지막페이지 구하기
+			lastPage = (int) Math.ceil (allCount / (double)rowPerPage);
+			
 			if(lastPage == 0) {
 				// lastPage가 없다면
 				throw new Exception();

@@ -10,8 +10,8 @@ public class CustomerDao {
 	
 	//////////////////////////////////////////////////////////////////////// lastPage
 	// CustomerService.lastPage()가 호출
-	public int lastPage(Connection conn) throws Exception {
-		int lastPage = 0;
+	public int allCount(Connection conn) throws Exception {
+		int allCount = 0;
 		String sql = "SELECT COUNT(*) count FROM customer";
 		
 		// 초기화
@@ -26,14 +26,14 @@ public class CustomerDao {
 			// 쿼리실행
 			rs = stmt.executeQuery();
 			if(rs.next()) {
-				lastPage = rs.getInt("count");
+				allCount = rs.getInt("count");
 			}
 		} finally {
 			if(rs != null) { rs.close(); }
 			if(stmt != null) { stmt.close(); }
 		}
 		
-		return lastPage;
+		return allCount;
 	}
 	
 	

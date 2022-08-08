@@ -25,6 +25,16 @@ TemplateMo 559 Zay Shop
 https://templatemo.com/tm-559-zay-shop
 
 -->
+<style>
+.card-img, .card-img-bottom, .card-img-top {
+	width: 100%;
+	margin-top: 85px;
+	margin-bottom: 85px;
+}
+.page-item.disabled {
+	margin: auto;
+}
+</style>
 </head>
 
 <body>
@@ -46,7 +56,7 @@ https://templatemo.com/tm-559-zay-shop
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
 
-            <a class="navbar-brand text-success logo h1 align-self-center" href="<%=request.getContextPath()%>/theme/shop.jsp">
+            <a class="navbar-brand text-success logo h1 align-self-center" href="<%=request.getContextPath()%>/theme/admin/adminIndex.jsp">
                 Zay
             </a>
 

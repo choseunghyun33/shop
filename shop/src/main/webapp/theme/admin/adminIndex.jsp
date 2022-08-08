@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="header.jsp"%>
+<%@ include file="adminHeader.jsp"%>
 	<%
 		// 유효성 검정 코드
        	if(session.getAttribute("id") == null){
@@ -64,4 +64,4 @@
         </div>
     </section>
     <!-- End Categories of The Month -->
-<%@ include file="footer.jsp"%>
+<%@ include file="adminFooter.jsp"%>
