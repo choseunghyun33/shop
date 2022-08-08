@@ -28,6 +28,14 @@
 		// 마지막페이지 구하는 메서드
 		int lastPage = employeeService.lastPage(ROW_PER_PAGE);
 		
+
+		// 숫자페이징
+		int startPage = ((currentPage - 1) / ROW_PER_PAGE) * ROW_PER_PAGE + 1; // 시작페이지값 ex) ROW_PER_PAGE 가 10 일경우 1, 11, 21, 31
+		int endPage = startPage + ROW_PER_PAGE - 1; // 끝페이지값 ex) ROW_PER_PAGE 가 10 일경우 10, 20, 30, 40
+		// endPage 는 lastPage보다 크면 안된다
+		endPage = Math.min(endPage, lastPage); // 두 값의 최소값이 endPage가 된다
+		
+		
 		// 리스트
 		List<Employee> list = employeeService.getEmployeeList(ROW_PER_PAGE, currentPage);
 		
@@ -94,21 +102,37 @@
 	            		</tbody>
 	            	</table>
             	<div class="row">
-                    <ul class="pagination pagination-lg justify-content-end">
-                    <%
+                    <ul class="pagination pagination-lg justify-content-center">
+	            	<%
 	            		if(currentPage > 1){
 	            	%>
-		            		 <li class="page-item disabled">
-	                            <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="<%=request.getContextPath()%>/theme/admin/adminEmployeeList.jsp?currentPage=<%=currentPage-1%>>">pre</a>
+		            		 <li class="page-item">
+	                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="<%=request.getContextPath()%>/theme/admin/adminEmployeeList.jsp?currentPage=<%=currentPage-1%>">pre</a>
 	                         </li>	
 	            	<%
 	            		}
-	            	%>
+                    	
+                    	// 숫자페이징
+                    	for(int i = startPage; i <= endPage; i++){
+                    		if(i == currentPage){
+		            %>
+		            			<li class="page-item disabled">
+		            				 <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="<%=request.getContextPath()%>/theme/admin/adminEmployeeList.jsp?currentPage=<%=i%>"><%=i%></a>
+		            			</li>
 	            	<%
+                    		} else {
+                	%>
+		            			<li class="page-item">
+		            				 <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="<%=request.getContextPath()%>/theme/admin/adminEmployeeList.jsp?currentPage=<%=i%>"><%=i%></a>
+		            			</li>
+	            	<%			
+                    		}
+                    	}
+                    	
 	            		if(currentPage < lastPage){
 	            	%>
 	                        <li class="page-item">
-	                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="<%=request.getContextPath()%>/theme/admin/adminEmployeeList.jsp?currentPage=<%=currentPage+1%>>">next</a>
+	                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="<%=request.getContextPath()%>/theme/admin/adminEmployeeList.jsp?currentPage=<%=currentPage+1%>">next</a>
 	                        </li>
                     <%
 	            		}

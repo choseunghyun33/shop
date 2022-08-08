@@ -31,9 +31,6 @@ https://templatemo.com/tm-559-zay-shop
 	margin-top: 85px;
 	margin-bottom: 85px;
 }
-.page-item.disabled {
-	margin: auto;
-}
 </style>
 </head>
 

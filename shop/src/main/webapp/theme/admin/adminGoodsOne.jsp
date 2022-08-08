@@ -34,7 +34,7 @@
             <div class="row">
                 <div class="col-lg-5 mt-5">
                     <div class="card">
-                        <img class="card-img img-fluid" src="<%=request.getContextPath()%>/theme/upload/ionic.jpeg" alt="Card image cap" id="product-detail">
+                        <img class="card-img img-fluid" src="<%=request.getContextPath()%>/theme/upload/<%=map.get("filename")%>" alt="Card image cap" id="product-detail">
                     </div>
                 </div>
                 <!-- col end -->
@@ -66,23 +66,7 @@
 				            		</tr>
 				            		<tr>
 				            			<th>상품품절여부</th>
-				            			<td>
-			            					<select name="soldOut">
-			            						<%
-			            							if("Y".equals(map.get("soldOut"))) {
-			            						%>
-					            						<option value="Y">Y</option>
-					            						<option value="N">N</option>
-			            						<%
-			            							} else {
-			            						%>
-					            						<option value="N">N</option>
-				            							<option value="Y">Y</option>
-			            						<%
-			            							}
-			            						%>
-			            					</select>
-				            			</td>
+				            			<td><%=map.get("soldOut")%></td>
 				            		</tr>
 				            		<tr>
 				            			<th>이미지이름</th>

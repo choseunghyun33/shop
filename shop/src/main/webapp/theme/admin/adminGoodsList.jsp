@@ -43,7 +43,7 @@
         <div class="row text-center pt-3">
             <div class="col-lg-12 m-auto">
                 <h1 class="h1">상품관리</h1>
-                <a href="<%=request.getContextPath()%>/admin/adminInsertGoods.jsp" class="btn">상품등록</a>	
+                <a href="<%=request.getContextPath()%>/theme/admin/adminGoodsForm.jsp" class="btn">상품등록</a>	
                 <%
                 	if(request.getParameter("errorMsg") != null){
 				%>
@@ -105,29 +105,37 @@
 	            		</tbody>
 	            	</table>
             	<div class="row">
-                    <ul class="pagination pagination-lg justify-content-end">
-                    <%
+                    <ul class="pagination pagination-lg justify-content-center">
+	            	<%
 	            		if(currentPage > 1){
 	            	%>
-		            		 <li class="page-item disabled">
-	                            <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="<%=request.getContextPath()%>/theme/admin/adminGoodsList.jsp?currentPage=<%=currentPage-1%>>">pre</a>
+		            		 <li class="page-item">
+	                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="<%=request.getContextPath()%>/theme/admin/adminGoodsList.jsp?currentPage=<%=currentPage-1%>">pre</a>
 	                         </li>	
 	            	<%
 	            		}
                     	
                     	// 숫자페이징
                     	for(int i = startPage; i <= endPage; i++){
-	            	%>
-	            			<li class="page-item disabled">
-	            				 <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="<%=request.getContextPath()%>/theme/admin/adminGoodsList.jsp?currentPage=<%=i%>>"><%=i%></a>
-	            			</li>
+                    		if(i == currentPage){
+		            %>
+		            			<li class="page-item disabled">
+		            				 <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="<%=request.getContextPath()%>/theme/admin/adminGoodsList.jsp?currentPage=<%=i%>"><%=i%></a>
+		            			</li>
 	            	<%
+                    		} else {
+                	%>
+		            			<li class="page-item">
+		            				 <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="<%=request.getContextPath()%>/theme/admin/adminGoodsList.jsp?currentPage=<%=i%>"><%=i%></a>
+		            			</li>
+	            	<%			
+                    		}
                     	}
                     	
 	            		if(currentPage < lastPage){
 	            	%>
 	                        <li class="page-item">
-	                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="<%=request.getContextPath()%>/theme/admin/adminGoodsList.jsp?currentPage=<%=currentPage+1%>>">next</a>
+	                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="<%=request.getContextPath()%>/theme/admin/adminGoodsList.jsp?currentPage=<%=currentPage+1%>">next</a>
 	                        </li>
                     <%
 	            		}

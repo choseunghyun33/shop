@@ -3,7 +3,7 @@ package repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +12,34 @@ import java.util.Map;
 import vo.Goods;
 
 public class GoodsDao {
+	///////////////////////////////////////////////////////////////////////////////////////////////////// insertGoods
+	// 리턴값 : key값(goods_no) - jdbc 메서드를 사용하면 된다
+	public int insertGoods(Connection conn, Goods goods) throws Exception {
+		int goodsNo = 0; // keyId
+		String sql = "INSERT INTO goods (goods_name, goods_price, update_date, create_date, sold_out) VALUES (?, ?, NOW(), NOW(), ?)";
+		PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS); // 키값을 반환하게 변경
+		// stmt setter
+		stmt.setString(1, goods.getGoodsName());
+		stmt.setInt(2, goods.getGoodsPrice());
+		stmt.setString(3, goods.getSoldOut());
+		// 디버깅
+		System.out.println("GoodsDao.java insertGoods stmt : " + stmt);
+		
+		// 1) insert 
+		stmt.executeUpdate(); // 성공한 row의 수 
+		// 2) select last_ai_key from  
+		ResultSet rs = stmt.getGeneratedKeys(); // 컬럼명을 알 수 없다! select 문 순서가 첫번째 컬럼이기때문에 받을 수 있다.
+		
+		if(rs.next()) {
+			goodsNo = rs.getInt(1);
+		}
+		
+		if(rs != null) { rs.close(); }
+		if(stmt != null) { stmt.close(); }
+		
+		return goodsNo;
+	}
+	
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////// selectGoodsAndImgOne
 	public Map<String, Object> selectGoodsAndImgOne(Connection conn, int goodsNo) throws Exception{

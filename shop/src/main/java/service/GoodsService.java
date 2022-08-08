@@ -6,12 +6,67 @@ import java.util.Map;
 
 import repository.DBUtil;
 import repository.GoodsDao;
+import repository.GoodsImgDao;
 import vo.Goods;
+import vo.GoodsImg;
 
 public class GoodsService {
+	// 서비스 : 트랜잭션 + action이나 dao가 해서는 안되는 일
 	// 멤버변수
 	private GoodsDao goodsDao;
+	private GoodsImgDao goodsImgDao;
 	private DBUtil dbUtil;
+	
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////// 
+	// 트랜젝션
+	public void addGoods(Goods goods, GoodsImg goodsImg) {
+		// 메서드 사용할 객체생성
+		this.dbUtil = new DBUtil();
+		this.goodsDao = new GoodsDao();
+
+		Connection conn = null;
+		
+		try {
+			conn = new DBUtil().getConnection();
+			// 디버깅
+			System.out.println("GoodsService.java addGoods conn : " + conn);
+			
+			// 자동 commit 끄기
+			conn.setAutoCommit(false);
+			
+			goodsDao = new GoodsDao();
+			goodsImgDao = new GoodsImgDao();
+			
+			int goodsNo = goodsDao.insertGoods(conn, goods); // goodsNo가 AI로 자동생성되어 DB입력
+			
+			if(goodsNo != 0) { // 0이 아니면 키가 있다는 뜻
+				// 키값 setter
+				goodsImg.setGoodsNo(goodsNo);
+				
+				if(goodsImgDao.insertGoodsImg(conn, goodsImg) == 0) {
+					throw new Exception(); // 이미지 입력실패시 강제로 rollback(catch)절 이동
+				}
+			}
+			
+			conn.commit();
+		} catch(Exception e) {
+			e.printStackTrace();
+			// Exception 발생시
+			try {
+				conn.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////// getGoodsAndImgOne
 	public Map<String, Object> getGoodsAndImgOne(int goodsNo) {
