@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="header.jsp"%>
 	<%
+		// 유효성 검정 코드
        	if(session.getAttribute("id") == null){
        		response.sendRedirect(request.getContextPath() + "/theme/loginForm.jsp?errorMsg=Not logged in");
        		return;
@@ -34,12 +35,27 @@
                  	<tbody>
                  		<tr>
                  			<td>
-                 				<a href="<%=request.getContextPath()%>/theme/employeeList.jsp" class="btn">사원관리</a>
+                 				<a href="<%=request.getContextPath()%>/theme/admin/adminEmployeeList.jsp" class="btn">사원관리</a>
                  			</td>
                  		</tr>
                  		<tr>
                  			<td>
-                 				<a href="<%=request.getContextPath()%>/theme/customerList.jsp" class="btn">고객관리</a>
+                 				<a href="<%=request.getContextPath()%>/theme/admin/adminGoodsList.jsp" class="btn">상품관리</a><!-- 상품목록/등록/수정(품절)/삭제(장바구니,주문이 없는 경우) -->
+                 			</td>
+                 		</tr>
+                 		<tr>
+                 			<td>
+                 				<a href="<%=request.getContextPath()%>/theme/admin/adminOrdersList.jsp" class="btn">주문관리</a><!-- 주문목록/수정 -->
+                 			</td>
+                 		</tr>
+                 		<tr>
+                 			<td>
+                 				<a href="<%=request.getContextPath()%>/theme/admin/adminCustomerList.jsp" class="btn">고객관리</a><!-- 고객목록/강제탈퇴/비밀번호수정(전달구현X) -->
+                 			</td>
+                 		</tr>
+                 		<tr>
+                 			<td>
+                 				<a href="<%=request.getContextPath()%>/theme/admin/adminNoticeList.jsp" class="btn">공지관리</a><!-- 공지 CRUD -->
                  			</td>
                  		</tr>
                  	</tbody>

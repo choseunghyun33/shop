@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="service.CustomerService"%>
-<%@ page import="vo.Customer"%>
+<%@ page import="service.GoodsService"%>
+<%@ page import="vo.Goods"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List"%>
 <%@ include file="header.jsp"%>
@@ -24,14 +24,14 @@
 		}
 		
 		// 메서드를 위한 객체생성
-		CustomerService customerService = new CustomerService();
+		GoodsService goodsService = new GoodsService();
 		
 		// 마지막페이지 구하는 메서드
-		//lastPage = customerService.lastPage();
+		lastPage = goodsService.lastPage();
 		
 		// 리스트
-		List<Customer> list = new ArrayList<Customer>();
-		//list = customerService.getCustomerList(ROW_PER_PAGE, currentPage);
+		List<Goods> list = new ArrayList<Goods>();
+		list = goodsService.getGoodsListByPage(ROW_PER_PAGE, currentPage);
 		
 		
     %>
@@ -40,7 +40,8 @@
     <section class="container py-5">
         <div class="row text-center pt-3">
             <div class="col-lg-12 m-auto">
-                <h1 class="h1">고객관리</h1>
+                <h1 class="h1">상품관리</h1>
+                <a href="<%=request.getContextPath()%>/admin/adminInsertGoods.jsp" class="btn">상품등록</a>	
                 <%
                 	if(request.getParameter("errorMsg") != null){
 				%>
@@ -52,26 +53,25 @@
 	            	<table class="table">
 	            		<thead>
 		            		<tr>
-		            			<th>고객아이디</th>
-		            			<th>고객이름</th>
-		            			<th>고객주소</th>
-		            			<th>고객핸드폰</th>
-		            			<th>가입날짜</th>
-		            			<th>정보수정날짜</th>
-		            			<th></th>
+		            			<th>상품번호</th>
+		            			<th>상품명</th>
+		            			<th>상품가격</th>
+		            			<th>상품등록날짜</th>
+		            			<th>상품수정날짜</th>
+		            			<th>상품품절여부</th>
 		            		</tr>
 	            		</thead>
 	            		<tbody>
 		            		<%
-		            			for(Customer c : list){
+		            			for(Goods g : list){
 		            		%>
 				            		<tr>
-				            			<td><%=c.getCustomerId()%></td>
-				            			<td><%=c.getCustomerName()%></td>
-				            			<td><%=c.getCustomerAddress()%></td>
-				            			<td><%=c.getCustomerTelephone()%></td>
-				            			<td><%=c.getCreateDate()%></td>
-				            			<td><%=c.getUpdateDate()%></td>
+				            			<td><%=g.getGoodsNo()%></td>
+				            			<td><%=g.getGoodsName()%></td>
+				            			<td><%=g.getGoodsPrice()%></td>
+				            			<td><%=g.getCreateDate()%></td>
+				            			<td><%=g.getUpdateDate()%></td>
+				            			<td><%=g.getSoldOut()%></td>
 				            		</tr>
 			            	<%
 		            			}
@@ -84,7 +84,7 @@
 	            		if(currentPage < 1){
 	            	%>
 		            		 <li class="page-item disabled">
-	                            <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="<%=request.getContextPath()%>/theme/employeeList.jsp?currentPage=<%=currentPage-1%>>">pre</a>
+	                            <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="<%=request.getContextPath()%>/theme/admin/adminGoodsList.jsp?currentPage=<%=currentPage-1%>>">pre</a>
 	                         </li>	
 	            	<%
 	            		}
@@ -93,7 +93,7 @@
 	            		if(currentPage > lastPage){
 	            	%>
 	                        <li class="page-item">
-	                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="<%=request.getContextPath()%>/theme/employeeList.jsp?currentPage=<%=currentPage+1%>>">next</a>
+	                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="<%=request.getContextPath()%>/theme/admin/adminGoodsList.jsp?currentPage=<%=currentPage+1%>>">next</a>
 	                        </li>
                     <%
 	            		}

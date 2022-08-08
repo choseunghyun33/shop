@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="service.EmployeeService"%>
-<%@ page import="vo.Employee"%>
+<%@ page import="service.CustomerService"%>
+<%@ page import="vo.Customer"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List"%>
 <%@ include file="header.jsp"%>
@@ -24,14 +24,14 @@
 		}
 		
 		// 메서드를 위한 객체생성
-		EmployeeService employeeService = new EmployeeService();
+		CustomerService customerService = new CustomerService();
 		
 		// 마지막페이지 구하는 메서드
-		lastPage = employeeService.lastPage();
+		lastPage = customerService.lastPage();
 		
 		// 리스트
-		List<Employee> list = new ArrayList<Employee>();
-		list = employeeService.getEmployeeList(ROW_PER_PAGE, currentPage);
+		List<Customer> list = new ArrayList<Customer>();
+		list = customerService.getCustomerList(ROW_PER_PAGE, currentPage);
 		
 		
     %>
@@ -40,7 +40,7 @@
     <section class="container py-5">
         <div class="row text-center pt-3">
             <div class="col-lg-12 m-auto">
-                <h1 class="h1">사원관리</h1>
+                <h1 class="h1">고객관리</h1>
                 <%
                 	if(request.getParameter("errorMsg") != null){
 				%>
@@ -52,43 +52,26 @@
 	            	<table class="table">
 	            		<thead>
 		            		<tr>
-		            			<th>사원아이디</th>
-		            			<th>사원이름</th>
-		            			<th>입사날짜</th>
+		            			<th>고객아이디</th>
+		            			<th>고객이름</th>
+		            			<th>고객주소</th>
+		            			<th>고객핸드폰</th>
+		            			<th>가입날짜</th>
 		            			<th>정보수정날짜</th>
-		            			<th>권한부여</th>
+		            			<th></th>
 		            		</tr>
 	            		</thead>
 	            		<tbody>
 		            		<%
-		            			for(Employee e : list){
+		            			for(Customer c : list){
 		            		%>
 				            		<tr>
-				            			<td><%=e.getEmployeeId()%></td>
-				            			<td><%=e.getEmployeeName()%></td>
-				            			<td><%=e.getCreateDate()%></td>
-				            			<td><%=e.getUpdateDate()%></td>
-				            			<td>
-				            				<form action="<%=request.getContextPath()%>/theme/updateActive.jsp" method="post">
-				            					<input type="hidden" name="employeeId" value="<%=e.getEmployeeId()%>">
-				            					<select name="active">
-				            						<%
-				            							if("Y".equals(e.getActive())) {
-				            						%>
-						            						<option value="Y">Y</option>
-						            						<option value="N">N</option>
-				            						<%
-				            							} else {
-				            						%>
-						            						<option value="N">N</option>
-					            							<option value="Y">Y</option>
-				            						<%
-				            							}
-				            						%>
-				            					</select>
-				            					<button type="submit" class="btn">권한변경</button> 
-				            				</form>
-				            			</td>
+				            			<td><%=c.getCustomerId()%></td>
+				            			<td><%=c.getCustomerName()%></td>
+				            			<td><%=c.getCustomerAddress()%></td>
+				            			<td><%=c.getCustomerTelephone()%></td>
+				            			<td><%=c.getCreateDate()%></td>
+				            			<td><%=c.getUpdateDate()%></td>
 				            		</tr>
 			            	<%
 		            			}
@@ -101,7 +84,7 @@
 	            		if(currentPage < 1){
 	            	%>
 		            		 <li class="page-item disabled">
-	                            <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="<%=request.getContextPath()%>/theme/employeeList.jsp?currentPage=<%=currentPage-1%>>">pre</a>
+	                            <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="<%=request.getContextPath()%>/theme/admin/adminCustomerList.jsp?currentPage=<%=currentPage-1%>>">pre</a>
 	                         </li>	
 	            	<%
 	            		}
@@ -110,7 +93,7 @@
 	            		if(currentPage > lastPage){
 	            	%>
 	                        <li class="page-item">
-	                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="<%=request.getContextPath()%>/theme/employeeList.jsp?currentPage=<%=currentPage+1%>>">next</a>
+	                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="<%=request.getContextPath()%>/theme/admin/adminCustomerList.jsp?currentPage=<%=currentPage+1%>>">next</a>
 	                        </li>
                     <%
 	            		}

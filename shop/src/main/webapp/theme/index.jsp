@@ -27,7 +27,7 @@
                  <%
 			       	if("employee".equals((String)session.getAttribute("user"))){
 	       		 %>
-	       		 		<a href="<%=request.getContextPath()%>/theme/employeeIndex.jsp" class="btn">관리자페이지</a>
+	       		 		<a href="<%=request.getContextPath()%>/theme/admin/adminIndex.jsp" class="btn">관리자페이지</a>
 	       		 <%
 			       	}
 			     %>

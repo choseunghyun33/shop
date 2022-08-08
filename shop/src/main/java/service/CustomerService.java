@@ -65,10 +65,12 @@ public class CustomerService {
 	}
 	
 	///////////////////////////////////////////////////////////////////////// getCustomerList
-	public List<Customer> getCustomerList(final int rowPerPage, final int beginRow) {
+	public List<Customer> getCustomerList(final int rowPerPage, final int currentPage) {
 		List<Customer> list = new ArrayList<Customer>();
 		// Connection 받을 변수 초기화
 		Connection conn = null;
+		
+		int beginRow = (currentPage - 1) * rowPerPage;
 		
 		try {
 			// Connection 부를 객체생성
