@@ -72,7 +72,11 @@
 		            			for(Customer c : list){
 		            		%>
 				            		<tr>
-				            			<td><%=c.getCustomerId()%></td>
+				            			<td>
+				            				<a href="<%=request.getContextPath()%>/theme/admin/adminOrdersListById.jsp?customerId=<%=c.getCustomerId()%>">
+				            					<%=c.getCustomerId()%>
+				            				</a>
+				            			</td>
 				            			<td><%=c.getCustomerName()%></td>
 				            			<td><%=c.getCustomerAddress()%></td>
 				            			<td><%=c.getCustomerTelephone()%></td>

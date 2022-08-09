@@ -1,6 +1,7 @@
 package service;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,43 @@ public class GoodsService {
 	private GoodsDao goodsDao;
 	private GoodsImgDao goodsImgDao;
 	private DBUtil dbUtil;
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////////// updateSoldOutByKey
+	public boolean modifySoldOutByKey(int goodsNo, String soldOut) throws SQLException {
+		// conn 초기화
+		Connection conn = null;
+		// 멤버변수 초기화
+		this.dbUtil = new DBUtil();
+		this.goodsDao = new GoodsDao();
+		
+		try {
+			conn = this.dbUtil.getConnection();
+			// 디버깅
+			System.out.println("GoodsService.java modifySoldOutByKey conn" + conn);
+			
+			// 메서드 실행 - 0 update 실패
+			int row = this.goodsDao.updateSoldOutByKey(conn, goodsNo, soldOut);
+			// 디버깅
+			System.out.println("GoodsService.java modifySoldOutByKey row : " + row);
+			
+			// 분기
+			if(row == 1) {
+				System.out.println("GoodsService.java modifySoldOutByKey 성공");
+			} else {
+				System.out.println("GoodsService.java modifySoldOutByKey 실패");
+				throw new Exception();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			// DB 자원해제
+			if(conn != null) {
+				conn.close();
+			}
+		}
+		return true;
+	}
 	
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////// 

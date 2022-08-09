@@ -3,6 +3,7 @@ package repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +13,32 @@ import java.util.Map;
 import vo.Goods;
 
 public class GoodsDao {
+	///////////////////////////////////////////////////////////////////////////////////////////////////// updateSoldOutByKey
+	public int updateSoldOutByKey(Connection conn, int goodsNo, String soldOut) throws SQLException {
+		int row = 0;
+		String sql = "UPDATE goods SET sold_out = ?, update_date = now() where goods_no = ?";
+		// stmt 초기화
+		PreparedStatement stmt = null;
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			// stmt setter
+			stmt.setString(1, soldOut);
+			stmt.setInt(2, goodsNo);
+			
+			System.out.println("GoodsDao.java updateSoldOutByKey stmt : " + stmt);
+			
+			// 쿼리실행
+			row = stmt.executeUpdate();
+			
+		} finally {
+			if(stmt != null) { stmt.close(); }
+		}
+		
+		return row;
+	}
+	
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////////// insertGoods
 	// 리턴값 : key값(goods_no) - jdbc 메서드를 사용하면 된다
 	public int insertGoods(Connection conn, Goods goods) throws Exception {
