@@ -54,17 +54,6 @@
 				           		<%		
 				                	}
 				                %>
-				                <!-- 고객 아이디 중복검사 -->
-				                <form class="mt-5 mb-5 login-input" method="post" action="<%=request.getContextPath()%>/theme/idCheckAction.jsp" id="customerIdForm">
-				                	<fieldset>
-				                		<label>고객 아이디 중복검사</label>
-				                		<div class="form-group">
-				                		  <input type="hidden" name="user" value="customer">
-                                      	  <input type="text" class="form-control"  placeholder="Id" id="customerCkId" name="ckId" required>
-                                    	</div>   
-                                    	<button id="customerIdBtn" class="btn login-form__btn submit w-100">고객 아이디 중복검사</button>
-				                	</fieldset>
-                                </form>
                                 <!-- 고객 회원가입 -->
                                 <%
                                 	String customerCkId = "";
@@ -76,6 +65,16 @@
                                 	<input type="hidden" name="user" value="customer">
                                     <div class="form-group">
                                         <input type="text" class="form-control"  placeholder="Name" id="customerName" name="name" required>
+                                    </div>
+                                    <div class="form-group">
+                                    	<div class="row">
+	                                    	<div class="col-sm-8">
+	                                        	<input type="text" class="form-control"  placeholder="Id Check" id="customerCkId" name="customerCkId" value="<%=customerCkId%>" required>
+	                                        </div>
+	                                        <div class="col-sm-4">
+	                                        	<button type="button" id="customerIdBtn" class="btn">아이디 중복검사</button>
+	                                        </div>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <input type="text" class="form-control"  placeholder="Id" id="customerId" name="id" value="<%=customerCkId%>" readonly="readonly" required>
@@ -110,17 +109,6 @@
 				           		<%		
 				                	}
 				                %>
-				                <!-- 직원 아이디 중복검사 -->
-				                <form class="mt-5 mb-5 login-input" method="post" action="<%=request.getContextPath()%>/theme/idCheckAction.jsp" id="employeeIdForm">
-				                	<fieldset>
-				                		<label>STAFF 아이디 중복검사</label>
-				                		<div class="form-group">
-				                		  <input type="hidden" name="user" value="employee">
-                                      	  <input type="text" class="form-control"  placeholder="Id" id="employeeCkId" name="ckId" required>
-                                    	</div>   
-                                    	<button id="employeeIdBtn" class="btn login-form__btn submit w-100">STAFF 아이디 중복검사</button>
-				                	</fieldset>
-                                </form>   
                                 <!-- 직원 회원가입 -->
                                 <%
                                 	String employeeCkId = "";
@@ -132,6 +120,16 @@
                                     <input type="hidden" name="user" value="employee">
                                     <div class="form-group">
                                         <input type="text" class="form-control"  placeholder="Name" id="employeeName" name="name" required>
+                                    </div>
+                                    <div class="form-group">
+                                    	<div class="row">
+	                                    	<div class="col-sm-8">
+	                                        	<input type="text" class="form-control"  placeholder="Id Check" id="employeeCkId" name="employeeCkId" required>
+	                                        </div>
+	                                        <div class="col-sm-4">
+	                                        	<button type="button" id="employeeIdBtn" class="btn">아이디 중복검사</button>
+	                                        </div>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <input type="text" class="form-control"  placeholder="Id" id="employeeId" name="id" value="<%=employeeCkId%>" readonly="readonly" required>
@@ -174,7 +172,25 @@
 		if($('#customerCkId').val().length < 4){
 			alert('고객아이디는 4자 이상 기입해주세요');
 		} else {
-			$('#customerIdForm').submit();
+			$.ajax({
+				url : '/shop/signController',
+				type : 'post',
+				data : {customerCkId : $('#customerCkId').val()},
+				success : function(json){
+					// alert(json);
+					if(json == 'customerCkId ok'){
+						alert('사용가능한 아이디입니다');
+						$('#customerId').val($('#customerCkId').val());
+						$('#employeeId').val('');
+						$('#employeeCkId').val('');
+					} else {
+						alert('이미 사용중이거나 탈퇴한 아이디입니다');
+						$('#customerId').val('');
+						$('#employeeId').val('');
+						$('#employeeCkId').val('');
+					}
+				}
+			});
 		}
 	});
 
@@ -199,7 +215,24 @@
 		if($('#employeeCkId').val().length < 4){
 			alert('직원아이디는 4자 이상 기입해주세요');
 		} else {
-			$('#employeeIdForm').submit();
+			$.ajax({
+				url : "/shop/signController",
+				type : "post",
+				data : {employeeCkId : $('#employeeCkId').val()},
+				success : function(json){
+					if(json == 'employeeCkId ok'){
+						alert('사용가능한 아이디입니다');
+						$('#employeeId').val($('#employeeCkId').val());
+						$('#customerId').val('');
+						$('#customerCkId').val('');
+					} else {
+						alert('이미 사용중이거나 탈퇴한 아이디입니다');
+						$('#employeeCkId').val('');
+						$('#customerId').val('');
+						$('#customerCkId').val('');
+					}
+				}
+			});
 		}
 	});
 

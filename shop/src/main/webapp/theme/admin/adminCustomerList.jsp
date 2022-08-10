@@ -64,7 +64,8 @@
 		            			<th>고객핸드폰</th>
 		            			<th>가입날짜</th>
 		            			<th>정보수정날짜</th>
-		            			<th></th>
+		            			<th>비밀번호수정</th>
+		            			<th>삭제</th>
 		            		</tr>
 	            		</thead>
 	            		<tbody>
@@ -82,6 +83,12 @@
 				            			<td><%=c.getCustomerTelephone()%></td>
 				            			<td><%=c.getCreateDate()%></td>
 				            			<td><%=c.getUpdateDate()%></td>
+				            			<td>
+				            				<a href="<%=request.getContextPath()%>/theme/admin/adminUpdateCustomer.jsp?customerId=<%=c.getCustomerId()%>" class="btn">수정</a>
+				            			</td>
+				            			<td>
+				            				<a href="<%=request.getContextPath()%>/theme/admin/adminDeleteCustomer.jsp?customerId=<%=c.getCustomerId()%>" class="btn">삭제</a>
+				            			</td>
 				            		</tr>
 			            	<%
 		            			}

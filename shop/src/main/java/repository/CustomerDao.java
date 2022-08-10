@@ -7,6 +7,33 @@ import java.util.List;
 import vo.Customer;
 
 public class CustomerDao {
+	//////////////////////////////////////////////////////////////////////// deleteCustomerByAdmin
+	public int deleteCustomerByAdmin(Connection conn, String customerId) throws Exception {
+		int row = 0;
+		String sql = "DELETE FROM customer WHERE customer_id = ?";
+		
+		// 초기화
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			// 쿼리담기
+			stmt = conn.prepareStatement(sql);
+			// stmt setter
+			stmt.setString(1, customerId);
+			// 디버깅
+			System.out.println("CustomerDao.java deleteCustomerByAdmin stmt : " + stmt);
+			// 쿼리실행
+			row = stmt.executeUpdate();
+			
+		} finally {
+			if(rs != null) { rs.close(); }
+			if(stmt != null) { stmt.close(); }
+		}
+		
+		return row;
+	}
+	
 	
 	//////////////////////////////////////////////////////////////////////// lastPage
 	// CustomerService.lastPage()가 호출
@@ -22,7 +49,7 @@ public class CustomerDao {
 			// 쿼리담기
 			stmt = conn.prepareStatement(sql);
 			// 디버깅
-			System.out.println("CustomerDao lastPage stmt : " + stmt);
+			System.out.println("CustomerDao.java allCount stmt : " + stmt);
 			// 쿼리실행
 			rs = stmt.executeQuery();
 			if(rs.next()) {
@@ -53,7 +80,7 @@ public class CustomerDao {
 			stmt.setInt(1, beginRow);
 			stmt.setInt(2, rowPerPage);
 			// 디버깅
-			System.out.println("CustomerDao selectCustomerList stmt : " + stmt);
+			System.out.println("CustomerDao.java selectCustomerList stmt : " + stmt);
 			
 			// 쿼리실행
 			rs = stmt.executeQuery();
@@ -66,7 +93,7 @@ public class CustomerDao {
 				customer.setCreateDate(rs.getString("createDate"));
 				customer.setUpdateDate(rs.getString("updateDate"));
 				// 디버깅
-				System.out.println("CustomerDao selectCustomerList customer : " + customer.toString());
+				System.out.println("CustomerDao.java selectCustomerList customer : " + customer.toString());
 				
 				// list에 담기
 				list.add(customer);

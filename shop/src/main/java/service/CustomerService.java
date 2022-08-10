@@ -1,6 +1,7 @@
 package service;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,45 @@ public class CustomerService {
 	// 멤버변수
 	private DBUtil dbUtil;
 	private CustomerDao customerDao;
+	
+	//////////////////////////////////////////////////////////////////////// deleteCustomerByAdmin
+	public boolean removeCustomerByAdmin(String customerId) {
+		// conn 초기화
+		Connection conn = null;
+		this.dbUtil = new DBUtil();
+		this.customerDao = new CustomerDao();
+		
+		try {
+			conn = this.dbUtil.getConnection();
+			// 디버깅
+			System.out.println("CustomerService.java removeCustomerByAdmin conn : " + conn);
+			
+			// 메서드 실행 row 1일 경우 성공
+			int row = this.customerDao.deleteCustomerByAdmin(conn, customerId);
+			// 디버깅
+			System.out.println("CustomerService.java removeCustomerByAdmin row : " + row);
+			
+			// 분기
+			if(row == 1) {
+				System.out.println("CustomerService.java removeCustomerByAdmin delete 성공");
+			} else {
+				System.out.println("CustomerService.java removeCustomerByAdmin delete 실패");
+				throw new Exception();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
+	}
 	
 	///////////////////////////////////////////////////////////////////////// lastPage
 	public int lastPage(final int rowPerPage) {
