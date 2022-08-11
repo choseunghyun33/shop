@@ -13,8 +13,61 @@ import java.util.Map;
 import vo.Goods;
 
 public class GoodsDao {
+	// 고객 상품리스트 페이지로 반환
+	public List<Map<String, Object>> selectCustomerGoodsListByPage(Connection conn, final int rowPerPage, final int beginRow) throws Exception {
+		List<Map<String, Object>> list = new ArrayList<>();
+		String sql = "";
+		String orderSql = "SELECT g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename fileName "
+				+ "FROM goods g LEFT JOIN (SELECT goods_no, SUM(order_quantity) sumNum FROM orders GROUP BY goods_no) t "
+				+ "ON g.goods_no = t.goods_no INNER JOIN goods_img gi ON g.goods_no = gi.goods_no "
+				+ "ORDER BY IFNULL(t.sumNum, 0) DESC limit ?, ?";
+		
+		String lowPriceSql = "SELECT g.goods_no, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no ORDER BY g.goods_price LIMIT ?, ?";
+		
+		String highPriceSql = "SELECT g.goods_no, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no ORDER BY g.goods_price LIMIT ?, ?";
+		/*
+			고객이 주문수의 desc 
+			SELECT g.goods_no, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename FROM goods g LEFT JOIN (SELECT goods_no, SUM(order_quantity) sumNum FROM orders GROUP BY goods_no) t ON g.goods_no = t.goods_no INNER JOIN goods_img gi ON g.goods_no = gi.goods_no ORDER BY IFNULL(t.sumNum, 0) DESC LIMIT 0,10
+		
+			인기순
+			아직 클릭수가 구현되지 않았음
+		
+			낮은가격순
+			SELECT g.goods_no, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no ORDER BY g.goods_price LIMIT 0,10
+			
+		 */
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			// stmt setter
+			stmt.setInt(1, beginRow);
+			stmt.setInt(2, rowPerPage);
+			rs = stmt.executeQuery();
+			
+			while(rs.next()) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				// map에 담기
+				map.put("goodsNo", rs.getInt("goodsNo"));
+				map.put("goodsName", rs.getString("goodsName"));
+				map.put("goodsPrice", rs.getInt("goodsPrice"));
+				map.put("fileName", rs.getString("fileName"));
+				
+				// list에 담기
+				list.add(map);
+			}
+		} finally {
+			if(rs != null) { rs.close(); }
+			if(stmt != null) { stmt.close(); }
+		}
+		
+		return list;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////////// updateSoldOutByKey
-	public int updateSoldOutByKey(Connection conn, int goodsNo, String soldOut) throws SQLException {
+	public int updateSoldOutByKey(Connection conn, int goodsNo, String soldOut) throws Exception {
 		int row = 0;
 		String sql = "UPDATE goods SET sold_out = ?, update_date = now() where goods_no = ?";
 		// stmt 초기화
@@ -72,7 +125,8 @@ public class GoodsDao {
 	public Map<String, Object> selectGoodsAndImgOne(Connection conn, int goodsNo) throws Exception{
 		Map<String, Object> map = null;
 		
-		String sql = "SELECT g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, g.update_date updateDate, g.create_date createDate, g.sold_out soldOut, gi.filename filename, gi.origin_filename originFilename, gi.content_type contentType FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no WHERE g.goods_no = ?";
+		String sql = "SELECT g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, g.update_date updateDate, g.create_date createDate, g.sold_out soldOut, gi.filename filename, gi.origin_filename originFilename, gi.content_type contentType "
+				+ "FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no WHERE g.goods_no = ?";
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		/*
@@ -156,7 +210,8 @@ public class GoodsDao {
 			SELECT goods_no goodsNo, goods_name goodsName, goods_price goodsPrice, update_date updateDate, create_date createDate, sold_out soldOut FROM goods ORDER BY goods_no DESC LIMIT ?, ?
 		 */
 		
-		String sql = "SELECT goods_no goodsNo, goods_name goodsName, goods_price goodsPrice, update_date updateDate, create_date createDate, sold_out soldOut FROM goods ORDER BY goods_no DESC LIMIT ?, ?";
+		String sql = "SELECT goods_no goodsNo, goods_name goodsName, goods_price goodsPrice, update_date updateDate, create_date createDate, sold_out soldOut "
+				+ "FROM goods ORDER BY goods_no DESC LIMIT ?, ?";
 		// 초기화
 		PreparedStatement stmt = null;
 		ResultSet rs = null;

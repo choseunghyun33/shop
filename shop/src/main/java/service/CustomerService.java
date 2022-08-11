@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import repository.CustomerDao;
 import repository.DBUtil;
@@ -14,6 +15,7 @@ public class CustomerService {
 	// 멤버변수
 	private DBUtil dbUtil;
 	private CustomerDao customerDao;
+	
 	
 	//////////////////////////////////////////////////////////////////////// deleteCustomerByAdmin
 	public boolean removeCustomerByAdmin(String customerId) {

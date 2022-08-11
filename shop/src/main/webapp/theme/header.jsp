@@ -46,7 +46,7 @@ https://templatemo.com/tm-559-zay-shop
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
 
-            <a class="navbar-brand text-success logo h1 align-self-center" href="<%=request.getContextPath()%>/theme/shop.jsp">
+            <a class="navbar-brand text-success logo h1 align-self-center" href="<%=request.getContextPath()%>/theme/customerGoodsList.jsp">
                 Zay
             </a>
 
@@ -67,7 +67,7 @@ https://templatemo.com/tm-559-zay-shop
                         	} 
                         %>
                         <li class="nav-item">
-                            <a class="nav-link" href="<%=request.getContextPath()%>/theme/shop.jsp">Shop</a>
+                            <a class="nav-link" href="<%=request.getContextPath()%>/theme/customerGoodsList.jsp">Shop</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="<%=request.getContextPath()%>/theme/review.jsp">Review</a>

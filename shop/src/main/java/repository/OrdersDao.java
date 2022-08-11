@@ -101,7 +101,7 @@ public class OrdersDao {
 			SELECT FROM orders o INNER JOIN goods g ON o.goods_no = g.goods_no INNER JOIN customer c ON o.customer_id = c.customer_id WHERE o.order_no = ?  
 		 */
 		
-		String sql = "SELECT o.order_no orderNo, o.goods_no goodsNo, o.customer_id customerId, o.order_quantity orderQuantity, o.order_price orderPrice, o.order_addr orderAddr, o.order_state orderState, o.update_date updateDate, o.create_date createDate, g.goods_name goodsName, c.customer_name customerName, c.customer_telephone customerTelephone FROM orders o INNER JOIN goods g ON o.goods_no = g.goods_no INNER JOIN customer c ON o.customer_id = c.customer_id WHERE o.order_no = ?";
+		String sql = "SELECT o.order_no orderNo, o.goods_no goodsNo, o.customer_id customerId, o.order_quantity orderQuantity, o.order_price orderPrice, o.order_addr orderAddr, o.order_state orderState, o.update_date updateDate, o.create_date createDate, g.goods_name goodsName, c.customer_name customerName, c.customer_telephone customerTelephone FROM orders o INNER JOIN goods g ON o.goods_no = g.goods_no LEFT JOIN customer c ON o.customer_id = c.customer_id WHERE o.order_no = ?";
 		
 		// stmt, rs 초기화
 		PreparedStatement stmt = null;

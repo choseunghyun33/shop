@@ -36,13 +36,19 @@
 		           			</td>
 		           		</tr>
 		           	</table>
-		           	<button type="button" class="btn">수정</button>
+		           	<button type="button" class="btn" id="btn">수정</button>
             	</form>
             </div>
         </div>
     </section>
     <!-- End Categories of The Month -->
     <script>
-    	
+    	$('#btn').click(function(){
+    		if($('#customerPass').val().length < 4){
+    			alert('비밀번호를 4자 이상 기입해주세요');
+    		} else {
+    			$('#form').submit();
+    		}
+    	});
     </script>
 <%@ include file="adminFooter.jsp"%>

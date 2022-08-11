@@ -18,8 +18,45 @@ public class GoodsService {
 	private GoodsImgDao goodsImgDao;
 	private DBUtil dbUtil;
 	
+	public List<Map<String, Object>> getCustomerGoodsListByPage(final int rowPerPage, final int currentPage) {
+		List<Map<String, Object>> list = null;
+		
+		// conn 초기화
+		Connection conn = null;
+		// 멤버변수 초기화
+		this.dbUtil = new DBUtil();
+		this.goodsDao = new GoodsDao();
+		
+		// beginRow 구하기
+		int beginRow = (currentPage - 1) * rowPerPage;
+		
+		try {
+			conn = this.dbUtil.getConnection();
+			// 디버깅
+			System.out.println("GoodsService.java getCustomerGoodsListByPage conn : " + conn);
+			
+			// 메서드 실행
+			list = this.goodsDao.selectCustomerGoodsListByPage(conn, rowPerPage, beginRow);
+			
+		}  catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// DB 자원해제
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return list;
+	}
+	
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////////// updateSoldOutByKey
-	public boolean modifySoldOutByKey(int goodsNo, String soldOut) throws SQLException {
+	public boolean modifySoldOutByKey(int goodsNo, String soldOut) {
 		// conn 초기화
 		Connection conn = null;
 		// 멤버변수 초기화
@@ -49,7 +86,11 @@ public class GoodsService {
 		} finally {
 			// DB 자원해제
 			if(conn != null) {
-				conn.close();
+				try {
+					conn.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		return true;
