@@ -25,6 +25,12 @@ TemplateMo 559 Zay Shop
 https://templatemo.com/tm-559-zay-shop
 
 -->
+<style>
+#myimg img {
+	width : 247px;
+	height : 247px;
+}
+</style>
 </head>
 
 <body>

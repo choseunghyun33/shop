@@ -58,6 +58,11 @@
                  				<a href="<%=request.getContextPath()%>/theme/admin/adminNoticeList.jsp" class="btn">공지관리</a><!-- 공지 CRUD -->
                  			</td>
                  		</tr>
+                 		<tr>
+                 			<td>
+                 				<a href="<%=request.getContextPath()%>/theme/admin/adminStatistics.jsp" class="btn">통계</a>
+                 			</td>
+                 		</tr>
                  	</tbody>
                  </table>
             </div>

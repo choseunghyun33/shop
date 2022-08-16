@@ -3,6 +3,13 @@
 <%@ page import="java.util.*"%>
 <%@ include file="header.jsp"%>
 <%
+	// listVer 값받기
+	String listVer = "orderVer";
+	if(request.getParameter("listVer") != null){
+		listVer = request.getParameter("listVer");
+	}
+	
+
 	// Controller : java class <- Serlvet
 	int rowPerPage = 20;
 	if(request.getParameter("rowPerPage") != null) {
@@ -28,7 +35,7 @@
 	endPage = Math.min(endPage, lastPage);
 	
 	// list - 모델값
-	List<Map<String, Object>> list = goodsService.getCustomerGoodsListByPage(rowPerPage, currentPage);
+	List<Map<String, Object>> list = goodsService.getCustomerGoodsListByPage(rowPerPage, currentPage, listVer);
 %>
 <!-- 분리하면 servlet / 중계기술(forword - 겹친다, 덮어쓴다(request - 세션과 같이 저장할 수 있다 차이점 이 jsp가 끝나면 저장된것이 사라진다 또 forword 하지 않는 이상, response)) / jsp -->
 
@@ -99,24 +106,24 @@
             
             
 			<!-- 상단 바 -->            
-            <div class="col-lg-10">
+            <div class="col-lg-10" id="myimg">
                 <div class="row">
                     <div class="col-md-8">
                         <ul class="list-inline shop-top-menu pb-3 pt-1">
                             <li class="list-inline-item">
-                                <a class="h4 text-dark text-decoration-none mr-3" href="#">인기순</a>
+                                <a class="h4 text-dark text-decoration-none mr-3" href="<%=request.getContextPath()%>/theme/customerGoodsList.jsp?listVer=viewCountVer">인기순</a>
                             </li>
                             <li class="list-inline-item">
-                                <a class="h4 text-dark text-decoration-none mr-3" href="#">판매량순</a>
+                                <a class="h4 text-dark text-decoration-none mr-3" href="<%=request.getContextPath()%>/theme/customerGoodsList.jsp?listVer=orderVer">판매량순</a>
                             </li>
                             <li class="list-inline-item">
-                                <a class="h4 text-dark text-decoration-none" href="#">낮은가격순</a>
+                                <a class="h4 text-dark text-decoration-none" href="<%=request.getContextPath()%>/theme/customerGoodsList.jsp?listVer=lowPriceVer">낮은가격순</a>
                             </li>
                             <li class="list-inline-item">
-                                <a class="h4 text-dark text-decoration-none" href="#">높은가격순</a>
+                                <a class="h4 text-dark text-decoration-none" href="<%=request.getContextPath()%>/theme/customerGoodsList.jsp?listVer=highPriceVer">높은가격순</a>
                             </li>
                             <li class="list-inline-item">
-                                <a class="h4 text-dark text-decoration-none" href="#">최신순</a>
+                                <a class="h4 text-dark text-decoration-none" href="<%=request.getContextPath()%>/theme/customerGoodsList.jsp?listVer=createDateVer">최신순</a>
                             </li>
                             <li class="list-inline-item">
                             	<form action="<%=request.getContextPath()%>/theme/updateRowPerPage.jsp" method="post">
@@ -164,14 +171,14 @@
                                 <img class="card-img rounded-0 img-fluid" src="<%=request.getContextPath()%>/theme/upload/<%=m.get("fileName")%>">
                                 <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                     <ul class="list-unstyled">
-                                        <li><a class="btn btn-success text-white" href="<%=request.getContextPath()%>/theme/shop-single.jsp"><i class="far fa-heart"></i></a></li>
-                                        <li><a class="btn btn-success text-white mt-2" href="<%=request.getContextPath()%>/theme/shop-single.jsp"><i class="far fa-eye"></i></a></li>
-                                        <li><a class="btn btn-success text-white mt-2" href="<%=request.getContextPath()%>/theme/shop-single.jsp"><i class="fas fa-cart-plus"></i></a></li>
+                                        <li><a class="btn btn-success text-white" href="<%=request.getContextPath()%>/theme/customerGoodsOne.jsp?goodsNo=<%=m.get("goodsNo")%>"><i class="far fa-heart"></i></a></li>
+                                        <li><a class="btn btn-success text-white mt-2" href="<%=request.getContextPath()%>/theme/customerGoodsOne.jsp?goodsNo=<%=m.get("goodsNo")%>"><i class="far fa-eye"></i></a></li>
+                                        <li><a class="btn btn-success text-white mt-2" href="<%=request.getContextPath()%>/theme/customerGoodsOne.jsp?goodsNo=<%=m.get("goodsNo")%>"><i class="fas fa-cart-plus"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="card-body">
-                                <a href="<%=request.getContextPath()%>/theme/shop-single.jsp" class="h3 text-decoration-none"><%=m.get("goodsName")%></a>
+                                <a href="<%=request.getContextPath()%>/theme/customerGoodsOne.jsp?goodsNo=<%=m.get("goodsNo")%>" class="h3 text-decoration-none"><%=m.get("goodsName")%></a>
                                 <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
                                     <li>M/L/X/XL</li>
                                     <li class="pt-2">
@@ -187,7 +194,7 @@
                                         <i class="text-warning fa fa-star"></i>
                                         <i class="text-warning fa fa-star"></i>
                                         <i class="text-warning fa fa-star"></i>
-                                        <i class="text-muted fa fa-star"></i>
+                                        <i class="text-warning fa fa-star-half"></i>
                                         <i class="text-muted fa fa-star"></i>
                                     </li>
                                 </ul>
@@ -247,7 +254,8 @@
                     </ul>
                 </div>
 
-        </div>
+        	</div>
+   		 </div>
     </div>
     <!-- End Content -->
 
@@ -350,5 +358,4 @@
         </div>
     </section>
     <!--End Brands-->
-	
 <%@ include file="footer.jsp"%>

@@ -18,7 +18,7 @@ public class GoodsService {
 	private GoodsImgDao goodsImgDao;
 	private DBUtil dbUtil;
 	
-	public List<Map<String, Object>> getCustomerGoodsListByPage(final int rowPerPage, final int currentPage) {
+	public List<Map<String, Object>> getCustomerGoodsListByPage(final int rowPerPage, final int currentPage, final String listVer) {
 		List<Map<String, Object>> list = null;
 		
 		// conn 초기화
@@ -36,7 +36,7 @@ public class GoodsService {
 			System.out.println("GoodsService.java getCustomerGoodsListByPage conn : " + conn);
 			
 			// 메서드 실행
-			list = this.goodsDao.selectCustomerGoodsListByPage(conn, rowPerPage, beginRow);
+			list = this.goodsDao.selectCustomerGoodsListByPage(conn, rowPerPage, beginRow, listVer);
 			
 		}  catch (Exception e) {
 			e.printStackTrace();

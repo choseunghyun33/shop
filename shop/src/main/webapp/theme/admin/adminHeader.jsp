@@ -18,6 +18,10 @@
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="../https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="../assets/css/fontawesome.min.css">
+    
+    
+    <!-- Custom Stylesheet -->
+    <link href="../css/style.css" rel="stylesheet">
 <!--
     
 TemplateMo 559 Zay Shop
@@ -81,6 +85,9 @@ https://templatemo.com/tm-559-zay-shop
                         </li>
                       	<li class="nav-item">
                             <a class="nav-link" href="<%=request.getContextPath()%>/theme/admin/adminNoticeList.jsp" class="btn">공지관리</a>
+                        </li>
+                      	<li class="nav-item">
+                            <a class="nav-link" href="<%=request.getContextPath()%>/theme/admin/adminStatistics.jsp" class="btn">통계</a>
                         </li>
                     </ul>
                 </div>

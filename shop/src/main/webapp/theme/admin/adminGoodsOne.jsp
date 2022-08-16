@@ -54,7 +54,7 @@
 				            		</tr>
 				            		<tr>
 				            			<th>상품가격</th>
-				            			<td><%=map.get("goodsPrice")%></td>
+				            			<td><%=map.get("goodsPrice")%>원</td>
 				            		</tr>
 				            		<tr>
 				            			<th>상품등록날짜</th>
@@ -81,6 +81,7 @@
 				            			<td><%=map.get("contentType")%></td>
 				            		</tr>
 				            	</table> 
+				            	<a href="<%=request.getContextPath()%>/theme/admin/adminUpdateGoods.jsp?goodsNo=<%=goodsNo%>" class="btn">수정</a>
                         </div>
                     </div>
                 </div>

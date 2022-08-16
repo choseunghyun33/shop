@@ -14,28 +14,44 @@ import vo.Goods;
 
 public class GoodsDao {
 	// 고객 상품리스트 페이지로 반환
-	public List<Map<String, Object>> selectCustomerGoodsListByPage(Connection conn, final int rowPerPage, final int beginRow) throws Exception {
+	public List<Map<String, Object>> selectCustomerGoodsListByPage(Connection conn, final int rowPerPage, final int beginRow, final String listVer) throws Exception {
 		List<Map<String, Object>> list = new ArrayList<>();
-		String sql = "";
+		String viewCountSql = "";
+		
 		String orderSql = "SELECT g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename fileName "
 				+ "FROM goods g LEFT JOIN (SELECT goods_no, SUM(order_quantity) sumNum FROM orders GROUP BY goods_no) t "
 				+ "ON g.goods_no = t.goods_no INNER JOIN goods_img gi ON g.goods_no = gi.goods_no "
 				+ "ORDER BY IFNULL(t.sumNum, 0) DESC limit ?, ?";
 		
-		String lowPriceSql = "SELECT g.goods_no, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no ORDER BY g.goods_price LIMIT ?, ?";
+		String lowPriceSql = "SELECT g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no ORDER BY g.goods_price LIMIT ?, ?";
 		
-		String highPriceSql = "SELECT g.goods_no, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no ORDER BY g.goods_price LIMIT ?, ?";
+		String highPriceSql = "SELECT g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no ORDER BY g.goods_price DESC LIMIT ?, ?";
+		
+		String createDateSql = "SELECT g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no ORDER BY g.create_date DESC LIMIT ?, ?";
+		
+		String sql = "";
+	
 		/*
+			인기순
+			아직 클릭수가 구현되지 않았음
 			고객이 주문수의 desc 
 			SELECT g.goods_no, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename FROM goods g LEFT JOIN (SELECT goods_no, SUM(order_quantity) sumNum FROM orders GROUP BY goods_no) t ON g.goods_no = t.goods_no INNER JOIN goods_img gi ON g.goods_no = gi.goods_no ORDER BY IFNULL(t.sumNum, 0) DESC LIMIT 0,10
 		
-			인기순
-			아직 클릭수가 구현되지 않았음
 		
 			낮은가격순
-			SELECT g.goods_no, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no ORDER BY g.goods_price LIMIT 0,10
-			
+			높은가격순
+			최신순
+	
 		 */
+		
+		// 분기로 sql문을 다르게
+		switch(listVer) {
+			case "viewCountVer" : sql = viewCountSql; break; 
+			case "orderVer" : sql = orderSql; break;
+			case "lowPriceVer" : sql = lowPriceSql; break;
+			case "highPriceVer" : sql = highPriceSql; break;
+			case "createDateVer" : sql = createDateSql; break;
+		}
 		
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
