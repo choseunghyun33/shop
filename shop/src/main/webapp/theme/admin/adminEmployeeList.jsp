@@ -92,7 +92,7 @@
 				            							}
 				            						%>
 				            					</select>
-				            					<button type="submit" class="btn">권한변경</button> 
+				            					<button type="submit" class="btn btn-dark">권한변경</button> 
 				            				</form>
 				            			</td>
 				            		</tr>

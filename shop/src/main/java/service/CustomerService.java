@@ -261,6 +261,55 @@ public class CustomerService {
 		return true;
 	}
 	
+	///////////////////////////////////////////////////////////////////////// getCustomerAddrById
+	// CustomerService가 호출
+	public String getCustomerAddrById(String id) {
+		// 리턴값 초기화
+		String customerAddr = null;
+		
+		// 객체 초기화
+		Connection conn = null;
+		
+		try {
+			// conn 메서드실행할 객체생성
+			this.dbUtil = new DBUtil();
+			conn = this.dbUtil.getConnection();
+			// 디버깅
+			System.out.println("CustomerService.java getCustomerAddrById conn : " + conn);
+			// autocommit 정지
+			conn.setAutoCommit(false);
+			
+			this.customerDao = new CustomerDao();
+			customerAddr = this.customerDao.selectCustomerAddrById(conn, id);
+			
+			// 실패했다면 익셉션 발생시키기
+			if(customerAddr == null) {
+				System.out.println("CustomerService.java getCustomerAddrById selectCustomerAddrById() 실패");
+				throw new Exception();
+			}
+			
+			// 되었다면 commit
+			conn.commit();
+		} catch(Exception e) {
+			e.printStackTrace();
+			// 안되었다면 rollback
+			try {
+				conn.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		
+		return customerAddr;
+	}
+	
 	///////////////////////////////////////////////////////////////////////// customer로그인 - 성공시 id + name
 	// loginAction.jsp 호출
 	public Customer getCustomerByIdAndPw(Customer paramCustomer) {

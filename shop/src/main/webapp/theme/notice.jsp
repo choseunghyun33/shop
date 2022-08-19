@@ -41,7 +41,7 @@
 	                	<%
 	                		if(session.getAttribute("id") != null && "employee".equals((String)session.getAttribute("user"))){
 	           			%>
-	                			<a href="<%=request.getContextPath()%>/insertNotice.jsp" class="btn">글쓰기</a>	
+	                			<a href="<%=request.getContextPath()%>/theme/insertNotice.jsp" class="btn btn-dark">글쓰기</a>	
 	           			<%	
 	                		}
 	                	%>

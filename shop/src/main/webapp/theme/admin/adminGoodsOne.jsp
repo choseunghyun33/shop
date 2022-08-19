@@ -81,7 +81,7 @@
 				            			<td><%=map.get("contentType")%></td>
 				            		</tr>
 				            	</table> 
-				            	<a href="<%=request.getContextPath()%>/theme/admin/adminUpdateGoods.jsp?goodsNo=<%=goodsNo%>" class="btn">수정</a>
+				            	<a href="<%=request.getContextPath()%>/theme/admin/adminUpdateGoods.jsp?goodsNo=<%=goodsNo%>" class="btn btn-dark">수정</a>
                         </div>
                     </div>
                 </div>

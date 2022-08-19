@@ -12,7 +12,7 @@ public class StatisticsDao {
 		Map<String, Object> m = null;
 		
 		// 쿼리
-		String sql = "SELECT SUM(order_quantity) sum, SUM(hit) hit FROM orders INNER JOIN goods USING(goods_no)";
+		String sql = "SELECT SUM(order_quantity) sum, (SELECT SUM(hit) FROM goods) hit from orders";
 		
 		// 초기화
 		PreparedStatement stmt = null;

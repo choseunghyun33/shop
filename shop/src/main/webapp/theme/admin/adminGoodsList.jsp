@@ -43,7 +43,7 @@
         <div class="row text-center pt-3">
             <div class="col-lg-12 m-auto">
                 <h1 class="h1">상품관리</h1>
-                <a href="<%=request.getContextPath()%>/theme/admin/adminGoodsForm.jsp" class="btn">상품등록</a>	
+                <a href="<%=request.getContextPath()%>/theme/admin/adminGoodsForm.jsp" class="btn btn-dark">상품등록</a>	
                 <%
                 	if(request.getParameter("errorMsg") != null){
 				%>
@@ -95,7 +95,7 @@
 				            							}
 				            						%>
 				            					</select>
-				            					<button type="submit" class="btn">품절변경</button> 
+				            					<button type="submit" class="btn btn-dark">품절변경</button> 
 				            				</form>
 				            			</td>
 				            		</tr>

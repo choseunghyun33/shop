@@ -142,7 +142,7 @@
 	                            		}
 	                            	%>
 	                            	</select>
-	                            	<button type="submit" class="btn">변경</button>
+	                            	<button type="submit" class="btn btn-dark">변경</button>
                             	</form>
                             </li>
                         </ul>
@@ -179,16 +179,6 @@
                             </div>
                             <div class="card-body">
                                 <a href="<%=request.getContextPath()%>/theme/customerGoodsOne.jsp?goodsNo=<%=m.get("goodsNo")%>" class="h3 text-decoration-none"><%=m.get("goodsName")%></a>
-                                <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
-                                    <li>M/L/X/XL</li>
-                                    <li class="pt-2">
-                                        <span class="product-color-dot color-dot-red float-left rounded-circle ml-1"></span>
-                                        <span class="product-color-dot color-dot-blue float-left rounded-circle ml-1"></span>
-                                        <span class="product-color-dot color-dot-black float-left rounded-circle ml-1"></span>
-                                        <span class="product-color-dot color-dot-light float-left rounded-circle ml-1"></span>
-                                        <span class="product-color-dot color-dot-green float-left rounded-circle ml-1"></span>
-                                    </li>
-                                </ul>
                                 <ul class="list-unstyled d-flex justify-content-center mb-1">
                                     <li>
                                         <i class="text-warning fa fa-star"></i>

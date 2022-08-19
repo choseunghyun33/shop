@@ -42,7 +42,7 @@
 	                 		</td>
 	                 	</tr>
 	                 </table>
-	                 <button type="button" class="btn" id="btn">회원탈퇴</button>
+	                 <button type="button" class="btn btn-dark" id="btn">회원탈퇴</button>
                  </form>
             </div>
         </div>

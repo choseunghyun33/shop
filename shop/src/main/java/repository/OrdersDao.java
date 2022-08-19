@@ -13,6 +13,41 @@ import vo.Orders;
 
 
 public class OrdersDao {
+	///////////////////////////////////////////////////////////////////////////////////////////////////// insertOrders
+	// 기능 : 주문 넣기
+	// 리턴값 : int (1 - 성공 / 0 - 실패)
+	public int insertOrders(Connection conn, Orders orders) throws Exception {
+		// 리턴값 초기화
+		int row = 0;
+		
+		// 쿼리
+		String sql = "INSERT INTO orders (goods_no, customer_id, order_quantity, order_price, order_addr, update_date, create_date) VALUES (?,?,?,?,?,NOW(),NOW())";
+		
+		// stmt 초기화
+		PreparedStatement stmt = null;
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			// stmt setter
+			stmt.setInt(1, orders.getGoodsNo());
+			stmt.setString(2, orders.getCustomerId());
+			stmt.setInt(3, orders.getOrderQuantity());
+			stmt.setInt(4, orders.getOrderPrice());
+			stmt.setString(5, orders.getOrderAddr());
+			// 디버깅
+			System.out.println("OrdersDao.java insertOrders stmt : " + stmt);
+			
+			// 쿼리 실행
+			row = stmt.executeUpdate();
+		} finally {
+			// stmt close
+			if(stmt != null) { stmt.close(); }
+		}
+			
+		return row;
+	}
+	
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////////// updateOrdersByOrders	
 	public int updateOrdersByOrders(Connection conn, Orders orders) throws Exception {
 		int row = 0;

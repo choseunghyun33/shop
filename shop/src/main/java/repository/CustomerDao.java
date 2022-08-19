@@ -162,6 +162,38 @@ public class CustomerDao {
 		return row;
 	}
 	
+	///////////////////////////////////////////////////////////////////////// selectCustomerAddrById
+	// CustomerService가 호출
+	public String selectCustomerAddrById(Connection conn, String id) throws Exception {
+		// 리턴값 초기화
+		String customerAddr = null;
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT customer_address customerAddr FROM customer WHERE customer_id = ?";
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			// stmt setter
+			stmt.setString(1, id);
+			// 디버깅
+			System.out.println("CustomerDao.java selectCustomerAddrById stmt : " + stmt);
+			rs = stmt.executeQuery();
+			
+			if(rs.next()) {
+				// 쿼리가 실행됐다면 객체생성
+				customerAddr = rs.getString("customerAddr");
+				// 디버깅
+				System.out.println("CustomerDao.java selectCustomerAddrById customerAddr : " + customerAddr);
+			}
+		} finally {
+			if(rs != null) { rs.close(); }
+			if(stmt != null) { stmt.close(); }
+		}
+		
+		return customerAddr;
+	}	
+	
 	
 	///////////////////////////////////////////////////////////////////////// selectCustomerByIdAndPw
 	// CustomerService가 호출

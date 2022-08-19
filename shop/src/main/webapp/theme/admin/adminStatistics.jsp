@@ -14,7 +14,6 @@
 %>
 <script>
 	$(document).ready(function(){
-		"use strict";
 		
 		let x = ["누적판매수", "누적조회수"];
 		let y = [];

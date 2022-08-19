@@ -12,11 +12,74 @@ import vo.Orders;
 
 public class OrdersService {
 	// 멤버변수
-	DBUtil dbUtil;
-	OrdersDao ordersDao;
+	private	DBUtil dbUtil;
+	private OrdersDao ordersDao;
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////////// addOrders	
+	// 기능 : 주문 넣기
+	// 리턴값 : boolean (true - 성공 / false - 실패)
+	public boolean addOrders(Orders orders) {
+		// 리턴값 초기화
+		boolean result = false;
+		
+		// conn 초기화
+		Connection conn = null;
+		
+		// dbUtil, ordersDao 초기화
+		this.dbUtil = new DBUtil();
+		this.ordersDao = new OrdersDao();
+		
+		try {
+			conn = this.dbUtil.getConnection();
+			// 디버깅
+			System.out.println("OrdersService.java addOrders conn : " + conn);
+			
+			// 자동커밋해제
+			conn.setAutoCommit(false);
+			
+			// dao에서 메서드 불러오기
+			int row = this.ordersDao.insertOrders(conn, orders);
+			// 디버깅
+			System.out.println("OrdersService.java addOrders insertOrders() row : " + row);
+			
+			// row == 0 실패 -> 익셉션발생
+			if(row == 0) {
+				// 디버깅
+				System.out.println("OrdersService.java addOrders insert 실패");
+				throw new Exception();
+			}
+			
+			// 성공할 경우 result = true
+			result = true;
+			// 그후 커밋
+			conn.commit();
+		} catch(Exception e) {
+			e.printStackTrace();
+			// 문제있을경우 롤백
+			try {
+				conn.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			// 자원해제
+			try {
+				conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+			
+		
+		return result;
+	}
+	
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////// modifyOrdersByOrders	
 	public boolean modifyOrdersByOrders(Orders orders){
+		// 리턴값 초기화
+		boolean result = false;
+		
 		// conn 초기화
 		Connection conn = null;
 		
@@ -28,38 +91,51 @@ public class OrdersService {
 			conn = this.dbUtil.getConnection();
 			// 디버깅
 			System.out.println("OrdersService.java modifyOrdersByOrders conn : " + conn);
+
+			// 자동커밋해제
+			conn.setAutoCommit(false);
 			
 			// 메서드 실행 - row 0이면 update 안됨
 			int row = this.ordersDao.updateOrdersByOrders(conn, orders);
 			// 디버깅
 			System.out.println("OrdersService.java modifyOrdersByOrders row : " + row);
 			
-			// 분기
-			if(row == 1) {
-				System.out.println("OrdersService.java modifyOrdersByOrders update 성공");
-			} else {
+			// row == 0 실패 -> 익셉션발생
+			if(row == 0) {
 				System.out.println("OrdersService.java modifyOrdersByOrders update 실패");
 				throw new Exception();
 			}
+			
+			// 성공할 경우 result = true
+			result = true;
+			// 그후 커밋
+			conn.commit();
 		} catch(Exception e) {
 			e.printStackTrace();
-			return false;
+			// 문제있을경우 롤백
+			try {
+				conn.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		} finally {
-			if(conn != null) {
-				try {
-					conn.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+			// 자원해제
+			try {
+				conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 		
-		return true;
+		return result;
 	}	
 	
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////// updateOrderStateByOrderNo	
 	public boolean modifyOrderStateByOrderNo(String orderState, int orderNo) {
+		// 리턴값 초기화
+		boolean result = false;
+				
 		// conn 초기화
 		Connection conn = null;
 		
@@ -72,32 +148,41 @@ public class OrdersService {
 			// 디버깅
 			System.out.println("OrdersService.java modifyOrderStateByOrderNo conn : " + conn);
 			
+			// 자동커밋해제
+			conn.setAutoCommit(false);
+						
 			// 메서드 실행 - row 0이면 update 안됨
 			int row = this.ordersDao.updateOrderStateByOrderNo(conn, orderState, orderNo);
 			// 디버깅
 			System.out.println("OrdersService.java modifyOrderStateByOrderNo row : " + row);
 			
-			// 분기
-			if(row == 1) {
-				System.out.println("OrdersService.java modifyOrderStateByOrderNo update 성공");
-			} else {
+			// row == 0 실패 -> 익셉션발생
+			if(row == 0) {
 				System.out.println("OrdersService.java modifyOrderStateByOrderNo update 실패");
 				throw new Exception();
 			}
+			
+			// 성공할 경우 result = true
+			result = true;
+			// 그후 커밋
+			conn.commit();
 		} catch(Exception e) {
 			e.printStackTrace();
-			return false;
+			// 문제있을경우 롤백
+			try {
+				conn.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		} finally {
-			if(conn != null) {
-				try {
-					conn.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+			// 자원해제
+			try {
+				conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
-		
-		return true;
+		return result;
 	}
 	
 	
@@ -118,13 +203,24 @@ public class OrdersService {
 			System.out.println("OrdersService.java modifyOrderStateByOrderNo conn : " + conn);
 			System.out.println("OrdersService.java modifyOrderStateByOrderNo allCount : " + allCount);
 			
+			// 자동커밋해제
+			conn.setAutoCommit(false);
+			
 			// 마지막페이지 구하기 식
 			lastPage = (int) Math.ceil(allCount / (double) rowPerPage);
 			
+			// 그후 커밋
+			conn.commit();
 		} catch(Exception e) {
 			e.printStackTrace();
+			// 문제있을경우 롤백
+			try {
+				conn.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		} finally {
-			// DB 자원해제
+			// 자원해제
 			try {
 				conn.close();
 			} catch (Exception e) {
@@ -154,21 +250,30 @@ public class OrdersService {
 			System.out.println("OrdersService.java getOrdersListByCustomer conn : " + conn);
 			System.out.println("OrdersService.java getOrdersListByCustomer map : " + map.toString());
 			
+			// 자동커밋해제
+			conn.setAutoCommit(false);
+			
 			if(this.ordersDao.selectOrdersOne(conn, orderNo) == null) {
 				System.out.println("OrdersService.java selectOrdersOne 실패");
-			} else {
-				System.out.println("OrdersService.java selectOrdersOne 성공");
+				throw new Exception();
 			}
-		} catch(Exception e){
+			
+			// 그후 커밋
+			conn.commit();
+		} catch(Exception e) {
 			e.printStackTrace();
+			// 문제있을경우 롤백
+			try {
+				conn.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		} finally {
-			// DB 연동해제
-			if(conn != null) {
-				try {
-					conn.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+			// 자원해제
+			try {
+				conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 		
@@ -189,6 +294,9 @@ public class OrdersService {
 			// 메서드 실행 후 담기
 			conn = this.dbUtil.getConnection();
 			
+			// 자동커밋해제
+			conn.setAutoCommit(false);
+			
 			// beginRow 구하는 식
 			int beginRow = (currentPage - 1) * rowPerPage;
 			
@@ -200,22 +308,27 @@ public class OrdersService {
 			// 분기
 			if(list.size() < 1) {
 				System.out.println("OrdersService.java selectOrdersList 실패");
-			} else {
-				System.out.println("OrdersService.java selectOrdersList 성공");
+				throw new Exception();
 			}
-		} catch(Exception e){
+			
+			// 그후 커밋
+			conn.commit();
+		} catch(Exception e) {
 			e.printStackTrace();
+			// 문제있을경우 롤백
+			try {
+				conn.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		} finally {
-			// DB 연동해제
-			if(conn != null) {
-				try {
-					conn.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+			// 자원해제
+			try {
+				conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
-		
 		return list;
 	}
 	
@@ -233,6 +346,9 @@ public class OrdersService {
 			// 메서드 실행 후 담기
 			conn = this.dbUtil.getConnection();
 
+			// 자동커밋해제
+			conn.setAutoCommit(false);
+			
 			// beginRow 구하는 식
 			int beginRow = (currentPage - 1) * rowPerPage;
 			
@@ -244,22 +360,27 @@ public class OrdersService {
 			// 분기
 			if(list.size() < 1) {
 				System.out.println("OrdersService.java selectOrdersListByCustomer 실패");
-			} else {
-				System.out.println("OrdersService.java selectOrdersListByCustomer 성공");
-			}
-		} catch(Exception e){
+				throw new Exception();
+			} 
+			
+			// 그후 커밋
+			conn.commit();
+		} catch(Exception e) {
 			e.printStackTrace();
+			// 문제있을경우 롤백
+			try {
+				conn.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		} finally {
-			// DB 연동해제
-			if(conn != null) {
-				try {
-					conn.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+			// 자원해제
+			try {
+				conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
-		
 		return list;
 	}
 }

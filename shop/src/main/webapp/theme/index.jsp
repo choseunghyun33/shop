@@ -23,14 +23,20 @@
                    <hr>
                  <p><%=session.getAttribute("name")%></p>
                    <hr>
-                 <a href="<%=request.getContextPath()%>/theme/removeAccount.jsp" class="btn">회원탈퇴</a>
                  <%
 			       	if("employee".equals((String)session.getAttribute("user"))){
 	       		 %>
-	       		 		<a href="<%=request.getContextPath()%>/theme/admin/adminIndex.jsp" class="btn">관리자페이지</a>
+	       		 		<a href="<%=request.getContextPath()%>/theme/admin/adminIndex.jsp" class="btn btn-dark">관리자페이지</a>
 	       		 <%
+			       	} else {
+		       	 %>
+		       	 		<a href="<%=request.getContextPath()%>/theme/ordersList.jsp" class="btn btn-dark">주문리스트</a>
+		       	 <%		
 			       	}
 			     %>
+			      <hr>
+                 <a href="<%=request.getContextPath()%>/theme/removeAccount.jsp" class="btn">회원탈퇴</a>
+               
             </div>
         </div>
     </section>

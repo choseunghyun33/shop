@@ -84,10 +84,10 @@
 				            			<td><%=c.getCreateDate()%></td>
 				            			<td><%=c.getUpdateDate()%></td>
 				            			<td>
-				            				<a href="<%=request.getContextPath()%>/theme/admin/adminUpdateCustomer.jsp?customerId=<%=c.getCustomerId()%>" class="btn">수정</a>
+				            				<a href="<%=request.getContextPath()%>/theme/admin/adminUpdateCustomer.jsp?customerId=<%=c.getCustomerId()%>" class="btn btn-dark">수정</a>
 				            			</td>
 				            			<td>
-				            				<a href="<%=request.getContextPath()%>/theme/admin/adminDeleteCustomer.jsp?customerId=<%=c.getCustomerId()%>" class="btn">삭제</a>
+				            				<a href="<%=request.getContextPath()%>/theme/admin/adminDeleteCustomer.jsp?customerId=<%=c.getCustomerId()%>" class="btn btn-dark">삭제</a>
 				            			</td>
 				            		</tr>
 			            	<%

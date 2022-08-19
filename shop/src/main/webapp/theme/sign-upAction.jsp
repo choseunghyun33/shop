@@ -31,7 +31,7 @@
 	
 	// user (customer/employee) 분기
 	if(user.equals("customer")){
-		String customerAddress = request.getParameter("customerAddress");
+		String customerAddress = request.getParameter("customerAddress") + " " + request.getParameter("customerDetailAddress");
 		String customerTelephone = request.getParameter("customerTelephone");
 		
 		// customer객체생성하기

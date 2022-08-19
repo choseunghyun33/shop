@@ -10,9 +10,43 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.naming.spi.DirStateFactory.Result;
+
 import vo.Goods;
 
 public class GoodsDao {
+	///////////////////////////////////////////////////////////////////////////////////////////////////// updateGoods
+	// goods수정
+	public int updateGoods(Connection conn, Goods goods) throws Exception {
+		// 리턴값 초기
+		int row = 0;
+		// 쿼리
+		String sql = "UPDATE goods SET goods_name = ?, goods_price = ?, sold_out = ?, update_date = NOW() WHERE goods_no = ?";
+		
+		// 초기화
+		PreparedStatement stmt = null;
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			// stmt setter
+			stmt.setString(1, goods.getGoodsName());
+			stmt.setInt(2, goods.getGoodsPrice());
+			stmt.setString(3, goods.getSoldOut());
+			stmt.setInt(4, goods.getGoodsNo());
+			// 디버깅
+			System.out.println("GoodsDao.java updateGoods stmt : " + stmt);
+			
+			// 쿼리실행
+			row = stmt.executeUpdate();
+			
+		} finally {
+			if(stmt != null) { stmt.close(); }
+		}
+		
+		return row;
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////////// selectCustomerGoodsListByPage 
 	// 고객 상품리스트 페이지로 반환
 	public List<Map<String, Object>> selectCustomerGoodsListByPage(Connection conn, final int rowPerPage, final int beginRow, final String listVer) throws Exception {
 		List<Map<String, Object>> list = new ArrayList<>();

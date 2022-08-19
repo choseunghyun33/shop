@@ -18,6 +18,61 @@ public class GoodsService {
 	private GoodsImgDao goodsImgDao;
 	private DBUtil dbUtil;
 	
+	
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////// modifyGoods
+	public boolean modifyGoods(Goods goods) {
+		boolean result = false;
+		
+		// conn 초기화
+		Connection conn = null;
+		// 멤버변수 초기화
+		this.dbUtil = new DBUtil();
+		this.goodsDao = new GoodsDao();
+		
+		try {
+			conn = this.dbUtil.getConnection();
+			// 디버깅
+			System.out.println("GoodsService.java modifyGoods conn : " + conn);
+			
+			// 자동 커밋 수정
+			conn.setAutoCommit(false);
+			
+			// 리턴값 1 성공 0 실패
+			int row = this.goodsDao.updateGoods(conn, goods);
+			// 디버깅
+			System.out.println("GoodsService.java modifyGoods row : " + row);
+			
+			if(row == 0) {
+				System.out.println("GoodsService.java modifyGoods update 실패");
+				throw new Exception();
+			}
+			
+			result = true;
+			// 완료되면 커밋
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			// 문제 있으면 롤백
+			try {
+				conn.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////////// getCustomerGoodsListByPage 
 	public List<Map<String, Object>> getCustomerGoodsListByPage(final int rowPerPage, final int currentPage, final String listVer) {
 		List<Map<String, Object>> list = null;
 		
@@ -35,13 +90,29 @@ public class GoodsService {
 			// 디버깅
 			System.out.println("GoodsService.java getCustomerGoodsListByPage conn : " + conn);
 			
+			// 자동 커밋 해제
+			conn.setAutoCommit(false);
+			
 			// 메서드 실행
 			list = this.goodsDao.selectCustomerGoodsListByPage(conn, rowPerPage, beginRow, listVer);
 			
-		}  catch (Exception e) {
+			// 완료되지 않으면 익셉션 만들기
+			if(list.size() < 1) {
+				// 디버깅
+				System.out.println("GoodsService.java getCustomerGoodsListByPage selectCustomerGoodsListByPage() 실패");
+				throw new Exception();
+			}
+			// 완료되면 커밋
+			conn.commit();
+		} catch (Exception e) {
 			e.printStackTrace();
+			// 문제 있으면 롤백
+			try {
+				conn.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		} finally {
-			// DB 자원해제
 			if(conn != null) {
 				try {
 					conn.close();
@@ -57,6 +128,9 @@ public class GoodsService {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////// updateSoldOutByKey
 	public boolean modifySoldOutByKey(int goodsNo, String soldOut) {
+		// 리턴값 초기화
+		boolean result = false;
+		
 		// conn 초기화
 		Connection conn = null;
 		// 멤버변수 초기화
@@ -67,6 +141,8 @@ public class GoodsService {
 			conn = this.dbUtil.getConnection();
 			// 디버깅
 			System.out.println("GoodsService.java modifySoldOutByKey conn" + conn);
+			
+			conn.setAutoCommit(false);
 			
 			// 메서드 실행 - 0 update 실패
 			int row = this.goodsDao.updateSoldOutByKey(conn, goodsNo, soldOut);
@@ -80,9 +156,17 @@ public class GoodsService {
 				System.out.println("GoodsService.java modifySoldOutByKey 실패");
 				throw new Exception();
 			}
+			
+			// 완료되면 커밋
+			conn.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			// 문제있으면 롤백
+			try {
+				conn.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		} finally {
 			// DB 자원해제
 			if(conn != null) {
@@ -161,12 +245,30 @@ public class GoodsService {
 			// 디버깅
 			System.out.println("GoodsService.java getGoodsAndImgOne conn : " + conn);
 			
+			// 자동커밋 해제
+			conn.setAutoCommit(false);
+			
 			map = this.goodsDao.selectGoodsAndImgOne(conn, goodsNo);
 			// 디버깅
 			System.out.println("GoodsService.java getGoodsAndImgOne map : " + map.toString());
 		
-		} catch (Exception e) {
+			// 문제있다면 익셉션 발생
+			if(map.size() < 1) {
+				// 디버깅
+				System.out.println("GoodsService.java getGoodsAndImgOne selectGoodsAndImgOne() 실패");
+				throw new Exception();
+			}
 			
+			// 완료되면 커밋
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			// 문제있으면 롤백
+			try {
+				conn.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		} finally {
 			// DB 자원해제
 			if(conn != null) {
@@ -195,6 +297,10 @@ public class GoodsService {
 			conn = this.dbUtil.getConnection();
 			// 디버깅
 			System.out.println("GoodsService.java lastPage conn : " + conn);
+			
+			// 자동커밋 해제
+			conn.setAutoCommit(false);
+						
 			int allCount = this.goodsDao.allCount(conn);
 			// 디버깅
 			System.out.println("GoodsService.java lastPage allCount : " + allCount);
@@ -202,8 +308,23 @@ public class GoodsService {
 			// 마지막페이지 구하기
 			lastPage = (int) Math.ceil (allCount / (double)rowPerPage);
 			
+			// 문제있다면 익셉션 발생
+			if(lastPage == 0) {
+				// 디버깅
+				System.out.println("GoodsService.java lastPage allCount() 실패");
+				throw new Exception();
+			}
+			
+			// 완료되면 커밋
+			conn.commit();
 		} catch(Exception e) {
 			e.printStackTrace();
+			// 문제있으면 롤백
+			try {
+				conn.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		} finally {
 			// DB 자원해제
 			if(conn != null) {
@@ -235,13 +356,31 @@ public class GoodsService {
 			// 디버깅
 			System.out.println("GoodsService.java getGoodsListByPage conn : " + conn);
 			
+			// 자동커밋 해제
+			conn.setAutoCommit(false);
+			
 			// 메서드 리턴값 담기
 			list = this.goodsDao.selectGoodsListByPage(conn, rowPerPage, beginRow);
 			// 디버깅
 			System.out.println("GoodsService.java getGoodsListByPage list : " + list.toString());
 			
+			// 문제 생기면 익셉션 만들기
+			if(list.size() < 0) {
+				// 디버깅
+				System.out.println("GoodsService.java getGoodsListByPage selectGoodsListByPage() 실패");
+				throw new Exception();
+			}
+			
+			// 완료되면 커밋
+			conn.commit();
 		} catch(Exception e) {
 			e.printStackTrace();
+			// 문제있으면 롤백
+			try {
+				conn.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		} finally {
 			// DB 자원해제
 			if(conn != null) {

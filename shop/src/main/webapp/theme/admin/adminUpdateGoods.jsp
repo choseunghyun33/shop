@@ -42,8 +42,15 @@
                     <div class="card">
                         <div class="card-body">
                             <h1 class="h2">상품수정</h1>
+                            	<%
+				                	if(request.getParameter("errorMsg") != null){
+								%>
+										<span style="color:red"><%=request.getParameter("errorMsg")%></span>
+				           		<%		
+				                	}
+				                %>  
                             	<hr>
-                            	<form action="<%=request.getContextPath()%>/theme/admin/adminUpdateGoodsAction.jsp" method="post">
+                            	<form action="<%=request.getContextPath()%>/theme/admin/adminUpdateGoodsAction.jsp" method="post" id="form">
 	                           		<table class="table">
 					            		<tr>
 					            			<th>상품번호</th>
@@ -54,13 +61,13 @@
 					            		<tr>
 					            			<th>상품명</th>
 					            			<td>
-					            				<input type="text" value="<%=map.get("goodsName")%>" name="goodsName" class="form-control">
+					            				<input type="text" value="<%=map.get("goodsName")%>" name="goodsName" id="goodsName" class="form-control">
 					            			</td>
 					            		</tr>
 					            		<tr>
 					            			<th>상품가격</th>
 					            			<td>
-					            				<input type="text" value="<%=map.get("goodsPrice")%>" name="goodsPrice" class="form-control">
+					            				<input type="text" value="<%=map.get("goodsPrice")%>" name="goodsPrice" id="goodsPrice" class="form-control">
 					            			</td>
 					            		</tr>
 					            		<tr>
@@ -96,13 +103,14 @@
 											</td>
 										</tr>					            		
 				            		</table> 
-				            	<button type="button" class="btn" id="btn">상품수정</button>
+				            	<button type="button" class="btn btn-dark" id="btn">상품수정</button>
 				            </form>
 				        <br>
 				        <br>
 		            <h1 class="h2">상품 이미지수정</h1>
                      	<hr>
-				            <form action="<%=request.getContextPath()%>/theme/admin/adminUpdateGoodsImgAction.jsp" method="post">
+				            <form action="<%=request.getContextPath()%>/theme/admin/adminUpdateGoodsImgAction.jsp" method="post" enctype="multipart/form-data" id="imgForm">
+	                           		<input type="hidden" name="goodsNo" value="<%=map.get("goodsNo")%>">
 	                           		<table class="table">
 					            		<tr>
 					            			<th>이미지</th>
@@ -111,7 +119,7 @@
 					            			</td>
 					            		</tr>
 				            		</table> 
-				            	<button type="button" class="btn" id="btn">상품 이미지수정</button>
+				            	<button type="button" class="btn btn-dark" id="imgBtn">상품 이미지수정</button>
 				            </form>
                         </div>
                     </div>
@@ -120,4 +128,25 @@
         </div>
     </section>
     <!-- Close Content -->
+    <script>
+	    $('#btn').click(function(){
+			if($('#goodsName').val().length < 2){
+				alert('상품명을 2자이상 기입해주세요');
+			} else if($('#goodsPrice').val().length < 1){
+				alert('상품가격을 기입해주세요');
+			} else if($('#soldOut').val() == 'defualt'){
+				alert('품절여부를 선택해주세요');
+			} else {
+				$('#form').submit();
+			}
+    	});
+	    
+	    $('#imgBtn').click(function(){
+	    	if($('#imgFile').val().length < 1){
+				alert('상품파일을 등록해주세요');
+			} else {
+				$('#ImgForm').submit();
+			}
+	    });
+    </script>
 <%@ include file="adminFooter.jsp"%>

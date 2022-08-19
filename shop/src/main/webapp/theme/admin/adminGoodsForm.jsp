@@ -65,7 +65,7 @@
 											</td>
 										</tr>					            		
 					            	</table> 
-					            	<button type="button" class="btn" id="btn">상품등록</button>
+					            	<button type="button" class="btn btn-dark" id="btn">상품등록</button>
 				            	</form>
                         </div>
                     </div>

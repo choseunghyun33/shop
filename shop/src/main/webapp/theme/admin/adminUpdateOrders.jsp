@@ -108,7 +108,7 @@
 					            			</td>
 					            		</tr>
 					            	</table> 
-					            <button type="button" class="btn" id="btn">수정</button>
+					            <button type="button" class="btn btn-dark" id="btn">수정</button>
 					        </form>
                         </div>
                     </div>
