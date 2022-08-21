@@ -1,6 +1,9 @@
-<%@page import="service.CartService"%>
-<%@page import="vo.Cart"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="service.CustomerService"%>
+<%@ page import="service.GoodsService"%>
+<%@ page import="java.util.Map"%>
+<%@ page import="service.CartService"%>
+<%@ page import="vo.Cart"%>
 <%
 	// 인코딩
 	request.setCharacterEncoding("UTF-8");
@@ -26,9 +29,9 @@
 	// submit에 따라 실행할 분기
 	if("buy".equals(submit)){ // buy 라면 session에 담고 구매창으로 이동
 		// session에 담기
-		session.setAttribute("cart", cart);
+		session.setAttribute("directOrder", cart);
 		
-		response.sendRedirect(request.getContextPath() + "/theme/buyList.jsp");
+		response.sendRedirect(request.getContextPath() + "/theme/ordersList.jsp");
 		// 디버깅
 		System.out.println("addCartAction.jsp buyList.jsp로 이동");
 	} else if("addtocart".equals(submit)){ // addtocart 라면 카트로 이동

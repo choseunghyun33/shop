@@ -3,11 +3,14 @@ package service;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import repository.CartDao;
 import repository.DBUtil;
 import repository.OrdersDao;
+import vo.Cart;
 import vo.Orders;
 
 public class OrdersService {
@@ -46,6 +49,26 @@ public class OrdersService {
 			if(row == 0) {
 				// 디버깅
 				System.out.println("OrdersService.java addOrders insert 실패");
+				throw new Exception();
+			}
+			
+			// addOrders 가 잘되었다면 cart에서는 remove
+			// cartDao에서 메서드 실행
+			// 이때 파라미터가 List<Cart>이니 형식에 맞춘다.
+			List<Cart> list = new ArrayList<>();
+			
+			Cart cart = new Cart();
+			cart.setCustomerId(orders.getCustomerId());
+			cart.setGoodsNo(orders.getGoodsNo());
+			
+			list.add(cart);
+			
+			// 리턴값을 맞추기
+			List<Integer> removeRow = new CartDao().deleteCartById(conn, list);
+			
+			if(removeRow.size() < 1) {
+				// 디버깅
+				System.out.println("OrdersService.java addOrders deleteCartById 실패");
 				throw new Exception();
 			}
 			

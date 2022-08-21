@@ -63,7 +63,7 @@
                                     <button class="btn login-form__btn w-100" type="button" id="customerBtn">고객 로그인</button>
                                 </form>
                                 <p class="mt-5 login-form__footer">Dont have account? <a href="sign-up.jsp" class="text-primary">Sign Up</a> now</p>
-                            	<p class="mt-5 login-form__footer"><a href="<%=request.getContextPath()%>/theme/shop.jsp" class="text-primary">Shop </a> now</p>
+                            	<p class="mt-5 login-form__footer"><a href="<%=request.getContextPath()%>/theme/customerGoodsList.jsp" class="text-primary">Shop </a> now</p>
                             </div>
                         </div>
                     </div>
@@ -90,7 +90,7 @@
                                     <button class="btn login-form__btn w-100" type="button" id="employeeBtn">STAFF 로그인</button>
                                 </form>
                                 <p class="mt-5 login-form__footer">Dont have account? <a href="sign-up.jsp" class="text-primary">Sign Up</a> now</p>
-                            	<p class="mt-5 login-form__footer"><a href="<%=request.getContextPath()%>/theme/shop.jsp" class="text-primary">Shop </a> now</p>
+                            	<p class="mt-5 login-form__footer"><a href="<%=request.getContextPath()%>/theme/customerGoodsList.jsp" class="text-primary">Shop </a> now</p>
                             </div>
                         </div>
                     </div>

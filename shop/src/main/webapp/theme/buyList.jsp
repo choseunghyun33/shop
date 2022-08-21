@@ -1,27 +1,39 @@
-<%@page import="service.CustomerService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="service.GoodsService"%>
 <%@ page import="vo.Cart"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Map"%>
+<%@ page import="service.BuyService"%>
 <%@ include file="header.jsp"%>
 <%
+
+	// 메서드를 위한 객체생성
+	BuyService buyService = new BuyService();
+	
+	// 메서드 리턴값 초기화
+	List<Map<String, Object>> list = null;
+	
+	// 리스트 준비
+	List<Cart> cartList = new ArrayList<>();
+	
+	// 바로구매가 아닌 카트에 담긴걸 선택한 경우
+	if(session.getAttribute("cartList") != null){
+		cartList = (List<Cart>)session.getAttribute("cartList");
+	} 
+	// 바로구매를 선택한경우
 	// 세션안에 있는 카트를 가져와서 보기
-	Cart cart = (Cart)session.getAttribute("cart");
-	//메서드를 위한 객체생성
-	GoodsService goodsService = new GoodsService();
+	if(session.getAttribute("directOrder") != null){
+		cartList.add((Cart)session.getAttribute("directOrder"));
+	}
 	
-	// 부족한 값 가져오기
-	Map<String, Object> map = goodsService.getGoodsAndImgOne(cart.getGoodsNo());
-	// 디버깅
-	System.out.println("buyList.jsp map : " + map.toString());
+	list = buyService.getBuyListByCart(cartList);
+	System.out.println(list.toString());
+	// 주소가 있다면 담기
+	String customerAddr = "";
 	
-	// 원래 가지고 있던 주소 가져오기
-	CustomerService customerService = new CustomerService();
-	
-	String customerAddr = customerService.getCustomerAddrById(cart.getCustomerId());
-	
+	if(list.get(0).get("customerAddr") != null){
+		customerAddr = (String) list.get(0).get("customerAddr");
+	}
 %>
 
     <!-- Start Categories of The Month -->
@@ -37,6 +49,7 @@
                 	}
                 %>  
                 	 <hr>
+                	<form action="<%=request.getContextPath()%>/theme/buyAction.jsp" method="post" id="form">
 	            	<table class="table">
 	            		<thead>
 		            		<tr>
@@ -47,17 +60,24 @@
 		            		</tr>
 	            		</thead>
 	            		<tbody>
+		            		<%
+		            			for(Map<String, Object> m : list){
+		            		%>
 	            			<tr>
-		            			<td><%=cart.getGoodsNo()%></td>
-		            			<td><%=map.get("goodsName")%></td>
-		            			<td><%=cart.getCartQuantity()%></td>
-		            			<td><%=map.get("goodsPrice")%>원</td>
+		            			<td><%=m.get("goodsNo")%></td>
+		            			<td><%=m.get("goodsName")%></td>
+		            			<td><%=m.get("cartQuantity")%></td>
+		            			<td>
+		            				<%=m.get("goodsPrice")%>원
+		            				<input type="hidden" name="orderPrice" value="<%=m.get("goodsPrice")%>">
+		            			</td>
 		            		</tr>
+		            		<%
+								} 
+							%>
 	            		</tbody>
 	            	</table>
   					 <hr>
-  					<form action="<%=request.getContextPath()%>/theme/buyAction.jsp" method="post" id="form">
-  						<input type="hidden" name="orderPrice" value="<%=map.get("goodsPrice")%>"> 
 	  					<table class="table">	
 	  						<tr>
 	  							<th>주소</th>
@@ -90,8 +110,6 @@
 	$('#btn').click(function(){
 		if($('#orderAddr').val() == ''){
 			alert('주소검색을 해주세요');
-		} else if($('#orderDetailAddr').val() == ''){
-			alert('상세주소를 기입해주세요')
 		} else {
 			$('#form').submit();
 		}
