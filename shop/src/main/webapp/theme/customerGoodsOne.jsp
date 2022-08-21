@@ -21,7 +21,7 @@
 		
 		// 품절일 경우 (Y/N이 아닌 품절/재고있음) 으로 나오기
 		String soldOut = "";
-		if(map.get("soldOut").equals("Y")) {
+		if("Y".equals(map.get("soldOut"))) {
 			soldOut = "품절";
 		} else {
 			soldOut = "재고있음";

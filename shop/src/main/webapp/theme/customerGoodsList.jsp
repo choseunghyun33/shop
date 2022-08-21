@@ -131,13 +131,13 @@
 	                            	<%
 	                            		if(rowPerPage == 20){
 	                            	%>
-	                            		<option value="20">20개씩 보기</option>
-	                            		<option value="40">40개씩 보기</option>
+		                            		<option value="20">20개씩 보기</option>
+		                            		<option value="40">40개씩 보기</option>
 	                            	<%
 	                            		} else {
 	                            	%> 	
-	                            		<option value="20">20개씩 보기</option>
-	                            		<option value="40" selected="selected">40개씩 보기</option>
+		                            		<option value="20">20개씩 보기</option>
+		                            		<option value="40" selected="selected">40개씩 보기</option>
 	                            	<%
 	                            		}
 	                            	%>
@@ -163,35 +163,42 @@
 				<div class="row">
 				<%
 					int j = 1;
+				
 					for(Map<String, Object> m : list) {
 				%>
-                    <div class="col-md-3">
-                        <div class="card mb-4 product-wap rounded-0">
-                            <div class="card rounded-0">
-                                <img class="card-img rounded-0 img-fluid" src="<%=request.getContextPath()%>/theme/upload/<%=m.get("fileName")%>">
-                                <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                                    <ul class="list-unstyled">
-                                        <li><a class="btn btn-success text-white" href="<%=request.getContextPath()%>/theme/customerGoodsOne.jsp?goodsNo=<%=m.get("goodsNo")%>"><i class="far fa-heart"></i></a></li>
-                                        <li><a class="btn btn-success text-white mt-2" href="<%=request.getContextPath()%>/theme/customerGoodsOne.jsp?goodsNo=<%=m.get("goodsNo")%>"><i class="far fa-eye"></i></a></li>
-                                        <li><a class="btn btn-success text-white mt-2" href="<%=request.getContextPath()%>/theme/customerGoodsOne.jsp?goodsNo=<%=m.get("goodsNo")%>"><i class="fas fa-cart-plus"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <a href="<%=request.getContextPath()%>/theme/customerGoodsOne.jsp?goodsNo=<%=m.get("goodsNo")%>" class="h3 text-decoration-none"><%=m.get("goodsName")%></a>
-                                <ul class="list-unstyled d-flex justify-content-center mb-1">
-                                    <li>
-                                        <i class="text-warning fa fa-star"></i>
-                                        <i class="text-warning fa fa-star"></i>
-                                        <i class="text-warning fa fa-star"></i>
-                                        <i class="text-warning fa fa-star-half"></i>
-                                        <i class="text-muted fa fa-star"></i>
-                                    </li>
-                                </ul>
-                                <p class="text-center mb-0"><%=m.get("goodsPrice")%>원</p>
-                            </div>
-                        </div>
-                    </div>
+	                    <div class="col-md-3">
+	                        <div class="card mb-4 product-wap rounded-0">
+	                            <div class="card rounded-0">
+	                                <img class="card-img rounded-0 img-fluid" src="<%=request.getContextPath()%>/theme/upload/<%=m.get("fileName")%>">
+	                                <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+	                                    <ul class="list-unstyled">
+	                                        <!-- <li><a class="btn btn-success text-white" href="#"><i class="far fa-heart"></i></a></li> -->
+	                                        <li><a class="btn btn-success text-white mt-2" href="<%=request.getContextPath()%>/theme/customerGoodsOne.jsp?goodsNo=<%=m.get("goodsNo")%>"><i class="far fa-eye"></i></a></li>
+	                                       	<%
+	                                       		if(m.get("soldOut").equals("N")) {
+	                                       	%>
+	                                       			 <li><a class="btn btn-success text-white mt-2" href="<%=request.getContextPath()%>/theme/addCartAction.jsp?goodsNo=<%=m.get("goodsNo")%>&cartQuantity=1&submit=addtocart"><i class="fas fa-cart-plus"></i></a></li>
+	                                   		<%
+	                                       		}
+	                                       	%>
+	                                    </ul>
+	                                </div>
+	                            </div>
+	                            <div class="card-body">
+	                                <a href="<%=request.getContextPath()%>/theme/customerGoodsOne.jsp?goodsNo=<%=m.get("goodsNo")%>" class="h3 text-decoration-none"><%=m.get("goodsName")%></a>
+	                                <ul class="list-unstyled d-flex justify-content-center mb-1">
+	                                    <li>
+	                                        <i class="text-warning fa fa-star"></i>
+	                                        <i class="text-warning fa fa-star"></i>
+	                                        <i class="text-warning fa fa-star"></i>
+	                                        <i class="text-warning fa fa-star-half"></i>
+	                                        <i class="text-muted fa fa-star"></i>
+	                                    </li>
+	                                </ul>
+	                                <p class="text-center mb-0"><%=m.get("goodsPrice")%>원</p>
+	                            </div>
+	                        </div>
+	                    </div>
 
 			<%	
 					if(j % 4 == 0){

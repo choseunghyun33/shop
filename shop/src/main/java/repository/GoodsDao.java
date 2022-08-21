@@ -52,16 +52,13 @@ public class GoodsDao {
 		List<Map<String, Object>> list = new ArrayList<>();
 		String viewCountSql = "";
 		
-		String orderSql = "SELECT g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename fileName "
-				+ "FROM goods g LEFT JOIN (SELECT goods_no, SUM(order_quantity) sumNum FROM orders GROUP BY goods_no) t "
-				+ "ON g.goods_no = t.goods_no INNER JOIN goods_img gi ON g.goods_no = gi.goods_no "
-				+ "ORDER BY IFNULL(t.sumNum, 0) DESC limit ?, ?";
+		String orderSql = "SELECT g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, g.sold_out soldOut, gi.filename fileName FROM goods g LEFT JOIN (SELECT goods_no, SUM(order_quantity) sumNum FROM orders GROUP BY goods_no) t ON g.goods_no = t.goods_no INNER JOIN goods_img gi ON g.goods_no = gi.goods_no ORDER BY IFNULL(t.sumNum, 0) DESC limit ?, ?";
 		
-		String lowPriceSql = "SELECT g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no ORDER BY g.goods_price LIMIT ?, ?";
+		String lowPriceSql = "SELECT g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, g.sold_out soldOut, gi.filename fileName FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no ORDER BY g.goods_price LIMIT ?, ?";
 		
-		String highPriceSql = "SELECT g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no ORDER BY g.goods_price DESC LIMIT ?, ?";
+		String highPriceSql = "SELECT g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, g.sold_out soldOut, gi.filename fileName FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no ORDER BY g.goods_price DESC LIMIT ?, ?";
 		
-		String createDateSql = "SELECT g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, gi.filename FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no ORDER BY g.create_date DESC LIMIT ?, ?";
+		String createDateSql = "SELECT g.goods_no goodsNo, g.goods_name goodsName, g.goods_price goodsPrice, g.sold_out soldOut, gi.filename fileName FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no ORDER BY g.create_date DESC LIMIT ?, ?";
 		
 		String sql = "";
 	
@@ -103,6 +100,7 @@ public class GoodsDao {
 				map.put("goodsNo", rs.getInt("goodsNo"));
 				map.put("goodsName", rs.getString("goodsName"));
 				map.put("goodsPrice", rs.getInt("goodsPrice"));
+				map.put("soldOut", rs.getString("soldOut"));
 				map.put("fileName", rs.getString("fileName"));
 				
 				// list에 담기
