@@ -8,6 +8,15 @@
 	// 인코딩
 	request.setCharacterEncoding("UTF-8");
 	
+	// 막기
+	if(session.getAttribute("id") == null){
+		response.sendRedirect(request.getContextPath() + "/theme/loginForm.jsp?errorMsg=Not logged in");
+		return;
+	} else if(session.getAttribute("id") != null && "employee".equals((String)session.getAttribute("user"))) {
+		// 손님이 아닌경우 막기
+		response.sendRedirect(request.getContextPath() + "/theme/index.jsp?errorMsg=No permission");
+	}
+
 	// 뷰를 카트를 보여줄지 구매창을 보내줄지 분기를 위해 받아오는 변수
 	String submit = request.getParameter("submit");
 	// 디버깅

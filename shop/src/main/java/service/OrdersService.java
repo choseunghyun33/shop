@@ -208,6 +208,51 @@ public class OrdersService {
 		return result;
 	}
 	
+	///////////////////////////////////////////////////////////////////////////////////////////////////// lastPage	
+	// 개인 마지막페이지 구할 총 count
+	public int lastPageById(final int rowPerPage, String customerId) {
+		int lastPage = 0;
+		
+		// conn, dbUtil, ordersDao 초기화
+		Connection conn = null;
+		this.dbUtil = new DBUtil();
+		this.ordersDao = new OrdersDao();
+		
+		try {
+			conn = this.dbUtil.getConnection();
+			int allCount = this.ordersDao.allCountById(conn, customerId);
+			// 디버깅
+			System.out.println("OrdersService.java modifyOrderStateByOrderNo conn : " + conn);
+			System.out.println("OrdersService.java modifyOrderStateByOrderNo allCount : " + allCount);
+			
+			// 자동커밋해제
+			conn.setAutoCommit(false);
+			
+			// 마지막페이지 구하기 식
+			lastPage = (int) Math.ceil(allCount / (double) rowPerPage);
+			
+			// 그후 커밋
+			conn.commit();
+		} catch(Exception e) {
+			e.printStackTrace();
+			// 문제있을경우 롤백
+			try {
+				conn.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			// 자원해제
+			try {
+				conn.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return lastPage;
+	}
+	
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////// lastPage	
 	// 마지막페이지 구할 총 count

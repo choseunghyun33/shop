@@ -62,7 +62,7 @@ public class CounterService {
 	// 전체접속자 수
 	public int getTotalCount() {
 		// 리턴값 초기화
-		int totalCount = -9;
+		int totalCount = 0;
 		
 		// 멤버변수 초기화
 		this.dbUtil = new DBUtil();
@@ -116,7 +116,7 @@ public class CounterService {
 	// 오늘접속자 수
 	public int getTodayCount() {
 		// 리턴값 초기화
-		int todayCount = -9;
+		int todayCount = 0;
 		
 		// 멤버변수 초기화
 		this.dbUtil = new DBUtil();

@@ -7,6 +7,7 @@ public class Goods {
 	private String updateDate;
 	private String createDate;
 	private String soldOut;
+	private int hit;
 	
 	
 	public int getGoodsNo() {
@@ -45,11 +46,16 @@ public class Goods {
 	public void setSoldOut(String soldOut) {
 		this.soldOut = soldOut;
 	}
-	
+	public int getHit() {
+		return hit;
+	}
+	public void setHit(int hit) {
+		this.hit = hit;
+	}
 	
 	@Override
 	public String toString() {
 		return "Goods [goodsNo=" + goodsNo + ", goodsName=" + goodsName + ", goodsPrice=" + goodsPrice + ", updateDate="
-				+ updateDate + ", createDate=" + createDate + ", soldOut=" + soldOut + "]";
+				+ updateDate + ", createDate=" + createDate + ", soldOut=" + soldOut + ", hit=" + hit + "]";
 	}
 }

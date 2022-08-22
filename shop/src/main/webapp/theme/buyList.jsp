@@ -6,6 +6,14 @@
 <%@ page import="service.BuyService"%>
 <%@ include file="header.jsp"%>
 <%
+	// 막기
+	if(session.getAttribute("id") == null){
+		response.sendRedirect(request.getContextPath() + "/theme/loginForm.jsp?errorMsg=Not logged in");
+		return;
+	} else if(session.getAttribute("id") != null && "employee".equals((String)session.getAttribute("user"))) {
+		// 손님이 아닌경우 막기
+		response.sendRedirect(request.getContextPath() + "/theme/index.jsp?errorMsg=No permission");
+	}
 
 	// 메서드를 위한 객체생성
 	BuyService buyService = new BuyService();

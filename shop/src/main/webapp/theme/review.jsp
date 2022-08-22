@@ -1,36 +1,36 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="vo.Notice"%>
 <%@ page import="java.util.List"%>
-<%@ page import="service.NoticeService"%>
+<%@ page import="java.util.Map"%>
+<%@ page import="service.ReviewService"%>
 <%@ include file="header.jsp"%>
-	<%
-		// 유효성 검정 코드
-       	if(session.getAttribute("id") == null){
-       		response.sendRedirect(request.getContextPath() + "/theme/loginForm.jsp?errorMsg=Not logged in");
-       		return;
-       	}
+<%
+	// 유효성 검정 코드
+   	if(session.getAttribute("id") == null){
+   		response.sendRedirect(request.getContextPath() + "/theme/loginForm.jsp?errorMsg=Not logged in");
+   		return;
+   	}
+
+	// 페이징
+	int currentPage = 1; // 현재페이지
+	final int ROW_PER_PAGE = 10; // 묶음
+
+	if(request.getParameter("currentPage") != null){
+		// 받아오는 페이지가 있다면 현재페이지변수에 담기
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	}
 	
-		// 페이징
-		int currentPage = 1; // 현재페이지
-		final int ROW_PER_PAGE = 10; // 묶음
+	// 숫자페이징
+	int startPage = ((currentPage - 1) / ROW_PER_PAGE) * ROW_PER_PAGE + 1; // 시작페이지값 ex) ROW_PER_PAGE 가 10 일경우 1, 11, 21, 31
+	int endPage = startPage + ROW_PER_PAGE - 1; // 끝페이지값 ex) ROW_PER_PAGE 가 10 일경우 10, 20, 30, 40
+	int lastPage = new ReviewService().lastPage(ROW_PER_PAGE);
+	
 
-		if(request.getParameter("currentPage") != null){
-			// 받아오는 페이지가 있다면 현재페이지변수에 담기
-			currentPage = Integer.parseInt(request.getParameter("currentPage"));
-		}
-		
-		// 숫자페이징
-		int startPage = ((currentPage - 1) / ROW_PER_PAGE) * ROW_PER_PAGE + 1; // 시작페이지값 ex) ROW_PER_PAGE 가 10 일경우 1, 11, 21, 31
-		int endPage = startPage + ROW_PER_PAGE - 1; // 끝페이지값 ex) ROW_PER_PAGE 가 10 일경우 10, 20, 30, 40
-		int lastPage = new NoticeService().lastPage(ROW_PER_PAGE);
-		
-
-		// endPage 는 lastPage보다 크면 안된다
-		endPage = Math.min(endPage, lastPage); // 두 값의 최소값이 endPage가 된다
-				
-		// list 가져오기 메서드
-		List<Notice> list = new NoticeService().getNoticeListByPage(ROW_PER_PAGE, currentPage);
-    %>
+	// endPage 는 lastPage보다 크면 안된다
+	endPage = Math.min(endPage, lastPage); // 두 값의 최소값이 endPage가 된다
+			
+	// list 가져오기 메서드
+	List<Map<String, Object>> list = new ReviewService().getReviewListByPage(ROW_PER_PAGE, currentPage);
+%>
     <!-- Modal -->
     <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -53,7 +53,7 @@
     <section class="container py-5">
         <div class="row text-center pt-3">
             <div class="col-lg-12 m-auto">
-                <h1 class="h1">Notice</h1>
+                <h1 class="h1">Review</h1>
                 	<div>
 	                	<form action="" method="get" class="modal-content modal-body border-0 p-0">
 			                <div class="input-group mb-2">
@@ -67,25 +67,34 @@
 	            	<table class="table">
 	            		<thead>
 		            		<tr>
-		            			<th>NO</th>
-		            			<th>TITLE</th>
-		            			<th>CREATEDATE</th>
-		            			<th>UDPATEDATE</th>
+		            			<th>GOODS NO</th>
+		            			<th>GOODS NAME</th>
+		            			<th>CUSTOMER ID</th>
+		            			<th>REVIEW CONTENT</th>
+		            			<th>DATE</th>
+		            			<th>STAR</th>
 		            		</tr>
 	            		</thead>
 	            		<tbody>
 	            			<%
-	            				for(Notice n : list){
+	            				for(Map<String, Object> m : list){
 	            			%>
 			            		<tr>
-			            			<td><%=n.getNoticeNo()%></td>
+			            			<td><%=m.get("goodsNo")%></td>
+			            			<td><%=m.get("goodsName")%></td>
+			            			<td><%=m.get("customerId")%></td>
+			            			<td><%=m.get("reviewContent")%></td>
+			            			<td><%=m.get("updateDate")%></td>
 			            			<td>
-			            				<a href="<%=request.getContextPath()%>/theme/noticeOne.jsp?noticeNo=<%=n.getNoticeNo()%>">
-			            					<%=n.getNoticeTitle()%>
-			            				</a>
+			            				(<%=m.get("star")%>)
+			            				<%
+			            					for(int i = 0; i < (Integer)m.get("star"); i++){
+			            				%>
+			            						<i class="text-warning fa fa-star"></i>
+			            				<%
+			            					}
+			            				%>
 			            			</td>
-			            			<td><%=n.getCreateDate()%></td>
-			            			<td><%=n.getUpdateDate()%></td>
 			            		</tr>
 		            		<%
 	            				}

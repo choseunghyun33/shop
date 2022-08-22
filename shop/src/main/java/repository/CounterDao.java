@@ -88,7 +88,7 @@ public class CounterDao {
 	// 전체접속자 수
 	public int selectTotalCount(Connection conn) throws Exception {
 		// 리턴값 초기화
-		int result = -9;
+		int result = 0;
 		
 		// 쿼리
 		String sql = "SELECT sum(counter_num) sum FROM counter";
@@ -120,7 +120,7 @@ public class CounterDao {
 	// 오늘접속자 수
 	public int selectTodayCount(Connection conn) throws Exception {
 		// 리턴값 초기화
-		int result = -9;
+		int result = 0;
 		
 		// 쿼리
 		String sql = "SELECT counter_num counterNum FROM counter WHERE counter_date = CURDATE()";

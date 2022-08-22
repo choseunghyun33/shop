@@ -5,33 +5,44 @@
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Map"%>
 <%@ include file="header.jsp"%>
-	<%
-		// 페이징
-		int currentPage = 1; // 현재페이지
-		final int ROW_PER_PAGE = 10; // 묶음
+<%
+	// 막기
+	if(session.getAttribute("id") == null){
+		response.sendRedirect(request.getContextPath() + "/theme/loginForm.jsp?errorMsg=Not logged in");
+		return;
+	} else if(session.getAttribute("id") != null && "employee".equals((String)session.getAttribute("user"))) {
+		// 손님이 아닌경우 막기
+		response.sendRedirect(request.getContextPath() + "/theme/index.jsp?errorMsg=No permission");
+	}
+	
+	// 페이징
+	int currentPage = 1; // 현재페이지
+	final int ROW_PER_PAGE = 10; // 묶음
 
-		if(request.getParameter("currentPage") != null){
-			// 받아오는 페이지가 있다면 현재페이지변수에 담기
-			currentPage = Integer.parseInt(request.getParameter("currentPage"));
-		}
-		
-		// 메서드를 위한 객체생성
-		OrdersService ordersService = new OrdersService();
-		
-		// 마지막페이지 구하는 메서드
-		int lastPage = ordersService.lastPage(ROW_PER_PAGE);
-		
-		// 숫자페이징
-		int startPage = ((currentPage - 1) / ROW_PER_PAGE) * ROW_PER_PAGE + 1; // 페이지 시작
-		int endPage = startPage + ROW_PER_PAGE - 1; // 페이지 끝
-		// endPage 와 lastPage 비교
-		endPage = Math.min(endPage, lastPage);
-		
-		// session에 있는 id 가져오기
-		String customerId = (String) session.getAttribute("id");
-		// list 받기
-		List<Map<String, Object>> list = ordersService.getOrdersListByCustomer(customerId, ROW_PER_PAGE, currentPage);
-    %>
+	if(request.getParameter("currentPage") != null){
+		// 받아오는 페이지가 있다면 현재페이지변수에 담기
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	}
+	
+	// 메서드를 위한 객체생성
+	OrdersService ordersService = new OrdersService();
+	
+	// session에 있는 id 가져오기
+	String customerId = (String) session.getAttribute("id");
+	
+	// 숫자페이징
+	int startPage = ((currentPage - 1) / ROW_PER_PAGE) * ROW_PER_PAGE + 1; // 페이지 시작
+	int endPage = startPage + ROW_PER_PAGE - 1; // 페이지 끝
+	// 마지막페이지 구하는 메서드
+	int lastPage = ordersService.lastPageById(ROW_PER_PAGE, customerId);
+	
+	// endPage 와 lastPage 비교
+	endPage = Math.min(endPage, lastPage);
+	
+	
+	// list 받기
+	List<Map<String, Object>> list = ordersService.getOrdersListByCustomer(customerId, ROW_PER_PAGE, currentPage);
+   %>
 
     <!-- Start Categories of The Month -->
     <section class="container py-5">

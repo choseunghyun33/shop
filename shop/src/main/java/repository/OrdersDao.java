@@ -102,6 +102,34 @@ public class OrdersDao {
 		return row;
 	}
 	
+	///////////////////////////////////////////////////////////////////////////////////////////////////// allCount	
+	// 개인 마지막페이지 구할 총 count
+	public int allCountById(Connection conn, String customerId) throws Exception {
+		int allCount = 0;
+		String sql = "SELECT COUNT(*) allCount FROM orders WHERE customer_id = ?";
+		
+		// stmt, rs 초기화
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			// stmt setter
+			stmt.setString(1, customerId);
+			
+			// 디버깅
+			System.out.println("OrdersDao.java allCount stmt : " + stmt);
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				allCount = rs.getInt("allCount");
+			}
+		} finally {
+			if(rs != null) { rs.close(); }
+			if(stmt != null) { stmt.close(); }
+		}
+		
+		return allCount;
+	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////// allCount	
 	// 마지막페이지 구할 총 count

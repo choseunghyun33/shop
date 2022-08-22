@@ -4,30 +4,33 @@
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Map"%>
+<%@ page import="service.ReviewService"%>
 <%@ include file="header.jsp"%>
-	<%
-		// 값 받기
-		int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
-		// 디버깅
-		System.out.println("adminGoodsOne.jsp goodsNo : " + goodsNo);
-		
-		// 메서드를 위한 객체생성
-		GoodsService goodsService = new GoodsService();
-		
-		// 상세페이지 메서드
-		Map<String, Object> map = goodsService.getGoodsAndImgOne(goodsNo);
-		// 디버깅
-		System.out.println("adminGoodsOne.jsp map : " + map.toString());
-		
-		// 품절일 경우 (Y/N이 아닌 품절/재고있음) 으로 나오기
-		String soldOut = "";
-		if("Y".equals(map.get("soldOut"))) {
-			soldOut = "품절";
-		} else {
-			soldOut = "재고있음";
-		}
-		
-    %>
+<%
+	// 값 받기
+	int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
+	// 디버깅
+	System.out.println("adminGoodsOne.jsp goodsNo : " + goodsNo);
+	
+	// 메서드를 위한 객체생성
+	GoodsService goodsService = new GoodsService();
+	
+	// 상세페이지 메서드
+	Map<String, Object> map = goodsService.getGoodsAndImgOne(goodsNo);
+	// 디버깅
+	System.out.println("adminGoodsOne.jsp map : " + map.toString());
+	
+	// 품절일 경우 (Y/N이 아닌 품절/재고있음) 으로 나오기
+	String soldOut = "";
+	if("Y".equals(map.get("soldOut"))) {
+		soldOut = "품절";
+	} else {
+		soldOut = "재고있음";
+	}
+	
+	// 리뷰 메서드
+	List<Map<String, Object>> list = new ReviewService().getReviewByGoodsOne(goodsNo);
+%>
 
     <!-- Open Content -->
     <section class="bg-light">
@@ -73,18 +76,20 @@
 				            			<th>상품평</th>
 				            			<td>
 											<p class="py-2">
-				                                <i class="fa fa-star text-warning"></i>
-				                                <i class="fa fa-star text-warning"></i>
-				                                <i class="fa fa-star text-warning"></i>
-				                                <i class="fa fa-star text-warning"></i>
-				                                <i class="fa fa-star text-secondary"></i>
-				                                <span class="list-inline-item text-dark">Rating 4.8 | 36 Comments</span>
+						            				<%
+						            					for(int i = 0; i < (Integer)map.get("star"); i++) {
+						            				%>
+						            						<i class="text-warning fa fa-star"></i>
+						            				<%
+						            					}
+						            				%>
+				                                <span class="list-inline-item text-dark">Rating <%=map.get("star")%> |  Comments <%=list.size()%></span>
 				                            </p>
 										</td>
 				            		</tr>
 				            	</table> 
 				            	<% 
-				            		if(soldOut.equals("재고있음")){
+				            		if(soldOut.equals("재고있음") && "customer".equals(session.getAttribute("user"))){
 				            	%>
 						            	 <form action="<%=request.getContextPath()%>/theme/addCartAction.jsp" method="get">
 			                                <input type="hidden" name="goodsNo" value="<%=goodsNo%>">
@@ -117,6 +122,49 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="container pb-5">
+        	<div>
+        		<h2>리뷰</h2>
+        	</div>
+        	
+        	<table class="table">
+           		<thead>
+            		<tr>
+            			<th>GOODS NO</th>
+            			<th>GOODS NAME</th>
+            			<th>CUSTOMER ID</th>
+            			<th>REVIEW CONTENT</th>
+            			<th>DATE</th>
+            			<th>STAR</th>
+            		</tr>
+           		</thead>
+           		<tbody>
+           			<%
+           				for(Map<String, Object> m : list){
+           			%>
+	            		<tr>
+	            			<td><%=m.get("goodsNo")%></td>
+	            			<td><%=m.get("goodsName")%></td>
+	            			<td><%=m.get("customerId")%></td>
+	            			<td><%=m.get("reviewContent")%></td>
+	            			<td><%=m.get("updateDate")%></td>
+	            			<td>
+	            				(<%=m.get("star")%>)
+	            				<%
+	            					for(int i = 0; i < (Integer)m.get("star"); i++){
+	            				%>
+	            						<i class="text-warning fa fa-star"></i>
+	            				<%
+	            					}
+	            				%>
+	            			</td>
+	            		</tr>
+            		<%
+           				}
+           			%>
+           		</tbody>
+           	</table>
         </div>
     </section>
     <!-- Close Content -->

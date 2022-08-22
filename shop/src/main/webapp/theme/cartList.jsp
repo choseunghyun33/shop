@@ -8,6 +8,15 @@
 <%@ page import="service.CartService"%>
 <%@ include file="header.jsp"%>
 <%
+	// 막기
+	if(session.getAttribute("id") == null){
+		response.sendRedirect(request.getContextPath() + "/theme/loginForm.jsp?errorMsg=Not logged in");
+		return;
+	} else if(session.getAttribute("id") != null && "employee".equals((String)session.getAttribute("user"))) {
+		// 손님이 아닌경우 막기
+		response.sendRedirect(request.getContextPath() + "/theme/index.jsp?errorMsg=No permission");
+	}
+
 	// 세션에 있는 아이디 받기
 	Cart cart = new Cart();
 	cart.setCustomerId((String)session.getAttribute("id"));

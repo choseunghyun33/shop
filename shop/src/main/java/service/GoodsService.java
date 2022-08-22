@@ -248,6 +248,7 @@ public class GoodsService {
 			// 자동커밋 해제
 			conn.setAutoCommit(false);
 			
+			// 1. 상세보기 메서드
 			map = this.goodsDao.selectGoodsAndImgOne(conn, goodsNo);
 			// 디버깅
 			System.out.println("GoodsService.java getGoodsAndImgOne map : " + map.toString());
@@ -256,6 +257,16 @@ public class GoodsService {
 			if(map.size() < 1) {
 				// 디버깅
 				System.out.println("GoodsService.java getGoodsAndImgOne selectGoodsAndImgOne() 실패");
+				throw new Exception();
+			}
+			
+			// 2. 조회수증가 메서드
+			int row = this.goodsDao.updateGoodsHit(conn, goodsNo);
+			
+			// 제대로 들어오지 못함 exception 발생시키기
+			if(row == 0) {
+				// 디버깅
+				System.out.println("GoodsService.java getGoodsAndImgOne updateGoodsHit() : 실패");
 				throw new Exception();
 			}
 			
