@@ -1,14 +1,17 @@
-<%@page import="vo.Notice"%>
-<%@page import="java.util.List"%>
-<%@page import="service.NoticeService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="header.jsp"%>
+<%@ page import="vo.Notice"%>
+<%@ page import="java.util.List"%>
+<%@ page import="service.NoticeService"%>
+<%@ include file="adminHeader.jsp"%>
 	<%
 		// 유효성 검정 코드
-       	if(session.getAttribute("id") == null){
-       		response.sendRedirect(request.getContextPath() + "/theme/loginForm.jsp?errorMsg=Not logged in");
-       		return;
-       	}
+	   	if(session.getAttribute("id") == null){
+	   		response.sendRedirect(request.getContextPath() + "/theme/loginForm.jsp?errorMsg=Not logged in");
+	   		return;
+	   	} else if(session.getAttribute("id") != null && "customer".equals((String)session.getAttribute("user"))) {
+	   		// 관리자가 아닌경우 막기
+	   		response.sendRedirect(request.getContextPath() + "/theme/index.jsp?errorMsg=No permission");
+	   	}
 	
 		// 페이징
 		int currentPage = 1; // 현재페이지
@@ -30,7 +33,7 @@
 				
 		// list 가져오기 메서드
 		List<Notice> list = new NoticeService().getNoticeListByPage(ROW_PER_PAGE, currentPage);
-    %>
+	%>
     <!-- Modal -->
     <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -64,32 +67,41 @@
 			                </div>
 			            </form>
                 	</div>
+                	<a href="<%=request.getContextPath()%>/theme/admin/adminNoticeForm.jsp" class="btn btn-dark">글쓰기</a>
 	            	<table class="table">
 	            		<thead>
 		            		<tr>
-		            			<th>NO</th>
-		            			<th>TITLE</th>
-		            			<th>CREATEDATE</th>
-		            			<th>UDPATEDATE</th>
+		            			<th>공지번호</th>
+		            			<th>공지제목</th>
+		            			<th>수정일</th>
+		            			<th>생성일</th>
+		            			<th>수정</th>
+		            			<th>삭제</th>
 		            		</tr>
 	            		</thead>
 	            		<tbody>
-	            			<%
-	            				for(Notice n : list){
-	            			%>
+	            		<%
+	            			for(Notice n : list) {
+	            		%>
 			            		<tr>
 			            			<td><%=n.getNoticeNo()%></td>
 			            			<td>
-			            				<a href="<%=request.getContextPath()%>/theme/noticeOne.jsp?noticeNo=<%=n.getNoticeNo()%>">
+			            				<a href="<%=request.getContextPath()%>/theme/admin/adminNoticeOne.jsp?noticeNo=<%=n.getNoticeNo()%>">
 			            					<%=n.getNoticeTitle()%>
 			            				</a>
 			            			</td>
 			            			<td><%=n.getCreateDate()%></td>
 			            			<td><%=n.getUpdateDate()%></td>
+			            			<td>
+			            				<a href="<%=request.getContextPath()%>/theme/admin/adminUpdateNotice.jsp?noticeNo=<%=n.getNoticeNo()%>" class="btn btn-dark">수정</a>
+			            			</td>
+			            			<td>
+			            				<a href="<%=request.getContextPath()%>/theme/admin/adminDeleteNotice.jsp?noticeNo=<%=n.getNoticeNo()%>" class="btn">삭제</a>
+			            			</td>
 			            		</tr>
-		            		<%
-	            				}
-	            			%>
+	            		<%
+	            			}
+	            		%>
 	            		</tbody>
 	            	</table>
 	            	<!-- 페이징 -->
@@ -99,7 +111,7 @@
 	            		if(currentPage > 1){
 	            	%>
 		            		 <li class="page-item">
-	                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="<%=request.getContextPath()%>/theme/notice.jsp?currentPage=<%=currentPage-1%>">pre</a>
+	                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="<%=request.getContextPath()%>/theme/admin/adminNoticeList.jsp?currentPage=<%=currentPage-1%>">pre</a>
 	                         </li>	
 	            	<%
 	            		}
@@ -109,13 +121,13 @@
                     		if(i == currentPage){
 		            %>
 		            			<li class="page-item disabled">
-		            				 <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="<%=request.getContextPath()%>/theme/notice.jsp?currentPage=<%=i%>"><%=i%></a>
+		            				 <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="<%=request.getContextPath()%>/theme/admin/adminNoticeList.jsp?currentPage=<%=i%>"><%=i%></a>
 		            			</li>
 	            	<%
                     		} else {
                 	%>
 		            			<li class="page-item">
-		            				 <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="<%=request.getContextPath()%>/theme/notice.jsp?currentPage=<%=i%>"><%=i%></a>
+		            				 <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="<%=request.getContextPath()%>/theme/admin/adminNoticeList.jsp?currentPage=<%=i%>"><%=i%></a>
 		            			</li>
 	            	<%			
                     		}
@@ -124,15 +136,16 @@
 	            		if(currentPage < lastPage){
 	            	%>
 	                        <li class="page-item">
-	                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="<%=request.getContextPath()%>/theme/notice.jsp?currentPage=<%=currentPage+1%>">next</a>
+	                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="<%=request.getContextPath()%>/theme/admin/adminNoticeList.jsp?currentPage=<%=currentPage+1%>">next</a>
 	                        </li>
                     <%
 	            		}
 	            	%>
                     </ul>
                 </div>
+	            	
             </div>
         </div>
     </section>
     <!-- End Categories of The Month -->
-<%@ include file="footer.jsp"%>
+<%@ include file="adminFooter.jsp"%>

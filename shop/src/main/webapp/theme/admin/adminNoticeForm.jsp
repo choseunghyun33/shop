@@ -18,7 +18,7 @@
                 <div class="col-lg-12 mt-5 text-center">
                     <div class="card">
                         <div class="card-body">
-                            <h1 class="h2">상품등록</h1>
+                            <h1 class="h2">공지등록</h1>
                            	<%
                            		if(request.getParameter("errorMsg") != null){
                            	%>
@@ -29,38 +29,22 @@
                            		}
                            	%>
                             	<hr>
-                            	<form action="<%=request.getContextPath()%>/theme/admin/addGoodsAction.jsp" method="post" enctype="multipart/form-data" id="form">
+                            	<form action="<%=request.getContextPath()%>/theme/admin/addNoticeAction.jsp" method="post" id="form">
 		                            <table class="table">
 					            		<tr>
-					            			<th>상품명</th>
+					            			<th>공지제목</th>
 					            			<td>
-					            				<input type="text" name="goodsName" id="goodsName" class="form-control">
+					            				<input type="text" name="noticeTitle" id="noticeTitle" class="form-control">
 					            			</td>
 					            		</tr>
 					            		<tr>
-					            			<th>상품가격</th>
+					            			<th>공지내용</th>
 					            			<td>
-					            				<input type="text" name="goodsPrice" id="goodsPrice" class="form-control">
+					            				<textarea rows="10" cols="5" name="noticeContent" id="noticeContent" class="form-control"></textarea>
 					            			</td>
 					            		</tr>
-					            		<tr>
-					            			<th>이미지</th>
-					            			<td>
-					            				<input type="file" name="imgFile" id="imgFile" class="form-control">
-					            			</td>
-					            		</tr>
-										<tr>
-											<th>품절여부</th>
-											<td>
-												<select name="soldOut" class="form-control" id="soldOut">
-													<option value="defualt">-- 선택 --</option>
-			            							<option value="Y">Y</option>
-				            						<option value="N">N</option>
-				            					</select>
-											</td>
-										</tr>					            		
 					            	</table> 
-					            	<button type="button" class="btn btn-dark" id="btn">상품등록</button>
+					            	<button type="button" class="btn btn-dark" id="btn">공지등록</button>
 				            	</form>
                         </div>
                     </div>
@@ -71,14 +55,10 @@
     <!-- Close Content -->
    	<script>
 		$('#btn').click(function(){
-			if($('#goodsName').val().length < 2){
-				alert('상품명을 2자이상 기입해주세요');
-			} else if($('#goodsPrice').val().length < 1){
-				alert('상품가격을 기입해주세요');
-			} else if($('#imgFile').val().length < 1){
-				alert('상품파일을 등록해주세요');
-			} else if($('#soldOut').val() == 'defualt'){
-				alert('품절여부를 선택해주세요');
+			if($('#noticeTitle').val().length < 2){
+				alert('공지제목을 2자이상 기입해주세요');
+			} else if($('#noticeContent').val().length < 1){
+				alert('공지내용을 기입해주세요');
 			} else {
 				$('#form').submit();
 			}

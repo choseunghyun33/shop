@@ -31,7 +31,7 @@
 		// session에 담기
 		session.setAttribute("directOrder", cart);
 		
-		response.sendRedirect(request.getContextPath() + "/theme/ordersList.jsp");
+		response.sendRedirect(request.getContextPath() + "/theme/buyList.jsp");
 		// 디버깅
 		System.out.println("addCartAction.jsp buyList.jsp로 이동");
 	} else if("addtocart".equals(submit)){ // addtocart 라면 카트로 이동

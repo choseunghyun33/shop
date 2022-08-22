@@ -49,7 +49,7 @@ public class EmployeeDao {
 			// 쿼리담기
 			stmt = conn.prepareStatement(sql);
 			// 디버깅
-			System.out.println("EmployeeDao lastPage stmt : " + stmt);
+			System.out.println("EmployeeDao.java allCount stmt : " + stmt);
 			// 쿼리실행
 			rs = stmt.executeQuery();
 			if(rs.next()) {
@@ -80,7 +80,7 @@ public class EmployeeDao {
 			stmt.setInt(1, beginRow);
 			stmt.setInt(2, rowPerPage);
 			// 디버깅
-			System.out.println("EmployeeDao selectEmployeeList stmt : " + stmt);
+			System.out.println("EmployeeDao.java selectEmployeeList stmt : " + stmt);
 	
 			// 쿼리실행
 			rs = stmt.executeQuery();
@@ -92,7 +92,7 @@ public class EmployeeDao {
 				employee.setUpdateDate(rs.getString("updateDate"));
 				employee.setActive(rs.getString("active"));
 				// 디버깅
-				System.out.println("EmployeeDao selectEmployeeList employee : " + employee.toString());
+				System.out.println("EmployeeDao.java selectEmployeeList employee : " + employee.toString());
 				
 				// list에 담기
 				list.add(employee);
@@ -177,7 +177,7 @@ public class EmployeeDao {
 			stmt.setString(1, employee.getEmployeeId());
 			stmt.setString(2, employee.getEmployeePass());
 			// 디버깅
-			System.out.println("loginEmployee method stmt : " + stmt);
+			System.out.println("loginEmployee.java method stmt : " + stmt);
 			rs = stmt.executeQuery();
 			
 			if(rs.next()) {
@@ -186,8 +186,8 @@ public class EmployeeDao {
 				loginEmployee.setEmployeeId(rs.getString("employeeId"));
 				loginEmployee.setEmployeeName(rs.getString("employeeName"));
 				// 디버깅
-				System.out.println("loginEmployee method employeeId : " + loginEmployee.getEmployeeId());
-				System.out.println("loginEmployee method employeeName : " + loginEmployee.getEmployeeId());
+				System.out.println("EmployeeDao.java oginEmployee method employeeId : " + loginEmployee.getEmployeeId());
+				System.out.println("EmployeeDao.java loginEmployee method employeeName : " + loginEmployee.getEmployeeId());
 			}
 		} finally {
 			if(rs != null) { rs.close(); }
