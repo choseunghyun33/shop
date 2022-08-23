@@ -31,7 +31,8 @@
 	// list 가져오기 메서드
 	List<Map<String, Object>> list = new ReviewService().getReviewListByPage(ROW_PER_PAGE, currentPage);
 %>
-    <!-- Modal -->
+   	<!-- Modal -->
+     
     <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="w-100 pt-1 mb-5 text-right">
@@ -46,7 +47,7 @@
                 </div>
             </form>
         </div>
-    </div>
+    </div> 
 
 
     <!-- Start Categories of The Month -->
@@ -54,7 +55,8 @@
         <div class="row text-center pt-3">
             <div class="col-lg-12 m-auto">
                 <h1 class="h1">Review</h1>
-                	<div>
+                  <hr>
+              		<!-- <div>
 	                	<form action="" method="get" class="modal-content modal-body border-0 p-0">
 			                <div class="input-group mb-2">
 			                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
@@ -63,7 +65,7 @@
 			                    </button>
 			                </div>
 			            </form>
-                	</div>
+                	</div> -->
 	            	<table class="table">
 	            		<thead>
 		            		<tr>
@@ -72,7 +74,7 @@
 		            			<th>CUSTOMER ID</th>
 		            			<th>REVIEW CONTENT</th>
 		            			<th>DATE</th>
-		            			<th>STAR</th>
+		            			<th>RATING</th>
 		            		</tr>
 	            		</thead>
 	            		<tbody>
@@ -83,7 +85,11 @@
 			            			<td><%=m.get("goodsNo")%></td>
 			            			<td><%=m.get("goodsName")%></td>
 			            			<td><%=m.get("customerId")%></td>
-			            			<td><%=m.get("reviewContent")%></td>
+			            			<td>
+			            				<a href="<%=request.getContextPath()%>/theme/reviewOne.jsp?orderNo=<%=m.get("orderNo")%>&goodsName=<%=m.get("goodsName")%>">
+			            					<%=m.get("reviewContent")%>
+			            				</a>
+			            			</td>
 			            			<td><%=m.get("updateDate")%></td>
 			            			<td>
 			            				(<%=m.get("star")%>)

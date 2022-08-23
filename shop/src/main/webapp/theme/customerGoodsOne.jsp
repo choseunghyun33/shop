@@ -136,7 +136,7 @@
             			<th>CUSTOMER ID</th>
             			<th>REVIEW CONTENT</th>
             			<th>DATE</th>
-            			<th>STAR</th>
+            			<th>RATING</th>
             		</tr>
            		</thead>
            		<tbody>

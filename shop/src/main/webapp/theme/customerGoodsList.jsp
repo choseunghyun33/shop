@@ -111,6 +111,7 @@
 			<!-- end 상단 바 -->    
 
 			<!-- list -->	
+				  <hr>
 				<div class="row">
 				<%
 					int j = 1;

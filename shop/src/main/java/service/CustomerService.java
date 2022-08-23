@@ -16,6 +16,44 @@ public class CustomerService {
 	private DBUtil dbUtil;
 	private CustomerDao customerDao;
 	
+	//////////////////////////////////////////////////////////////////////// modifyCustomerByAdmin
+	public boolean modifyCustomerByAdmin(Customer customer) {
+		// conn 초기화
+		Connection conn = null;
+		this.dbUtil = new DBUtil();
+		this.customerDao = new CustomerDao();
+		
+		try {
+			conn = this.dbUtil.getConnection();
+			// 디버깅
+			System.out.println("CustomerService.java modifyCustomerByAdmin conn : " + conn);
+			
+			// 메서드 실행 row 1일 경우 성공
+			int row = this.customerDao.updateCustomerByAdmin(conn, customer);
+			// 디버깅
+			System.out.println("CustomerService.java modifyCustomerByAdmin row : " + row);
+			
+			// 분기
+			if(row == 1) {
+				System.out.println("CustomerService.java modifyCustomerByAdmin update 성공");
+			} else {
+				System.out.println("CustomerService.java modifyCustomerByAdmin update 실패");
+				throw new Exception();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
+	}
 	
 	//////////////////////////////////////////////////////////////////////// deleteCustomerByAdmin
 	public boolean removeCustomerByAdmin(String customerId) {

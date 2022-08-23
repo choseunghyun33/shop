@@ -4,28 +4,28 @@
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Map"%>
 <%@ include file="adminHeader.jsp"%>
-	<%
-       	if(session.getAttribute("id") == null){
-       		response.sendRedirect(request.getContextPath() + "/theme/loginForm.jsp?errorMsg=Not logged in");
-       		return;
-       	} else if(session.getAttribute("id") != null && "customer".equals((String)session.getAttribute("user"))) {
-       		// 관리자가 아닌경우 막기
-       		response.sendRedirect(request.getContextPath() + "/theme/index.jsp?errorMsg=No permission");
-       	}
-		
-		// 값 받기
-		int orderNo = Integer.parseInt(request.getParameter("orderNo"));
-		// 디버깅
-		System.out.println("adminOrdersListByorderNo.jsp orderNo : " + orderNo);
-		
-		// 메서드를 위한 객체생성
-		OrdersService ordersService = new OrdersService();
-		
-		// 상세페이지 메서드
-		Map<String, Object> map = ordersService.getOrdersOne(orderNo);
-		// 디버깅
-		System.out.println("adminOrdersListByorderNo map : " + map.toString());
-    %>
+<%
+   	if(session.getAttribute("id") == null){
+   		response.sendRedirect(request.getContextPath() + "/theme/loginForm.jsp?errorMsg=Not logged in");
+   		return;
+   	} else if(session.getAttribute("id") != null && "customer".equals((String)session.getAttribute("user"))) {
+   		// 관리자가 아닌경우 막기
+   		response.sendRedirect(request.getContextPath() + "/theme/index.jsp?errorMsg=No permission");
+   	}
+	
+	// 값 받기
+	int orderNo = Integer.parseInt(request.getParameter("orderNo"));
+	// 디버깅
+	System.out.println("adminOrdersListByorderNo.jsp orderNo : " + orderNo);
+	
+	// 메서드를 위한 객체생성
+	OrdersService ordersService = new OrdersService();
+	
+	// 상세페이지 메서드
+	Map<String, Object> map = ordersService.getOrdersOne(orderNo);
+	// 디버깅
+	System.out.println("adminOrdersListByorderNo map : " + map.toString());
+%>
 
     <!-- Open Content -->
     <section class="bg-light">

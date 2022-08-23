@@ -43,6 +43,7 @@
         <div class="row text-center pt-3">
             <div class="col-lg-12 m-auto">
                 <h1 class="h1">상품관리</h1>
+                  <hr>
                 <a href="<%=request.getContextPath()%>/theme/admin/adminGoodsForm.jsp" class="btn btn-dark">상품등록</a>	
                 <%
                 	if(request.getParameter("errorMsg") != null){
@@ -51,7 +52,6 @@
            		<%		
                 	}
                 %>  
-                	 <hr>
 	            	<table class="table">
 	            		<thead>
 		            		<tr>

@@ -102,7 +102,7 @@ https://templatemo.com/tm-559-zay-shop
                     </ul>
                 </div>
                 <div class="navbar align-self-center d-flex">
-                    <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                    <!-- <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
                         <div class="input-group">
                             <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ...">
                             <div class="input-group-text">
@@ -112,14 +112,21 @@ https://templatemo.com/tm-559-zay-shop
                     </div>
                     <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
                         <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                    </a>
-                    <a class="nav-icon position-relative text-decoration-none" href="<%=request.getContextPath()%>/theme/cartList.jsp">
-                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"><!-- 장바구니에 담긴 개수 --></span>
-                    </a>
+                    </a> -->
+                    <%
+                    	// id null 아니고 customer일경우만 보이기
+                    	if(session.getAttribute("id") != null && "customer".equals((String)session.getAttribute("user"))){
+                    %>
+		                    <a class="nav-icon position-relative text-decoration-none" href="<%=request.getContextPath()%>/theme/cartList.jsp">
+		                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
+		                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"><!-- 장바구니에 담긴 개수 --></span>
+		                    </a>
+	                <%
+	                	}
+                    %>
                     <a class="nav-icon position-relative text-decoration-none" href="<%=request.getContextPath()%>/theme/index.jsp">
                         <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"><!-- 개인알림 --></span>
+                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                 </div>
             </div>

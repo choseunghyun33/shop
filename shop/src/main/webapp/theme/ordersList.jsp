@@ -4,6 +4,7 @@
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Map"%>
+<%@ page import="service.ReviewService"%>
 <%@ include file="header.jsp"%>
 <%
 	// 막기
@@ -27,7 +28,7 @@
 	// 메서드를 위한 객체생성
 	OrdersService ordersService = new OrdersService();
 	
-	// session에 있는 id 가져오기
+	// 1. session에 있는 id 가져오기
 	String customerId = (String) session.getAttribute("id");
 	
 	// 숫자페이징
@@ -42,6 +43,8 @@
 	
 	// list 받기
 	List<Map<String, Object>> list = ordersService.getOrdersListByCustomer(customerId, ROW_PER_PAGE, currentPage);
+	
+	
    %>
 
     <!-- Start Categories of The Month -->
@@ -67,6 +70,7 @@
 		            			<th>배송지</th>
 		            			<th>주문상태</th>
 		            			<th>주문일자</th>
+		            			<th colspan="2">리뷰남기기</th>
 		            		</tr>
 	            		</thead>
 	            		<tbody>
@@ -81,10 +85,26 @@
 				            			<td><%=m.get("orderAddr")%></td>
 				            			<td><%=m.get("orderState")%></td>
 				            			<td><%=m.get("createDate")%></td>
+					            	<%
+					            		// 2. 리뷰작성을 할 수 있는지 여부
+					            		boolean availableReview = new ReviewService().getAvailableReview((Integer)m.get("orderNo"));
+					            	
+				            			if(m.get("orderState").equals("배송완료") && availableReview){
+				            		%>			
+				            				<td colspan="2"><a href="<%=request.getContextPath()%>/theme/addReview.jsp?orderNo=<%=m.get("orderNo")%>&goodsName=<%=m.get("goodsName")%>" class="btn btn-dark">리뷰작성</a></td>
+		            				<%
+				            			} else if(m.get("orderState").equals("배송완료") && !availableReview) {
+				            		%>			
+				            				<td><a href="<%=request.getContextPath()%>/theme/updateReview.jsp?orderNo=<%=m.get("orderNo")%>&goodsName=<%=m.get("goodsName")%>" class="btn btn-dark">수정</a></td>
+				            				<td><a href="<%=request.getContextPath()%>/theme/deleteReview.jsp?orderNo=<%=m.get("orderNo")%>" class="btn">삭제</a></td>
+		            				<%		
+				            			}
+				            		%>	
 				            		</tr>
 			            	<%
 		            			}
 		            		%>
+		            		
 	            		</tbody>
 	            	</table>
             	<div class="row">

@@ -9,8 +9,8 @@ import javax.servlet.annotation.WebListener;
 public class DriverListener implements ServletContextListener {
 
     public void contextInitialized(ServletContextEvent sce)  { // tomcat이 실행때 실행
-    	// 1. application.setAttribute에 currentCounter 속성 0으로 초기화
-    	sce.getServletContext().setAttribute("currentCounter", 0);
+    	// 1. application.setAttribute에 currentCounter 속성 1으로 초기화
+    	sce.getServletContext().setAttribute("currentCounter", 1);
     	
     	// tomcat실행될때 사용하면 좋은 것
     	// 2. 톰캣 부팅시 드라이버 로딩

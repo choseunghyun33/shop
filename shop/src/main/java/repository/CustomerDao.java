@@ -7,6 +7,34 @@ import java.util.List;
 import vo.Customer;
 
 public class CustomerDao {
+	//////////////////////////////////////////////////////////////////////// updateCustomerByAdmin
+	public int updateCustomerByAdmin(Connection conn, Customer customer) throws Exception {
+		int row = 0;
+		String sql = "UPDATE customer SET customer_pass = PASSWORD(?) WHERE customer_id = ?";
+		
+		// 초기화
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			// 쿼리담기
+			stmt = conn.prepareStatement(sql);
+			// stmt setter
+			stmt.setString(1, customer.getCustomerPass());
+			stmt.setString(2, customer.getCustomerId());
+			// 디버깅
+			System.out.println("CustomerDao.java updateCustomerByAdmin stmt : " + stmt);
+			// 쿼리실행
+			row = stmt.executeUpdate();
+			
+		} finally {
+			if(rs != null) { rs.close(); }
+			if(stmt != null) { stmt.close(); }
+		}
+		
+		return row;
+	}
+	
 	//////////////////////////////////////////////////////////////////////// deleteCustomerByAdmin
 	public int deleteCustomerByAdmin(Connection conn, String customerId) throws Exception {
 		int row = 0;

@@ -25,10 +25,10 @@
 	if(activeUpdate){ // 성공
 		System.out.println("updateActive.jsp update 성공");
 		// 재요청
-		response.sendRedirect(request.getContextPath() + "/theme/employeeList.jsp");
+		response.sendRedirect(request.getContextPath() + "/theme/admin/adminEmployeeList.jsp");
 	} else { // 실패
 		System.out.println("updateActive.jsp update 실패");
 		// 재요청
-		response.sendRedirect(request.getContextPath() + "/theme/employeeList.jsp?errorMsg=active update Fail");
+		response.sendRedirect(request.getContextPath() + "/theme/admin/adminEmployeeList.jsp?errorMsg=active update Fail");
 	}
 %>	

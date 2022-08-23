@@ -30,7 +30,7 @@
 		OrdersService ordersService = new OrdersService();
 		
 		// 마지막페이지 구하는 메서드
-		int lastPage = ordersService.lastPage(ROW_PER_PAGE);
+		int lastPage = ordersService.lastPageById(ROW_PER_PAGE, customerId);
 		
 		// 숫자페이징
 		int startPage = ((currentPage - 1) / ROW_PER_PAGE) * ROW_PER_PAGE + 1; // 페이지 시작

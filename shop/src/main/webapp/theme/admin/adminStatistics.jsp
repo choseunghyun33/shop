@@ -88,8 +88,8 @@
     <!-- Start Content -->
     <div class="container py-5">
         <div class="row">
-			<!-- 사이드바 -->
-            <div class="col-lg-2">
+			 <!-- 사이드바 -->
+          <!--  <div class="col-lg-2">
                 <h1 class="h2 pb-4">통계</h1>
                 <ul class="list-unstyled templatemo-accordion">
                     <li class="pb-3">
@@ -113,12 +113,12 @@
                         </ul>
                     </li>
                 </ul>
-            </div>
+            </div> -->
             <!-- end 사이드바 -->
             
 
 			<!-- chart -->	
-			<div class="col-lg-10">
+			<div class="col-lg-12">
 				<div class="card">
                      <div class="card-body">
                          <h4 class="card-title">총 누적판매수 / 누적조회수</h4>

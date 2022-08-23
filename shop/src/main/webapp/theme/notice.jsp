@@ -54,7 +54,8 @@
         <div class="row text-center pt-3">
             <div class="col-lg-12 m-auto">
                 <h1 class="h1">Notice</h1>
-                	<div>
+                  <hr>
+                	<!-- <div>
 	                	<form action="" method="get" class="modal-content modal-body border-0 p-0">
 			                <div class="input-group mb-2">
 			                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
@@ -63,7 +64,7 @@
 			                    </button>
 			                </div>
 			            </form>
-                	</div>
+                	</div> -->
 	            	<table class="table">
 	            		<thead>
 		            		<tr>
