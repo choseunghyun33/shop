@@ -17,6 +17,9 @@
 	} else if(session.getAttribute("id") != null && "employee".equals((String)session.getAttribute("user"))) {
 		// 손님이 아닌경우 막기
 		response.sendRedirect(request.getContextPath() + "/theme/index.jsp?errorMsg=No permission");
+	} else if(request.getParameterValues("goodsNo").length == 0){
+		// 선택을 하지 않았을 경우 막기
+		response.sendRedirect(request.getContextPath() + "/theme/cartList.jsp?errorMsg=Not check");
 	}
 
 	// 주문할 목록 가져오기
@@ -39,8 +42,11 @@
 	// Cart에 담기
 	List<Cart> list = new ArrayList<>();
 	
+	// 디버깅
+	System.out.println("cartAction.jsp cartList.size() : " + cartList.size());
+	
 	// goodsNo에 담긴 개수 만큼 cart셍성하여 list에 담기
-	for(int i = 0; i < cartList.size(); i++){
+	for(int i = 0; i < goodsNo.length; i++){
 		Cart cart = new Cart();
 	
 		cart.setGoodsNo(Integer.parseInt(goodsNo[i]));

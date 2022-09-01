@@ -13,6 +13,9 @@
 	} else if(session.getAttribute("id") != null && "employee".equals((String)session.getAttribute("user"))) {
 		// 손님이 아닌경우 막기
 		response.sendRedirect(request.getContextPath() + "/theme/index.jsp?errorMsg=No permission");
+	} else if(session.getAttribute("cartList") == null && session.getAttribute("directOrder") == null) {
+		// 구매할 상품이 선택되지 않은경우
+		response.sendRedirect(request.getContextPath() + "/theme/index.jsp?errorMsg=Wrong path");
 	}
 
 	// 메서드를 위한 객체생성
@@ -41,6 +44,9 @@
 	
 	if(list.get(0).get("customerAddr") != null){
 		customerAddr = (String) list.get(0).get("customerAddr");
+	} else {
+		// 구매할 상품이 선택되지 않은경우
+		response.sendRedirect(request.getContextPath() + "/theme/index.jsp?errorMsg=Wrong path");
 	}
 %>
 
