@@ -27,26 +27,28 @@
 	// 리스트 준비
 	List<Cart> cartList = new ArrayList<>();
 	
-	// 바로구매가 아닌 카트에 담긴걸 선택한 경우
-	if(session.getAttribute("cartList") != null){
+	
+	if(session.getAttribute("cartList") != null && session.getAttribute("directOrder") == null){
+		// 바로구매가 아닌 카트에 담긴걸 선택한 경우
 		cartList = (List<Cart>)session.getAttribute("cartList");
-	} 
-	// 바로구매를 선택한경우
-	// 세션안에 있는 카트를 가져와서 보기
-	if(session.getAttribute("directOrder") != null){
+		
+	} else if(session.getAttribute("cartList") != null && session.getAttribute("directOrder") != null ||
+				session.getAttribute("cartList") == null && session.getAttribute("directOrder") != null){
+		// 바로구매를 선택한경우
+		// 세션안에 있는 카트를 가져와서 보기
 		cartList.add((Cart)session.getAttribute("directOrder"));
+		
+		// 디버깅
+		System.out.println("!!!!!!!!!!!" + cartList);
 	}
 	
 	list = buyService.getBuyListByCart(cartList);
-	System.out.println(list.toString());
+	System.out.println("!!!!!!!!!!!" + list.toString());
 	// 주소가 있다면 담기
 	String customerAddr = "";
 	
 	if(list.get(0).get("customerAddr") != null){
 		customerAddr = (String) list.get(0).get("customerAddr");
-	} else {
-		// 구매할 상품이 선택되지 않은경우
-		response.sendRedirect(request.getContextPath() + "/theme/index.jsp?errorMsg=Wrong path");
 	}
 %>
 

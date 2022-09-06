@@ -70,6 +70,7 @@
 	if("order".equals(request.getParameter("submit"))){
 		// 세션에 담기
 		session.setAttribute("cartList", list);
+		session.setAttribute("directOrder", null);
 		
 		// 주문/결제 리스트로 보내기
 		response.sendRedirect(request.getContextPath() + "/theme/buyList.jsp");

@@ -105,7 +105,7 @@ public class CartDao {
 		int row = 0;
 		
 		// 쿼리
-		String sql = "INSERT INTO CART (goods_no, customer_id, cart_quantity, update_date, create_date) VALUES (?, ?, ?, NOW(), NOW())";
+		String sql = "INSERT INTO cart (goods_no, customer_id, cart_quantity, update_date, create_date) VALUES (?, ?, ?, NOW(), NOW())";
 		
 		// stmt 초기화
 		PreparedStatement stmt = null;

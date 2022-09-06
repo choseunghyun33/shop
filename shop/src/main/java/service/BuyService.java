@@ -16,8 +16,8 @@ public class BuyService {
 	private DBUtil dbUtil;
 	private BuyDao buyDao;
 	
-	// selectBuyList
-	// 기능 : 주문리스트 보기
+	// getBuyListByCart
+	// 기능 : 카트리스트 보기
 	// 리턴값 : List 
 	public List<Map<String, Object>> getBuyListByCart(List<Cart> cartList){
 		// 리턴값 초기화

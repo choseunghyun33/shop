@@ -11,8 +11,8 @@ import java.util.Map;
 import vo.Cart;
 
 public class BuyDao {
-	// selectBuyList
-	// 기능 : 주문리스트 보기
+	// selectBuyListByCart
+	// 기능 : 카트리스트 보기
 	// 리턴값 : List 
 	public List<Map<String, Object>> selectBuyListByCart(Connection conn, List<Cart> cartList) throws Exception {
 		
@@ -68,5 +68,6 @@ public class BuyDao {
 		
 		return list;
 	}
+	
 }
 	
