@@ -32,22 +32,26 @@
 		// 바로구매가 아닌 카트에 담긴걸 선택한 경우
 		cartList = (List<Cart>)session.getAttribute("cartList");
 		
+		list = buyService.getBuyListByCart(cartList);
+		
 	} else if(session.getAttribute("cartList") != null && session.getAttribute("directOrder") != null ||
 				session.getAttribute("cartList") == null && session.getAttribute("directOrder") != null){
 		// 바로구매를 선택한경우
-		// 세션안에 있는 카트를 가져와서 보기
-		cartList.add((Cart)session.getAttribute("directOrder"));
-		
+		Cart cart = (Cart)session.getAttribute("directOrder");
 		// 디버깅
-		System.out.println("!!!!!!!!!!!" + cartList);
+		System.out.println("!!!!!!!!!!!" + cart);
+		
+		list = buyService.getBuyListByDirect(cart);
+		cartList.add(cart);
+		// 세션에 저장
+		session.setAttribute("cartList", cartList);
 	}
 	
-	list = buyService.getBuyListByCart(cartList);
 	System.out.println("!!!!!!!!!!!" + list.toString());
 	// 주소가 있다면 담기
 	String customerAddr = "";
 	
-	if(list.get(0).get("customerAddr") != null){
+	if(null != list.get(0).get("customerAddr")){
 		customerAddr = (String) list.get(0).get("customerAddr");
 	}
 %>

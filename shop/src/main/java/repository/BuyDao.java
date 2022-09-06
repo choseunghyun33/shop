@@ -11,6 +11,63 @@ import java.util.Map;
 import vo.Cart;
 
 public class BuyDao {
+	// selectBuyListByDirect
+	// 기능 : 카트리스트 보기
+	// 리턴값 : List 
+	public List<Map<String, Object>> selectBuyListByDirect(Connection conn, Cart cart) throws Exception {
+		
+		
+		// 리턴값 초기화
+		List<Map<String, Object>> list = new ArrayList<>();
+		
+		// 쿼리
+		String sql = "SELECT goods_name goodsName, goods_price goodsPrice, customer_address customerAddr FROM goods, customer WHERE goods_no = ? AND customer_id = ?";
+		
+		// stmt, rs 초기화
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		
+		try {
+			// 쿼리 담기
+			stmt = conn.prepareStatement(sql);
+			
+			
+			// stmt setter
+			stmt.setInt(1, cart.getGoodsNo());
+			stmt.setString(2, cart.getCustomerId());
+		
+			// 디버깅
+			System.out.println("CartDao.java selectBuyListByDirect stmt : " + stmt);
+			
+			// 쿼리 실행
+			rs = stmt.executeQuery();
+			
+			// map에 담기
+			while(rs.next()) {
+				Map<String, Object> m = new HashMap<>();
+				
+				m.put("goodsName", rs.getString("goodsName"));
+				m.put("goodsPrice", rs.getString("goodsPrice"));
+				m.put("goodsNo", cart.getGoodsNo());
+				m.put("cartQuantity", cart.getCartQuantity());
+				m.put("customerAddr", rs.getString("customerAddr"));
+				
+				list.add(m);
+				// 디버깅
+				System.out.println("CartDao.java selectBuyListByDirect list : " + list);
+			}
+		} finally {
+			// rs stmt close
+			if(rs != null) { rs.close(); }
+			if(stmt != null) { stmt.close(); }
+		}
+	
+		
+		
+		return list;
+	}
+	
 	// selectBuyListByCart
 	// 기능 : 카트리스트 보기
 	// 리턴값 : List 
@@ -39,7 +96,7 @@ public class BuyDao {
 				stmt.setInt(2, cart.getGoodsNo());
 			
 				// 디버깅
-				System.out.println("CartDao.java selectCartById stmt : " + stmt);
+				System.out.println("CartDao.java selectBuyListByCart stmt : " + stmt);
 				
 				// 쿼리 실행
 				rs = stmt.executeQuery();
@@ -56,7 +113,7 @@ public class BuyDao {
 					
 					list.add(m);
 					// 디버깅
-					System.out.println("CartDao.java selectCartById list : " + list.toString());
+					System.out.println("CartDao.java selectBuyListByCart list : " + list.toString());
 				}
 			} finally {
 				// rs stmt close

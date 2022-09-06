@@ -6,7 +6,7 @@ public class DBUtil {
 	public Connection getConnection() throws Exception {
 		// listener에서 호출
 		// Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/shop";
+		String url = "jdbc:mariadb://3.34.240.0:3306/shop";
 		String dbuser = "root";
 		String dbpw = "1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);

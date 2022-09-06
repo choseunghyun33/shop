@@ -55,10 +55,10 @@
 				                %>   
                                 <form class="mt-5 mb-5 login-input" action="<%=request.getContextPath()%>/theme/customerLoginAction.jsp" method="post" id="customerForm">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Id" name="customerId" id="customerId">
+                                        <input type="text" class="form-control" placeholder="Id" name="customerId" id="customerId" value="guest">
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" class="form-control" placeholder="Password" name="customerPass" id="customerPass">
+                                        <input type="password" class="form-control" placeholder="Password" name="customerPass" id="customerPass" value="1234">
                                     </div>
                                     <button class="btn login-form__btn w-100" type="button" id="customerBtn">고객 로그인</button>
                                 </form>
@@ -82,10 +82,10 @@
 				                %>        
                                 <form class="mt-5 mb-5 login-input" action="<%=request.getContextPath()%>/theme/employeeLoginAction.jsp" method="post" id="employeeForm">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Id" name="employeeId" id="employeeId">
+                                        <input type="text" class="form-control" placeholder="Id" name="employeeId" id="employeeId" value="admin">
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" class="form-control" placeholder="Password" name="employeePass" id="employeePass">
+                                        <input type="password" class="form-control" placeholder="Password" name="employeePass" id="employeePass" value="1234">
                                     </div>
                                     <button class="btn login-form__btn w-100" type="button" id="employeeBtn">STAFF 로그인</button>
                                 </form>

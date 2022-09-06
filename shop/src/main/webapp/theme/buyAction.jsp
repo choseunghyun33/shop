@@ -32,7 +32,7 @@
 	List<Object> addOrdersComplete = new ArrayList<>();
 	
 	// order 객체에 담기
-	for(int i = 0; i < orderPrice.length; i++){
+	for(int i = 0; i < cartList.size(); i++){
 		Orders orders = new Orders();
 		
 		// orders setter
