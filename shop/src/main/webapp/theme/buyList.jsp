@@ -13,9 +13,11 @@
 	} else if(session.getAttribute("id") != null && "employee".equals((String)session.getAttribute("user"))) {
 		// 손님이 아닌경우 막기
 		response.sendRedirect(request.getContextPath() + "/theme/index.jsp?errorMsg=No permission");
+		return;
 	} else if(session.getAttribute("cartList") == null && session.getAttribute("directOrder") == null) {
 		// 구매할 상품이 선택되지 않은경우
 		response.sendRedirect(request.getContextPath() + "/theme/index.jsp?errorMsg=Wrong path");
+		return;
 	}
 
 	// 메서드를 위한 객체생성
@@ -74,6 +76,7 @@
 	            		<thead>
 		            		<tr>
 		            			<th>상품번호</th>
+		            			<th>상품사진</th>
 		            			<th>상품명</th>
 		            			<th>수량</th>
 		            			<th>가격</th>
@@ -81,10 +84,14 @@
 	            		</thead>
 	            		<tbody>
 		            		<%
+		            			int total = 0;
 		            			for(Map<String, Object> m : list){
 		            		%>
 	            			<tr>
 		            			<td><%=m.get("goodsNo")%></td>
+	            				<td>
+	            					<img src="<%=request.getContextPath()%>/theme/upload/<%=m.get("filename")%>" id="cartListImg">
+	            				</td>
 		            			<td><%=m.get("goodsName")%></td>
 		            			<td><%=m.get("cartQuantity")%></td>
 		            			<td>
@@ -93,9 +100,17 @@
 		            			</td>
 		            		</tr>
 		            		<%
+		            				total += Integer.parseInt(m.get("cartQuantity").toString()) * Integer.parseInt(m.get("goodsPrice").toString());
 								} 
+		            		
 							%>
 	            		</tbody>
+	            		<tfoot>
+	            			<tr>
+	            				<th colspan="2">총금액</th>
+	            				<td colspan="2"><b><%=total%>원</b></td>
+	            			</tr>
+	            		</tfoot>
 	            	</table>
   					 <hr>
 	  					<table class="table">	

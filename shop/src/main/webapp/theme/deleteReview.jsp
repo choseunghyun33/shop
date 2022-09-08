@@ -8,6 +8,7 @@
    	} else if(session.getAttribute("id") != null && "employee".equals((String)session.getAttribute("user"))) {
    		// 사용자가 아닌경우 막기
    		response.sendRedirect(request.getContextPath() + "/theme/index.jsp?errorMsg=No permission");
+		return;
    	}
 
 	// 값받기

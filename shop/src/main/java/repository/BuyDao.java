@@ -21,7 +21,7 @@ public class BuyDao {
 		List<Map<String, Object>> list = new ArrayList<>();
 		
 		// 쿼리
-		String sql = "SELECT goods_name goodsName, goods_price goodsPrice, customer_address customerAddr FROM goods, customer WHERE goods_no = ? AND customer_id = ?";
+		String sql = "SELECT goods_name goodsName, goods_price goodsPrice, customer_address customerAddr, filename FROM goods INNER JOIN goods_img USING(goods_no), customer WHERE goods_no = ? AND customer_id = ?";
 		
 		// stmt, rs 초기화
 		PreparedStatement stmt = null;
@@ -52,6 +52,7 @@ public class BuyDao {
 				m.put("goodsNo", cart.getGoodsNo());
 				m.put("cartQuantity", cart.getCartQuantity());
 				m.put("customerAddr", rs.getString("customerAddr"));
+				m.put("filename", rs.getString("filename"));
 				
 				list.add(m);
 				// 디버깅
@@ -78,7 +79,7 @@ public class BuyDao {
 		List<Map<String, Object>> list = new ArrayList<>();
 		
 		// 쿼리
-		String sql = "SELECT goods_name goodsName, goods_price goodsPrice, goods_no goodsNo, cart_quantity cartQuantity, customer_address customerAddr FROM goods INNER JOIN cart USING(goods_no) INNER JOIN customer USING(customer_id) WHERE customer_id = ? AND goods_no = ?";
+		String sql = "SELECT goods_name goodsName, goods_price goodsPrice, goods_no goodsNo, cart_quantity cartQuantity, customer_address customerAddr, filename FROM goods INNER JOIN cart USING(goods_no) INNER JOIN goods_img USING(goods_no) INNER JOIN customer USING(customer_id) WHERE customer_id = ? AND goods_no = ?";
 		
 		// stmt, rs 초기화
 		PreparedStatement stmt = null;
@@ -110,6 +111,7 @@ public class BuyDao {
 					m.put("goodsNo", rs.getInt("goodsNo"));
 					m.put("cartQuantity", rs.getInt("cartQuantity"));
 					m.put("customerAddr", rs.getString("customerAddr"));
+					m.put("filename", rs.getString("filename"));
 					
 					list.add(m);
 					// 디버깅

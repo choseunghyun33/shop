@@ -8,6 +8,16 @@
 <!-- file을 새로 만들지 않고 rename을 이용하여 사용 -->
 <%@ page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
 <%
+	// 막기
+	if(session.getAttribute("id") == null){
+		response.sendRedirect(request.getContextPath() + "/theme/loginForm.jsp?errorMsg=Not logged in");
+		return;
+	} else if(session.getAttribute("id") != null && "customer".equals((String)session.getAttribute("user"))) {
+		// 관리자가 아닌경우 막기
+		response.sendRedirect(request.getContextPath() + "/theme/index.jsp?errorMsg=No permission");
+		return;
+	}
+	
 	// 경로
 	String dir = request.getServletContext().getRealPath("/theme/upload");
 	// 디버깅

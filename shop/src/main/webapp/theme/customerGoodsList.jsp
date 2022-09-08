@@ -102,7 +102,7 @@
 	                            		}
 	                            	%>
 	                            	</select>
-	                            	<button type="submit" class="btn btn-dark">변경</button>
+	                            	<button type="submit" class="btn-sm btn-dark">변경</button>
                             	</form>
                             </li>
                         </ul>

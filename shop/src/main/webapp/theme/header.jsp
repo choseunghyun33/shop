@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+x<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -30,8 +30,13 @@ https://templatemo.com/tm-559-zay-shop
 -->
 <style>
 #myimg img {
-	width : 247px;
-	height : 247px;
+	width : 255px;
+	height : 260px;
+	text-align : center;
+}
+#cartListImg {
+	width : 100px;
+	height : 100px;
 }
 </style>
 </head>

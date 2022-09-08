@@ -15,6 +15,7 @@
 	} else if(session.getAttribute("id") != null && "employee".equals((String)session.getAttribute("user"))) {
 		// 손님이 아닌경우 막기
 		response.sendRedirect(request.getContextPath() + "/theme/index.jsp?errorMsg=No permission");
+		return;
 	}
 
 	// 세션에 있는 아이디 받기
@@ -46,29 +47,49 @@
 	            		<thead>
 		            		<tr>
 		            			<th>선택</th>
+		            			<th>상품사진</th>
 		            			<th>상품명</th>
 		            			<th>수량</th>
 		            			<th>가격</th>
+		            			<th>총가격</th>
 		            		</tr>
 	            		</thead>
 	            		<tbody>
 	            			<%
 	            				for(Map<String, Object> m : list) {
 	            			%>
-		            			<tr>
-		            				<td>
-		            					<input type="checkbox" name="goodsNo" value="<%=m.get("goodsNo")%>">
-		            				</td>
-		            				<td><%=m.get("goodsName")%></td>
-		            				<td><%=m.get("cartQuantity")%></td>
-		            				<td><%=m.get("goodsPrice")%>원</td>
-			            		</tr>
+			            			<tr>
+			            				<td>
+			            					<input type="checkbox" name="goodsNo" value="<%=m.get("goodsNo")%>">
+			            				</td>
+			            				<td>
+			            					<img src="<%=request.getContextPath()%>/theme/upload/<%=m.get("filename")%>" id="cartListImg">
+			            				</td>
+			            				<td><%=m.get("goodsName")%></td>
+			            				<td>
+			            					<select name="cartQuantity">
+			            						<option value="<%=m.get("cartQuantity")%>"><%=m.get("cartQuantity")%></option>
+			            						<%
+			            							for(int i = 1; i <= 10; i++){
+			            						%>
+			            								<option value="<%=i%>"><%=i%></option>
+			            						<%		
+			            							}
+			            						%>
+			            					</select>
+										</td>
+			            				<td><%=m.get("goodsPrice")%>원</td>
+			            				<td>
+											<%=Integer.parseInt(m.get("goodsPrice").toString()) * Integer.parseInt(m.get("cartQuantity").toString())%>원
+										</td>
+				            		</tr>
 		            		<%
 	            				}
 	            			%>
 	            		</tbody>
 	            	</table>
 	            	<button type="submit" name="submit" value="order" class="btn btn-dark">주문</button>
+					<button type="submit" name="submit" value="modify" class="btn">수량변경</button>
 	            	<button type="submit" name="submit" value="remove" class="btn">삭제</button>
             	</form>
             </div>

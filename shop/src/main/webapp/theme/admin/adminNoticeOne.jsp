@@ -6,19 +6,19 @@
 		// 값받기
 		String noticeNo = request.getParameter("noticeNo");
 	
+
+		// 막기
 		// noticeNo이 없다면 실행시키지 않기
 		if(noticeNo == null){
 			response.sendRedirect(request.getContextPath() + "/theme/admin/adminNoticeList.jsp?errorMsg=wrong path");
 			return;
-		}
-		
-		// 막기
-		if(session.getAttribute("id") == null){
+		} else if(session.getAttribute("id") == null){
        		response.sendRedirect(request.getContextPath() + "/theme/loginForm.jsp?errorMsg=Not logged in");
        		return;
        	} else if(session.getAttribute("id") != null && "customer".equals((String)session.getAttribute("user"))) {
        		// 관리자가 아닌경우 막기
        		response.sendRedirect(request.getContextPath() + "/theme/index.jsp?errorMsg=No permission");
+       		return;
        	}
 	
 		// notice 상세보기 할 메서드 실행하기

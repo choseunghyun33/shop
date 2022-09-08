@@ -65,7 +65,7 @@
 			                </div>
 			            </form>
                 	</div> -->
-	            	<table class="table">
+	            	<table class="table text-center">
 	            		<thead>
 		            		<tr>
 		            			<th>NO</th>

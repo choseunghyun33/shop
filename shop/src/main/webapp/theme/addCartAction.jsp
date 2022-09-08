@@ -15,6 +15,7 @@
 	} else if(session.getAttribute("id") != null && "employee".equals((String)session.getAttribute("user"))) {
 		// 손님이 아닌경우 막기
 		response.sendRedirect(request.getContextPath() + "/theme/index.jsp?errorMsg=No permission");
+		return;
 	}
 
 	// 뷰를 카트를 보여줄지 구매창을 보내줄지 분기를 위해 받아오는 변수
@@ -46,7 +47,18 @@
 	} else if("addtocart".equals(submit)){ // addtocart 라면 카트로 이동
 		// 카트에 담을 메서드
 		CartService cartService = new CartService();
-		cartService.addCart(cart);
+		boolean isCart = cartService.getIsCart(cart);
+		
+		// 디버깅
+		System.out.println("addCartAction.jsp isCart : " + isCart);
+		
+		// 결과가 true라면 카트에 새로 담기는 상품
+		if(isCart){	// true
+			cartService.addCart(cart);
+		} else { // false
+			// 결과가 false 라면 상품개수를 증가시키기
+			cartService.modifyCartQuantityPlus(cart);
+		}
 		
 		// 재요청
 		response.sendRedirect(request.getContextPath() + "/theme/cartList.jsp");

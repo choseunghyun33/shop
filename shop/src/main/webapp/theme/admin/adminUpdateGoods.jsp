@@ -14,13 +14,13 @@
 	if(goodsNo == null){
 		response.sendRedirect(request.getContextPath() + "/theme/index.jsp?errorMsg=No permission");
 		return;
-	}
-	
-   	if(session.getAttribute("id") == null){
+	} else if(session.getAttribute("id") == null){
    		response.sendRedirect(request.getContextPath() + "/theme/loginForm.jsp?errorMsg=Not logged in");
+   		return;
    	} else if(session.getAttribute("id") != null && "customer".equals((String)session.getAttribute("user"))) {
    		// 관리자가 아닌경우 막기
    		response.sendRedirect(request.getContextPath() + "/theme/index.jsp?errorMsg=No permission");
+   		return;
    	}
 	 
 	// 메서드를 위한 객체생성
