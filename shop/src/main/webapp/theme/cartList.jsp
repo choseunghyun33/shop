@@ -43,7 +43,7 @@
                 %>  
                 	 <hr>
                 <form action="<%=request.getContextPath()%>/theme/cartAction.jsp" method="post">
-	            	<table class="table">
+	            	<table class="table text-center">
 	            		<thead>
 		            		<tr>
 		            			<th>선택</th>

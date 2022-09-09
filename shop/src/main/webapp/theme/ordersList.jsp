@@ -61,7 +61,7 @@
                 	}
                 %>  
                 	 <hr>
-	            	<table class="table">
+	            	<table class="table text-center">
 	            		<thead>
 		            		<tr>
 		            			<th>상품번호</th>
