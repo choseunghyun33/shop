@@ -120,7 +120,7 @@
 	            		if(currentPage > 1){
 	            	%>
 		            		 <li class="page-item">
-	                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="<%=request.getContextPath()%>/theme/notice.jsp?currentPage=<%=currentPage-1%>">pre</a>
+	                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="<%=request.getContextPath()%>/theme/review.jsp?currentPage=<%=currentPage-1%>">pre</a>
 	                         </li>	
 	            	<%
 	            		}
@@ -130,13 +130,13 @@
                     		if(i == currentPage){
 		            %>
 		            			<li class="page-item disabled">
-		            				 <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="<%=request.getContextPath()%>/theme/notice.jsp?currentPage=<%=i%>"><%=i%></a>
+		            				 <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="<%=request.getContextPath()%>/theme/review.jsp?currentPage=<%=i%>"><%=i%></a>
 		            			</li>
 	            	<%
                     		} else {
                 	%>
 		            			<li class="page-item">
-		            				 <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="<%=request.getContextPath()%>/theme/notice.jsp?currentPage=<%=i%>"><%=i%></a>
+		            				 <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="<%=request.getContextPath()%>/theme/review.jsp?currentPage=<%=i%>"><%=i%></a>
 		            			</li>
 	            	<%			
                     		}
@@ -145,7 +145,7 @@
 	            		if(currentPage < lastPage){
 	            	%>
 	                        <li class="page-item">
-	                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="<%=request.getContextPath()%>/theme/notice.jsp?currentPage=<%=currentPage+1%>">next</a>
+	                            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="<%=request.getContextPath()%>/theme/review.jsp?currentPage=<%=currentPage+1%>">next</a>
 	                        </li>
                     <%
 	            		}
