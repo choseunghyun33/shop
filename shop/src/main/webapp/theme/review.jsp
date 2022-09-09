@@ -70,6 +70,7 @@
 	            		<thead>
 		            		<tr>
 		            			<th>GOODS NO</th>
+		            			<th>GOODS IMG</th>
 		            			<th>GOODS NAME</th>
 		            			<th>CUSTOMER ID</th>
 		            			<th>REVIEW CONTENT</th>
@@ -83,6 +84,11 @@
 	            			%>
 			            		<tr>
 			            			<td><%=m.get("goodsNo")%></td>
+			            			<td>
+			            				<a href="<%=request.getContextPath()%>/theme/customerGoodsOne.jsp?goodsNo=<%=m.get("goodsNo")%>">
+			            					<img src="<%=request.getContextPath()%>/theme/upload/<%=m.get("filename")%>" id="listImg">
+			            				</a>
+			            			</td>
 			            			<td><%=m.get("goodsName")%></td>
 			            			<td><%=m.get("customerId")%></td>
 			            			<td>

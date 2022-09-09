@@ -34,7 +34,7 @@ https://templatemo.com/tm-559-zay-shop
 	height : 260px;
 	text-align : center;
 }
-#cartListImg {
+#listImg {
 	width : 100px;
 	height : 100px;
 }

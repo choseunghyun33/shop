@@ -90,7 +90,7 @@
 	            			<tr>
 		            			<td><%=m.get("goodsNo")%></td>
 	            				<td>
-	            					<img src="<%=request.getContextPath()%>/theme/upload/<%=m.get("filename")%>" id="cartListImg">
+	            					<img src="<%=request.getContextPath()%>/theme/upload/<%=m.get("filename")%>" id="listImg">
 	            				</td>
 		            			<td><%=m.get("goodsName")%></td>
 		            			<td><%=m.get("cartQuantity")%></td>

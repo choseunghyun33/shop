@@ -275,7 +275,7 @@ public class ReviewDao {
 		List<Map<String,Object>> list = new ArrayList<>();
 		
 		// 쿼리
-		String sql = "SELECT order_no orderNo, goods_no goodsNo, goods_name goodsName, customer_id customerId, review_content reviewContent, r.update_date updateDate, star FROM orders INNER JOIN review r USING(order_no) INNER JOIN goods USING(goods_no) ORDER BY goods_no LIMIT ?, ?";
+		String sql = "SELECT order_no orderNo, goods_no goodsNo, goods_name goodsName, customer_id customerId, review_content reviewContent, r.update_date updateDate, star, filename FROM orders INNER JOIN review r USING(order_no) INNER JOIN goods USING(goods_no) INNER JOIN goods_img USING(goods_no) ORDER BY goods_no LIMIT ?, ?";
 		
 		// 초기화
 		PreparedStatement stmt = null;
@@ -304,6 +304,7 @@ public class ReviewDao {
 				m.put("reviewContent", rs.getString("reviewContent"));
 				m.put("updateDate", rs.getString("updateDate"));
 				m.put("star", rs.getInt("star"));
+				m.put("filename", rs.getString("filename"));
 				
 				// list에 담기
 				list.add(m);

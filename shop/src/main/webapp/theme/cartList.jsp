@@ -63,11 +63,11 @@
 			            					<input type="checkbox" name="goodsNo" value="<%=m.get("goodsNo")%>">
 			            				</td>
 			            				<td>
-			            					<img src="<%=request.getContextPath()%>/theme/upload/<%=m.get("filename")%>" id="cartListImg">
+			            					<img src="<%=request.getContextPath()%>/theme/upload/<%=m.get("filename")%>" id="listImg">
 			            				</td>
 			            				<td><%=m.get("goodsName")%></td>
 			            				<td>
-			            					<select name="cartQuantity">
+			            					<select name="cartQuantity" id="cartQuantity">
 			            						<option value="<%=m.get("cartQuantity")%>"><%=m.get("cartQuantity")%></option>
 			            						<%
 			            							for(int i = 1; i <= 10; i++){
